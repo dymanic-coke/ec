@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%-- 
 <c:set var="articlesList" value="${articlesMap.articlesList}" />
@@ -100,8 +101,8 @@ request.setCharacterEncoding("utf-8");
 				<c:when test="${!empty boardsList}">
 					<c:forEach var="board" items="${boardsList}" varStatus="boardNum">
 					<a class="cls1" href="${contextPath}/user/u_boardView.do?list_num=${board.list_num}">
-						<tr align="center" class="table-primary" onClick="location.href='${contextPath}/user/u_boardView.do?list_num=${board.list_num}'">
-							<td width="10%">${boardNum.count}</td>
+						<tr align="center" class="table-primary" onClick="location.href='${contextPath}/user/u_board/u_boardView.do?list_num=${board.list_num}'">
+							<td width="10%">${fn:length(boardsList)-boardNum.index}</td>
 							<td width="10%">${board.user_id}</td>
 							<td align="center" width="35%"><c:choose>
 									<c:when test="${board.level>1}">

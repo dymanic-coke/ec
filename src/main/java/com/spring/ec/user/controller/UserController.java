@@ -7,14 +7,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface UserController {
+	//사용자 메인페이지 연결 메소드
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	//사용자 게시판 연결 메소드
 	public ModelAndView listBoards(HttpServletRequest request, HttpServletResponse response)throws Exception;
 	
 	public ModelAndView listEatBoards(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView listSeeBoards(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	public ModelAndView viewboard(@RequestParam("list_num") int list_num, HttpServletRequest request,HttpServletResponse response) throws Exception;
+	
+	//사용자 로그인 연결 메소드
 	public ModelAndView form(@RequestParam(value = "result", required = false) String result,@RequestParam(value = "action", required = false) String action, HttpServletRequest request,HttpServletResponse response) throws Exception;
 	
 }

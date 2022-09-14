@@ -27,4 +27,10 @@ public class UserServiceImpl implements UserService {
 	public List<BoardVO> seeListBoards()throws Exception{
 		return userDAO.selectSeeBoardsList();
 	}
+	
+	@Override
+	public BoardVO viewBoard(int list_num) throws Exception{
+		BoardVO boardVO = userDAO.selectBoard(list_num);
+		return boardVO;
+	}
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.ec.user.service.UserService;
+import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.MemberVO;
 
 @Controller("userController")
@@ -25,6 +26,8 @@ public class UserControllerImpl implements UserController  {
 	private UserService userService;
 	@Autowired
 	MemberVO memberVO;
+	@Autowired
+	BoardVO boardVO;
 
 	@Override
 	@RequestMapping(value = "/main" , method = RequestMethod.GET)
@@ -65,7 +68,19 @@ public class UserControllerImpl implements UserController  {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/user/loginForm.do", method = RequestMethod.GET)
+	@Override
+	@RequestMapping(value = "/user/u_board/u_boardView", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView viewboard(@RequestParam("list_num") int list_num, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		boardVO = (BoardVO) userService.viewBoard(list_num);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("board", boardVO);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/loginForm", method = RequestMethod.GET)
 	public ModelAndView form(@RequestParam(value = "result", required = false) String result,
 			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

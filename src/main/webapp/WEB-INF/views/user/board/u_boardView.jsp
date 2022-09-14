@@ -10,8 +10,19 @@ request.setCharacterEncoding("utf-8");
 <html>
 <head>
 <meta charset="UTF-8">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
 <title>글보기</title>
 <style>
+#write{
+	margin-top: 5%;
+	margin-left: 30%;
+	margin-bottom: 10%;
+	width: 40%; 
+}
 #tr_btn_modify {
 	display: none;
 }
@@ -22,23 +33,24 @@ request.setCharacterEncoding("utf-8");
 	width: 200px;
 	height: 200px;
 }
+
+#writebtn{
+	float: right;
+}
+#reply-btn{
+	float: right;
+}
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
 <script type="text/javascript">
 	function backToList(obj){
-		obj.action="${contextPath}/user/u_board.do";
+		obj.action="${contextPath}/user/u_board";
 		obj.submit();
-	}
-	
-	function ff(obj){
-		document.getElementById("i_title").disabled=false;
-		document.getElementById("i_content").disabled=false;
-		document.getElementById("i_imageFileName").disabled=false;
-		document.getElementById("tr_btn_modify").style.display="block";
-		document.getElementById("tr_file_upload").style.display="block";
-		document.getElementById("tr_btn").style.display="none";
-	}
-	
+	}	
 	function fn_modify_article(obj){
 		obj.action="${contextPath}/user/modBoard.do";
 		obj.submit();
@@ -72,6 +84,20 @@ request.setCharacterEncoding("utf-8");
 		form.submit();
 	}
 	
+	function fn_mod_form(url, list_num){
+		var form = document.createElement("form");
+		form.setAttribute("method", "post");
+		form.setAttribute("action", url);
+		var parent_numInput = document.createElement("input");
+		parentNoInput.setAttribute("type", "hidden");
+		parentNoInput.setAttribute("name", "list_num");
+		parentNoInput.setAttribute("value", list_num);
+		
+		form.appendChild(parent_numInput);
+		document.body.appendChild(form);
+		form.submit();
+	}
+	
 	function readURL(input){
 		if(input.files && input.files[0]){
 			var reader = new FileReader();
@@ -84,40 +110,44 @@ request.setCharacterEncoding("utf-8");
 </script>
 </head>
 <body>
+	<div id="write">
 	<form name="frmBoard" method="post" action="${contextpath}"
 		enctype="multipart/form-data">
-		<table border="0" align="center">
+		<input id="reply-btn" type="button" value="답글쓰기" onClick="fn_reply_form('${contextPath}/board/replyForm.do', ${board.list_num})" />
+		<br><br>
+		<table border="0" align="center" class="table table-condensed">
 			<tr>
-				<td width="150" align="center" bgcolor="#ff9933">
-				글번호
-				</td>
-				<td>
-				<input type="text" value="${board.list_num}" disabled />
-				<input type="hidden" name="list_num" value="${board.list_num}" />
-				</td>
-			</tr>
-			<tr>
-				<td width="150" align="center" bgcolor="#ff9933">
+				<td width="150" align="center" >
 				작성자 아이디
 				</td>
 				<td>
-				<input type="text" value="${board.user_id}" name="user_id" disabled />
+				${board.user_id}
+				<input type="hidden" value="${board.user_id}" name="user_id" />
 				</td>
 			</tr>
 			<tr>
-				<td width="150" align="center" bgcolor="#ff9933">
+				<td width="150" align="center">
+				등록일자
+				</td>
+				<td>
+					<fmt:formatDate value="${board.mod_date}"/>
+					<input type="hidden" value="<fmt:formatDate value="${board.mod_date}"/>" disabled />
+				</td>
+			</tr>
+			<tr>
+				<td width="150" align="center"">
 				제목
 				</td>
 				<td>
-				<input type="text" value="${board.u_title}" name="u_title" id="i_title" disabled >
+				${board.u_title}
 				</td>
 			</tr>
 			<tr>
-				<td width="150" align="center" bgcolor="#ff9933">
+				<td width="150" height="300" align="center" style="vertical-align: middle;">
 				내용
 				</td>
-				<td>
-				<textarea rows="20" cols="60" name="u_content" id="i_content" disabled>${board.u_content}</textarea>
+				<td style="vertical-align: middle;">
+				${board.u_content}
 				</td>
 			</tr>
 <%-- 
@@ -140,8 +170,8 @@ request.setCharacterEncoding("utf-8");
 		<c:choose>
 			<c:when test="${not empty board.image_fileName && board.image_fileName !='null'}">
 				<tr>
-					<td width="150" align="center" bgcolor="#ff9933" rowspan="2">
-					이미지
+					<td width="150" align="center">
+					이미지보기
 					</td>
 					<td>
 					<input type="hidden" name="orignalFileName" value="${board.image_fileName}" />
@@ -157,44 +187,28 @@ request.setCharacterEncoding("utf-8");
 			</c:when>
 			<c:otherwise>
 				<tr id="tr_file_upload">
-					<td width="150" align="center" bgcolor="#ff9933">이미지</td>
 					<td>
 						<input type="hidden" name="orignalFileName" value="${board.image_fileName}" />
 					</td>
 				</tr>
 				<tr>
-					<td></td>
+					<td width="150" align="center">이미지보기</td>
 					<td>
-						<img id="preview" /><br>
-						<input type="file" name="image_fileName" id="i_imageFileName" disabled onchange="readURL(this);" />
+						이미지 파일 없음
 					</td>
 				</tr>
 			</c:otherwise>
-		</c:choose>
-			<tr>
-				<td width="150" align="center" bgcolor="#ff9933">
-				등록일자
-				</td>
-				<td>
-					<input type="text" value="<fmt:formatDate value="${board.mod_date}"/>" disabled />
-				</td>
-			</tr>
-			<tr id="tr_btn_modify" align="center">
-				<td colspan="2">
-				<input type="button" value="수정반영하기" onClick="fn_modify_article(frmBoard)" >
-				<input type="button" value="취소" onClick="backToList(frmBoard)" >
-			</tr>
-			<tr id="tr_btn">
-				<td colspan="2" align="center">
-				<c:if test="${member.id==article.id}">
-					<input type="button" value="수정하기" onClick="ff(this.form)" />
-					<input type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/user/removeBoard', ${board.list_num})" />
-				</c:if>
-					<input type="button" value="리스트로 돌아가기" onClick="backToList(this.form)" />
-					<input type="button" value="답글쓰기" onClick="fn_reply_form('${contextPath}/board/replyForm.do', ${board.list_num})" />
-				</td>
-			</tr>
+		</c:choose>				
 		</table>
+		<div id="writebtn">
+			<c:if test="${member.user_id==board.user_id}">
+				<input type="button" value="수정하기" onClick="fn_reply_form('${contextPath}/user/u_board/modForm', ${board.list_num})" />
+				<input type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/user/removeBoard', ${board.list_num})" />
+			</c:if>
+				<input type="button" value="리스트로 돌아가기" onClick="backToList(this.form)" />
+				
+		</div>
 	</form>
+	</div>
 </body>
 </html>

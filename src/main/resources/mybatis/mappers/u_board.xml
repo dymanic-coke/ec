@@ -70,14 +70,14 @@
 			select max(articleNo)+1 from t_board 			
 		 ]]>
 	</select>
-	
-	<select id="selectArticle" resultType="articleVO" parameterType="int" >
+-->	
+	<select id="selectBoard" resultType="boardVO" parameterType="int" >
 		<![CDATA[
-			select * from t_board
-			where articleNo = #{articleNo} 			
+			select * from u_board_tbl
+			where list_num = #{list_num} 			
 		 ]]>
 	</select>
-	
+<!--  	
 	<update id="updateArticle" parameterType="java.util.Map">
 			update t_board
 			set title = #{title}, content = #{content}

@@ -22,16 +22,21 @@
 		<put-attribute name="title" value="회원등록창"/>
 		<put-attribute name="body" value="/WEB-INF/views/member/memberForm.jsp"/>	
 	</definition>
-	<definition name="/user/u_board" extends="baseLayout">
+	<definition name="user/u_board" extends="baseLayout">
 		<put-attribute name="title" value="플레이리스트"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/board/playList.jsp"/>	
 	</definition>
 	<definition name="user/u_board/eatpl" extends="baseLayout">
-		<put-attribute name="title" value="플레이리스트"/>
+		<put-attribute name="title" value="먹거리플레이리스트"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/board/playList.jsp"/>	
 	</definition>
 	<definition name="user/u_board/seepl" extends="baseLayout">
-		<put-attribute name="title" value="플레이리스트"/>
+		<put-attribute name="title" value="볼거리플레이리스트"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/board/playList.jsp"/>	
+	</definition>
+	
+	<definition name="user/u_board/u_boardView" extends="baseLayout">
+		<put-attribute name="title" value="글 보기"/>
+		<put-attribute name="body" value="/WEB-INF/views/user/board/u_boardView.jsp"/>	
 	</definition>
 </tiles-definitions>

@@ -31,4 +31,9 @@ public class UserDAOImpl implements UserDAO {
 		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectSeeBoardsList");
 		return boardsList;
 	}
+	
+	@Override
+	public BoardVO selectBoard(int list_num) throws DataAccessException{
+		return sqlSession.selectOne("mapper.board.selectBoard", list_num);
+	}
 }
