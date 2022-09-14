@@ -6,6 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="../css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js"
+	crossorigin="anonymous"></script>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
 <body>
@@ -23,10 +26,9 @@
 			<tiles:insertAttribute name="footer" />
 		</div>
 	</div>
-	<!-- Bootstrap core JS-->
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="js/scripts.js"></script>
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="./js/scripts.js"></script>
 </body>
 </html>

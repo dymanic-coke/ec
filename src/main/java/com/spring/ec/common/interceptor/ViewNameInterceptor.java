@@ -29,7 +29,6 @@ public class ViewNameInterceptor extends HandlerInterceptorAdapter {
 	private String getViewName(HttpServletRequest request) throws Exception {
 		String contextPath = request.getContextPath();
 		String uri = (String) request.getAttribute("javax.servlet.include.request_uri");
-		System.out.println(uri);
 		if(uri == null || uri.trim().equals("")) {
 			uri = request.getRequestURI();
 		}

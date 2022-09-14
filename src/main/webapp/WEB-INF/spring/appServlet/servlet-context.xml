@@ -49,12 +49,12 @@
 	<context:component-scan base-package="com.spring.ec" />
 	
 	<!-- 인터셉터 실습 설정 -->
- <!--     
+
    <mvc:interceptors>
     	<mvc:interceptor>
 	      <mvc:mapping path="/*/*.do"/>
-	   <beans:bean class="com.company.pro.common.interceptor.ViewNameInterceptor" />
+	   <beans:bean class="com.spring.ec.common.interceptor.ViewNameInterceptor" />
 </mvc:interceptor>
 </mvc:interceptors>
-	-->
+
 </beans:beans>
