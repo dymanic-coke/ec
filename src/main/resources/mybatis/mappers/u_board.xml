@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- member.xml의 네임 스페이스 지정 -->
+<mapper namespace="mapper.board">
+	<!-- 레코드의 컬럼 이름에 대해 memberVO와 같은 속성 값을 지정 -->
+	<resultMap type="boardVO" id="boardsResult">
+		<result property="level" column="level" />
+		<result property="list_num" column="list_num" />
+		<result property="parent_num" column="parent_num" />
+		<result property="category_code" column="category_code" />
+		<result property="user_id" column="user_id" />
+		<result property="u_title" column="u_title" />
+		<result property="u_content" column="u_content" />
+		<result property="image_fileName" column="image_fileName" />
+		<result property="hits" column="hits" />
+		<result property="liked" column="liked" />
+		<result property="bad" column="bad" />
+		<result property="reg_date" column="reg_date" />
+		<result property="mod_date" column="mod_date" />
+	</resultMap>
+<!--  
+	<resultMap type="imageVO" id="imgResult">
+		<result property="imageFileNo" column="imageFileNo"/>
+		<result property="articleNo" column="articleNo"/>
+		<result property="imageFileName" column="imageFileName"/>
+		<result property="regDate" column="regDate"/>
+	</resultMap>
+-->
+	<!-- <resultMap type="java.util.HashMap" id="memResult"> <result property="id" 
+		column="id" /> <result property="pw" column="pw" /> <result property="name" 
+		column="name" /> <result property="email" column="email" /> <result property="joinDate" 
+		column="joinDate" /> </resultMap> -->
+	<!-- id : DAO에서 id를 이용해 해당 SQL문 호출 resultMap : 반환되는 레코드를 memResult에 저장 -->
+	<select id="selectAllBoardsList" resultMap="boardsResult">
+		<![CDATA[ SELECT ubt.list_num, ubt.parent_num, fnc.level, ubt.category_code, ubt.u_title,ubt.u_content,ubt.image_fileName,ubt.reg_date,ubt.user_id,ubt.mod_date
+				FROM(SELECT function_hierarchical() AS list_num, parent_num, @level AS LEVEL, category_code, u_title, u_content, image_FileName,reg_date, user_id,mod_date 
+				FROM(SELECT @start_with:=0,@list_num:=@start_with, @level:=0) tbl JOIN u_board_tbl) fnc
+				left outer join u_board_tbl ubt ON ubt.list_num = fnc.list_num			
+		 ]]>
+	</select>
+	
+	<select id="selectEatBoardsList" resultMap="boardsResult">
+		<![CDATA[ SELECT ubt.list_num, ubt.parent_num, fnc.level, ubt.category_code, ubt.u_title,ubt.u_content,ubt.image_fileName,ubt.reg_date,ubt.user_id,ubt.mod_date
+				FROM(SELECT function_hierarchical() AS list_num, parent_num, @level AS LEVEL, category_code, u_title, u_content, image_FileName,reg_date, user_id,mod_date 
+				FROM(SELECT @start_with:=0,@list_num:=@start_with, @level:=0) tbl JOIN u_board_tbl) fnc
+				left outer join u_board_tbl ubt ON ubt.list_num = fnc.list_num	WHERE ubt.category_code = 1		
+		 ]]>
+	</select>
+	
+	<select id="selectSeeBoardsList" resultMap="boardsResult">
+		<![CDATA[ SELECT ubt.list_num, ubt.parent_num, fnc.level, ubt.category_code, ubt.u_title,ubt.u_content,ubt.image_fileName,ubt.reg_date,ubt.user_id,ubt.mod_date
+				FROM(SELECT function_hierarchical() AS list_num, parent_num, @level AS LEVEL, category_code, u_title, u_content, image_FileName,reg_date, user_id,mod_date 
+				FROM(SELECT @start_with:=0,@list_num:=@start_with, @level:=0) tbl JOIN u_board_tbl) fnc
+				left outer join u_board_tbl ubt ON ubt.list_num = fnc.list_num	WHERE ubt.category_code = 2		
+		 ]]>
+	</select>
+<!--  
+	<insert id="insertNewArticle" parameterType="java.util.Map">
+		<![CDATA[
+			insert into t_board(articleNo, parentNo, title, content, imageFileName, id)
+			values(#{articleNo}, #{parentNo}, #{title}, #{content}, #{imageFileName}, #{id})			
+		 ]]>
+	</insert>
+	
+	<select id="selectNewArticleNo" resultType="int">
+		<![CDATA[
+			select max(articleNo)+1 from t_board 			
+		 ]]>
+	</select>
+	
+	<select id="selectArticle" resultType="articleVO" parameterType="int" >
+		<![CDATA[
+			select * from t_board
+			where articleNo = #{articleNo} 			
+		 ]]>
+	</select>
+	
+	<update id="updateArticle" parameterType="java.util.Map">
+			update t_board
+			set title = #{title}, content = #{content}
+			<if test="imageFileName!='' and imageFileName!=null">
+			, imageFileName =#{imageFileName}
+			</if>
+			where articleNo=#{articleNo}
+	</update>
+	
+	<delete id="deleteArticle" parameterType="int">
+		<![CDATA[
+			DELETE FROM t_board WHERE articleNo = #{articleNo} OR parentNo = #{articleNo}		
+		 ]]>
+	</delete>
+-->
+	<!-- 다중 이미지 추가 sql문 -->
+<!--  	
+	<insert id="insertNewArticle" parameterType="java.util.Map">
+		<![CDATA[
+			insert into t_board(articleNo, title, content, imageFileName, id)
+			values(#{articleNo, #{title}, #{content}, null, #{id})			
+		 ]]>
+	</insert>
+	
+	<insert id="insertNewImage" parameterType="java.util.Map">
+		insert into t_imageFile(imageFileNo, , imageFileName, articleNo, regDate) values
+		<foreach collection="list" item="item" separator=",">
+			   (#{item.imageFileNo},
+				#{item.imageFileName},
+				#{item.articleNo},
+				now())
+		</foreach>
+	</insert>
+-->
+<!--  
+	<select id="selectNewImageFileNo" resultType="int">
+		<![CDATA[
+			select max(articleNo)+1 from t_imageFile 		
+		 ]]>
+	</select>
+	
+	<select id="selectImageFileList" resultType="imgResult" parameterType="int">
+		<![CDATA[
+			select * from t_imageFIle
+			where articleNo = #{articleNo}
+		 ]]>
+	</select>
+-->
+</mapper>
