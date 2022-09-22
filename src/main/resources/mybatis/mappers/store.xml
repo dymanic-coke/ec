@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<!-- member.xml의 네임 스페이스 지정 -->
+<mapper namespace="mapper.store">	
+<!-- 		레코드의 컬럼 이름에 대해 memberVO와 같은 속성 값을 지정 -->
+		
+	 <resultMap type="storeVO" id="storeResult">
+		<result property="seller_num" column="seller_num" />
+		<result property="category_code" column="category_code" />
+		<result property="seller_id" column="seller_id" />
+		<result property="seller_pw" column="seller_pw" />
+		<result property="seller_tel" column="seller_tel" />
+		<result property="seller_bizReg" column="seller_bizReg" />
+		<result property="seller_name" column="seller_name" />
+		<result property="seller_email" column="seller_email" />
+		<result property="seller_addr" column="seller_addr" />
+		<result property="bizReg_image_name" column="bizReg_image_name" />
+		<result property="keyword" column="keyword" />
+		<result property="reg_date" column="reg_date" />
+		<result property="mod_date" column="mod_date" />
+	</resultMap>
+		
+		
+		
+	<select id="selectAllStores" resultMap="storeResult">
+		<![CDATA[ select * from seller_tbl order by seller_num desc ]]>
+	</select>
+	
+<!--  	<resultMap type="java.util.HashMap" id="memResult">
+		<result property="id" column="id" />
+		<result property="pw" column="pw" />
+		<result property="name" column="name" />
+		<result property="email" column="email" />
+		<result property="joinDate" column="joinDate" />
+	</resultMap> -->
+	<!-- id : DAO에서 id를 이용해 해당 SQL문 호출 
+		resultMap : 반환되는 레코드를 memResult에 저장 -->
+<!-- 	<select id="selectAllMemberList" resultMap="memResult">
+		<![CDATA[ select * from t_member order by joinDate desc ]]>
+	</select>
+	
+	<select id="selectName" resultType="String">
+		<![CDATA[ select name from t_member where id='hong' ]]>
+	</select>
+	
+	<select id="selectPw" resultType="String">
+		<![CDATA[ select pw from t_member where id='hong' ]]>
+	</select>
+	
+	<select id="selectMemberById" resultType="memberVO" parameterType="String">
+		<![CDATA[ select * from t_member where id = #{id} ]]>
+	</select>
+	
+	<select id="selectMemberByPw" resultType="memberVO" parameterType="String">
+		<![CDATA[ select * from t_member where pw = #{pw} ]]>
+	</select>
+	
+	<insert id="insertMember" parameterType="memberVO">
+		<![CDATA[
+			insert into t_member(id, pw, name, email)
+			values(#{id}, #{pw}, #{name}, #{email})
+		]]>
+	</insert>
+	
+	<insert id="insertMember2" parameterType="java.util.Map">
+		<![CDATA[
+			insert into t_member(id, pw, name, email)
+			values(#{id}, #{pw}, #{name}, #{email})
+		]]>
+	</insert>
+	
+	<update id="updateMember" parameterType="memberVO">
+		<![CDATA[
+			update t_member
+			set pw=#{pw}, name=#{name}, email=#{email}
+			where id=#{id}
+		]]>
+	</update>
+	
+	<delete id="deleteMember" parameterType="String">
+		<![CDATA[
+			delete from t_member
+			where id=#{id}
+		]]>
+	</delete>
+	동적 SQL문
+	<select id="searchMember" parameterType="memberVO" resultMap="memResult">
+		<![CDATA[
+			select * from t_member
+		]]>
+		<where>
+			<if test="name!=null and name!=''" >
+				name=#{name}
+			</if>
+			<if test="email!='' and email!=null">
+				email=#{email}
+			</if>
+		</where>
+		order by joinDate desc
+	</select>
+	
+	<select id="foreachSelect" resultMap="memResult" parameterType="java.util.Map">
+		<![CDATA[
+			select * from t_member
+		]]>
+		where name in
+		<foreach collection="list" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		order by joinDate desc
+	</select>
+	
+	<insert id="foreachInsert" parameterType="java.util.Map">
+		insert into t_member(id, pw, name, email) values
+		<foreach collection="list" item="item" separator=",">
+			   (#{item.id},
+				#{item.pw},
+				#{item.name},
+				#{item.email})
+		</foreach>
+	</insert>
+	
+	<select id="selectLike" resultMap="memResult" parameterType="String">
+		<![CDATA[
+			select * from t_member
+			where
+			name like concat('%',#{name},'%')
+		]]>
+	</select>
+	<select id="loginById" resultType="memberVO" parameterType="memberVO">
+		<![CDATA[
+			select * from t_member
+			where id = #{id} and pw = #{pw}
+		]]>
+	</select> -->
+</mapper>

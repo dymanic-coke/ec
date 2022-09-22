@@ -25,7 +25,7 @@ request.setCharacterEncoding("utf-8");
 	<nav class="main-header navbar navbar-expand navbar-light navbar-white">
   <div class="container">
     <a href="index3.html" class="navbar-brand">
-      <img src="#" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
+      <img src="rain.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
       <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
     <!-- Left navbar links -->
@@ -73,7 +73,7 @@ request.setCharacterEncoding("utf-8");
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="#" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <img src="rain.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Brad Diesel
@@ -89,7 +89,7 @@ request.setCharacterEncoding("utf-8");
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="#" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="rain.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   John Pierce
@@ -105,7 +105,7 @@ request.setCharacterEncoding("utf-8");
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="#" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="rain.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Nora Silvester

@@ -24,9 +24,9 @@ request.setCharacterEncoding("utf-8");
 <style>
 #board {
 	margin-top: 5%;
-	margin-left: 30%;
+	margin-left: 25%;
 	margin-bottom: 10%;
-	width: 40%;
+	width: 60%;
 }
 #non-hover {
 	pointer-events: none;
@@ -55,14 +55,23 @@ request.setCharacterEncoding("utf-8");
 #writeBoard{
 	float: right;
 }
+
+#img-eatList{
+	width: 100%;
+	vertical-align: center;
+}
+#img-seeList{
+	width: 100%;
+	vertical-align: center;
+}
 </style>
 <script>
-	function fn_articleForm(isLogOn, articleForm, loginForm) {
+	function fn_boardForm(isLogOn, boardForm, loginForm) {
 		if (isLogOn != '' && isLogOn != 'false') {
-			location.href = articleForm;
+			location.href = boardForm;
 		} else {
-			alert("로그인 후 글쓰기가 가능합니다.")
-			location.href = loginForm;
+			alert("로그인 후 글쓰기가 가능합니다.(임시 작업중)")
+			location.href = boardForm;
 		}
 	}
 </script>
@@ -76,17 +85,19 @@ request.setCharacterEncoding("utf-8");
 <body>
 	<section id="board">
 		<div class="btn-group">
-			<a href="${contextPath}/user/u_board.do" class="btn btn-primary">전체</a> 
-			<a href="${contextPath}/user/u_board/eatpl.do" class="btn btn-primary">먹플리</a> 
-			<a href="${contextPath}/user/u_board/seepl.do" class="btn btn-primary">볼플리</a>
+			<a href="${contextPath}/user/u_board" class="btn btn-primary">전체</a> 
+			<a href="${contextPath}/user/u_board/eatpl" class="btn btn-primary">먹플리</a> 
+			<a href="${contextPath}/user/u_board/seepl" class="btn btn-primary">볼플리</a>
 		</div>
 		<br><br>
 		<table align="center" width="80%" class="table table-hover" >
 			<thead height="10" align="center" id="non-hover">
+				<td></td>
 				<td>글번호</td>
 				<td>작성자</td>
 				<td>제목</td>
 				<td>작성일</td>
+				<td>조회수</td>
 			</thead>
 			<c:choose>
 				<c:when test="${empty boardsList}">
@@ -102,28 +113,30 @@ request.setCharacterEncoding("utf-8");
 					<c:forEach var="board" items="${boardsList}" varStatus="boardNum">
 					<a class="cls1" href="${contextPath}/user/u_boardView.do?list_num=${board.list_num}">
 						<tr align="center" class="table-primary" onClick="location.href='${contextPath}/user/u_board/u_boardView.do?list_num=${board.list_num}'">
+							<c:choose>
+								<c:when test="${board.category_code==1}">
+								<td width="10%">
+									<img id="img-eatList" alt="" src="${contextPath}/image/eat_icon.png">
+								</td>
+								</c:when>
+								<c:otherwise>
+									<td width="10%">
+									<img id="img-seeList" alt="" src="${contextPath}/image/see_icon.png">
+									</td>
+								</c:otherwise>
+							</c:choose>
 							<td width="10%">${fn:length(boardsList)-boardNum.index}</td>
 							<td width="10%">${board.user_id}</td>
-							<td align="center" width="35%"><c:choose>
-									<c:when test="${board.level>1}">
-										<c:forEach begin="1" end="${board.level}" step="1">
-											<span style="padding-left: 10px"></span>
-										</c:forEach>
-										<span style="font-size: 12px;">[답변]</span>
-										${board.u_title}
-									</c:when>
-									<c:otherwise>
-										${board.u_title}
-									</c:otherwise>
-								</c:choose></td>
+							<td align="center" width="35%">${board.u_title}</td>
 							<td width="15%"><fmt:formatDate value="${board.mod_date}" /></td>
+							<td width="10%">${board.hits}</td>
 						</tr>
 						</a>
 					</c:forEach>
 				</c:when>
 			</c:choose>
 		</table>
-		<button type="button" class="btn btn-light" id="writeBoard" onClick="fn_articleForm('${isLogOn}', '${contextPath}/user/newBoardForm', '${contextPath}/member/loginForm.do')">글쓰기</button>
+		<button type="button" class="btn btn-light" id="writeBoard" onClick="fn_boardForm('${isLogOn}', '${contextPath}/user/u_board/boardForm', '${contextPath}/member/loginForm.do')">글쓰기</button>
 	</section>
 </body>
 </html>

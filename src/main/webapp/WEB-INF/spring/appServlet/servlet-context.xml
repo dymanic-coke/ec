@@ -52,7 +52,15 @@
 
    <mvc:interceptors>
     	<mvc:interceptor>
-	      <mvc:mapping path="/*/*.do"/>
+	      <mvc:mapping path="/*/*"/>
+	   <beans:bean class="com.spring.ec.common.interceptor.ViewNameInterceptor" />
+</mvc:interceptor>
+<mvc:interceptor>
+	      <mvc:mapping path="/*"/>
+	   <beans:bean class="com.spring.ec.common.interceptor.ViewNameInterceptor" />
+</mvc:interceptor>
+<mvc:interceptor>
+	      <mvc:mapping path="/*/*/*"/>
 	   <beans:bean class="com.spring.ec.common.interceptor.ViewNameInterceptor" />
 </mvc:interceptor>
 </mvc:interceptors>

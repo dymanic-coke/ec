@@ -16,13 +16,16 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 <style type="text/css">
- #footer{
- }
+#content{
+	width: 90%;
+	display: block;
+}
 </style>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
 <body>
 	<div id="container">
+		<div id="container">
 		<div id="header">
 			<tiles:insertAttribute name="header" />
 		</div>
@@ -35,6 +38,8 @@
 		<div id="footer">
 			<tiles:insertAttribute name="footer" />
 		</div>
+	</div>
+
 	</div>
 </body>
 </html>

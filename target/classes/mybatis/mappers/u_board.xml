@@ -21,6 +21,22 @@
 		<result property="reg_date" column="reg_date" />
 		<result property="mod_date" column="mod_date" />
 	</resultMap>
+	
+	<resultMap id="imgResult" type="imageVO">
+		<result property="image_num" column="image_num" />
+		<result property="list_num" column="list_num" />
+		<result property="origin_fileName" column="origin_fileName" />
+		<result property="image_fileName" column="image_fileName" />
+	</resultMap>
+	<resultMap id="commResult" type="commentVO">
+		<result property="comment_num" column="comment_num" />
+		<result property="list_num" column="list_num" />
+		<result property="comments" column="comments" />
+		<result property="comment_id" column="comment_id" />
+		<result property="parent_num" column="parent_num" />
+		<result property="reg_date" column="reg_date" />
+		<result property="mod_date" column="mod_date" />
+	</resultMap>
 <!--  
 	<resultMap type="imageVO" id="imgResult">
 		<result property="imageFileNo" column="imageFileNo"/>
@@ -35,58 +51,63 @@
 		column="joinDate" /> </resultMap> -->
 	<!-- id : DAO에서 id를 이용해 해당 SQL문 호출 resultMap : 반환되는 레코드를 memResult에 저장 -->
 	<select id="selectAllBoardsList" resultMap="boardsResult">
-		<![CDATA[ SELECT ubt.list_num, ubt.parent_num, fnc.level, ubt.category_code, ubt.u_title,ubt.u_content,ubt.image_fileName,ubt.reg_date,ubt.user_id,ubt.mod_date
-				FROM(SELECT function_hierarchical() AS list_num, parent_num, @level AS LEVEL, category_code, u_title, u_content, image_FileName,reg_date, user_id,mod_date 
-				FROM(SELECT @start_with:=0,@list_num:=@start_with, @level:=0) tbl JOIN u_board_tbl) fnc
-				left outer join u_board_tbl ubt ON ubt.list_num = fnc.list_num			
+		<![CDATA[ SELECT * FROM u_board_tbl ORDER BY list_num DESC			
 		 ]]>
 	</select>
 	
 	<select id="selectEatBoardsList" resultMap="boardsResult">
-		<![CDATA[ SELECT ubt.list_num, ubt.parent_num, fnc.level, ubt.category_code, ubt.u_title,ubt.u_content,ubt.image_fileName,ubt.reg_date,ubt.user_id,ubt.mod_date
-				FROM(SELECT function_hierarchical() AS list_num, parent_num, @level AS LEVEL, category_code, u_title, u_content, image_FileName,reg_date, user_id,mod_date 
-				FROM(SELECT @start_with:=0,@list_num:=@start_with, @level:=0) tbl JOIN u_board_tbl) fnc
-				left outer join u_board_tbl ubt ON ubt.list_num = fnc.list_num	WHERE ubt.category_code = 1		
+		<![CDATA[SELECT * FROM u_board_tbl WHERE category_code=1 ORDER BY list_num DESC
 		 ]]>
 	</select>
 	
 	<select id="selectSeeBoardsList" resultMap="boardsResult">
-		<![CDATA[ SELECT ubt.list_num, ubt.parent_num, fnc.level, ubt.category_code, ubt.u_title,ubt.u_content,ubt.image_fileName,ubt.reg_date,ubt.user_id,ubt.mod_date
-				FROM(SELECT function_hierarchical() AS list_num, parent_num, @level AS LEVEL, category_code, u_title, u_content, image_FileName,reg_date, user_id,mod_date 
-				FROM(SELECT @start_with:=0,@list_num:=@start_with, @level:=0) tbl JOIN u_board_tbl) fnc
-				left outer join u_board_tbl ubt ON ubt.list_num = fnc.list_num	WHERE ubt.category_code = 2		
+		<![CDATA[ SELECT * FROM u_board_tbl WHERE category_code=2 ORDER BY list_num DESC	
 		 ]]>
 	</select>
-<!--  
-	<insert id="insertNewArticle" parameterType="java.util.Map">
+	
+	<select id="selectAllCommentsList" resultMap="commResult">
+		<![CDATA[ SELECT uct.comment_num, uct.parent_num, uct.list_num, fnc.level, uct.comments, uct.reg_date,uct.mod_date,uct.comment_id
+				FROM(SELECT FUNCTION_hierarchical_comment() AS comment_num, parent_num, list_num, @level AS LEVEL, comments, reg_date, mod_date, comment_id 
+				FROM(SELECT @start_with:=0,@comment_num:=@start_with, @level:=0) tbl JOIN u_comments_tbl WHERE list_num= #{list_num}) fnc
+				left outer join u_comments_tbl uct ON uct.comment_num = fnc.comment_num			
+		 ]]>
+	</select>
+  
+	<insert id="insertNewComment" parameterType="java.util.Map">
 		<![CDATA[
-			insert into t_board(articleNo, parentNo, title, content, imageFileName, id)
-			values(#{articleNo}, #{parentNo}, #{title}, #{content}, #{imageFileName}, #{id})			
+			insert into u_comment_tbl(comment_num, parent_num, list_num, comments, comment_id)
+			values(#{comment_num}, #{parent_num}, #{list_num}, #{comments}, #{comment_id})			
 		 ]]>
 	</insert>
 	
-	<select id="selectNewArticleNo" resultType="int">
+	<select id="selectNewComment_num" resultType="int">
 		<![CDATA[
-			select max(articleNo)+1 from t_board 			
+			select max(comment_num)+1 from u_comment_tbl 			
 		 ]]>
 	</select>
--->	
+
 	<select id="selectBoard" resultType="boardVO" parameterType="int" >
 		<![CDATA[
 			select * from u_board_tbl
 			where list_num = #{list_num} 			
 		 ]]>
 	</select>
-<!--  	
-	<update id="updateArticle" parameterType="java.util.Map">
-			update t_board
-			set title = #{title}, content = #{content}
-			<if test="imageFileName!='' and imageFileName!=null">
-			, imageFileName =#{imageFileName}
-			</if>
-			where articleNo=#{articleNo}
+  	
+	<update id="addHits" parameterType="int">
+	<![CDATA[
+			update u_board_tbl
+			set hits = hits+1
+			where list_num=#{list_num}
+	]]>
 	</update>
 	
+	<select id="selectImageFileList" resultMap="imgResult" parameterType="int" >
+		<![CDATA[
+			select * from u_image_tbl
+			where list_num=#{list_num} 
+		]]>
+	</select>
+<!--	
 	<delete id="deleteArticle" parameterType="int">
 		<![CDATA[
 			DELETE FROM t_board WHERE articleNo = #{articleNo} OR parentNo = #{articleNo}		
