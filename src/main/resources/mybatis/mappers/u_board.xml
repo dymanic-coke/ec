@@ -73,12 +73,25 @@
 		 ]]>
 	</select>
   
+	<insert id="insertNewBoard" parameterType="java.util.Map">
+		<![CDATA[
+			insert into u_board_tbl(list_num, parent_num, category_code, user_id, u_title,u_content,reg_date, mod_date)
+			values(#{list_num}, #{parent_num}, 1, #{user_id}, #{u_title},#{u_content},now(),now() )			
+		 ]]>
+	</insert>  
+  
 	<insert id="insertNewComment" parameterType="java.util.Map">
 		<![CDATA[
 			insert into u_comment_tbl(comment_num, parent_num, list_num, comments, comment_id)
 			values(#{comment_num}, #{parent_num}, #{list_num}, #{comments}, #{comment_id})			
 		 ]]>
 	</insert>
+	
+	<select id="selectNewList_num" resultType="int">
+		<![CDATA[
+			select max(list_num)+1 from u_board_tbl 			
+		 ]]>
+	</select>
 	
 	<select id="selectNewComment_num" resultType="int">
 		<![CDATA[

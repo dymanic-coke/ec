@@ -23,7 +23,7 @@
       <div class="innercon">
       
 	    <section class="conarea">
-          <h3 class="tit">최근 본 상품</h3>
+          <h3 class="tit">최근 본 먹고보자</h3>
           
           <!-- 최근 본 상품이 있다면 -->
           <c:if test="${!empty rvList}">
@@ -60,7 +60,7 @@
           
             <!-- 최근 본 상품이 없다면 -->
             <c:if test="${empty rvList}">
-	   	      <div class="nodata">최근 본 상품이 아직 없습니다.</div>
+	   	      <div class="nodata">최근 본 목록이 없습니다.</div>
 	        </c:if>           
           </section>
       

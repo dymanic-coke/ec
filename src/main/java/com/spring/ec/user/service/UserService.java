@@ -3,9 +3,16 @@ package com.spring.ec.user.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
+
+import com.spring.ec.seller.vo.ProductVO;
+import com.spring.ec.seller.vo.SellerVO;
+import com.spring.ec.seller.vo.StoreVO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
-import com.spring.ec.user.vo.StoreVO;
+import com.spring.ec.user.vo.MemberVO;
+import com.spring.ec.user.vo.ReservVO;
+import com.spring.ec.user.vo.ReviewVO;
 
 public interface UserService {
 	
@@ -18,14 +25,34 @@ public interface UserService {
 	public List<BoardVO> seeListBoards()throws Exception;
 	//게시물 상세창
 	public Map viewBoard(int list_num) throws Exception;
-	
+	//게시물 클릭수
 	public void addHits(int list_num)throws Exception;
-	
+	//게시글 쓰기
 	public int addNewBoard(Map boardMap) throws Exception;
-	
+	// 댓글 불러오기
 	public List<CommentVO> listComments(int list_num)throws Exception;
-	
+	// 댓글 작성
 	public int addNewComment(Map commentMap) throws Exception;
+	//카테고리 노출
+	public List<SellerVO> selectAllStores() throws Exception;
 	
-	public List<StoreVO> selectAllStores()throws Exception;
+	public List<SellerVO> selectSearchStores(Map<String, String> listMap) throws Exception;
+	
+	public List<SellerVO> selectsearcharea(String area) throws Exception;
+	
+	public StoreVO selectstoreInfo(String seller_id) throws Exception;
+	
+	public List<ProductVO> selectMenu() throws Exception;
+	
+	public List<ReviewVO> selectReview() throws Exception;
+	
+	public int updatereviewlike(int reviewnum) throws Exception;
+	
+	public String selectreviewlike(int reviewnum) throws Exception;
+	// 예약
+	public ReservVO selectStoreInfo(String seller_id) throws Exception;
+	//회원가입
+	public int addMember(MemberVO memberVO) throws DataAccessException; 
+	//로그인
+	public MemberVO login(MemberVO member)throws DataAccessException;
 }

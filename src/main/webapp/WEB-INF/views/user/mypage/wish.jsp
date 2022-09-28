@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>좋아요 흰디</title>
+<title>먹고보자 찜 목록</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="${contextPath}/js/function.min.js"></script>
 <script type="text/javascript" src="${contextPath}/js/jquery-library.min.js"></script>
@@ -23,7 +23,7 @@
       <div class="innercon">
       		
 	    <section class="conarea">
-		  <h3 class="tit">좋아요</h3>
+		  <h3 class="tit">찜♡</h3>
 		  
 		  <!-- 좋아요 표시된 상품 선택 및 좋아요 삭제 버튼 -->
 		  <div class="list-filter">
@@ -90,7 +90,7 @@
 		                    </c:if> 
 		                    <!-- 정상 버튼 표시 문구 --> 
 		                    <c:if test="${wishDTO.productCount > 0 && wishDTO.deleted != 1}">      
-		                      <button type="button" class="btn small orange" onclick="addToCart(${wishDTO.productId}, ${wishDTO.companyId})">장바구니 담기</button>
+		                      <button type="button" class="btn small orange" onclick="addToCart(${wishDTO.productId}, ${wishDTO.companyId})">찜 하기</button>
 		                    </c:if> 
 		                    <!-- 수량이 없는 경우 버튼 표시 문구 --> 
 		                    <c:if test="${wishDTO.productCount <= 0 && wishDTO.deleted != 1}">
@@ -119,7 +119,7 @@
                
               <!-- 좋아요 목록이 없다면 --> 
               <c:if test="${empty wishList}">
-		   	    <div class="nodata">좋아요 상품이 아직 없습니다.</div>
+		   	    <div class="nodata">찜 한 곳이 아직 없습니다.</div>
 		      </c:if>
                
                
@@ -170,7 +170,7 @@
 			},
 			success : function(data){
 				console.log(data);
-				alert("장바구니에 담았습니다");
+				alert("찜 목록에 담았습니다");
 			},
 			error : function(err) {
 				console.log(err);

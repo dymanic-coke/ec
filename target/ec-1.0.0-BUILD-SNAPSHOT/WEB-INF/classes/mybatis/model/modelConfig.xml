@@ -4,6 +4,12 @@
 
 	<configuration>
 		<typeAliases>
-			<typeAlias type="com.spring.ec.user.vo.MemberVO" alias="memberVO"/>
+			<typeAlias type="com.spring.ec.user.vo.BoardVO" alias="boardVO"/>
+			<typeAlias type="com.spring.ec.user.vo.ImageVO" alias="imageVO"/>
+			<typeAlias type="com.spring.ec.user.vo.CommentVO" alias="commentVO"/>
+			<typeAlias type="com.spring.ec.seller.vo.StoreVO" alias="storeVO"/>
+			<typeAlias type="com.spring.ec.seller.vo.ProductVO" alias="productVO"/>
+			<typeAlias type="com.spring.ec.user.vo.ReviewVO" alias="reviewVO"/>
+			<typeAlias type="com.spring.ec.user.vo.ReservVO" alias="reservVO"/>
 		</typeAliases>
 	</configuration>
