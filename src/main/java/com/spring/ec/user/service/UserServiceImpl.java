@@ -14,6 +14,7 @@ import com.spring.ec.user.dao.UserDAO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
 import com.spring.ec.user.vo.MemberVO;
+import com.spring.ec.user.vo.NoticeVO;
 import com.spring.ec.user.vo.ReservVO;
 import com.spring.ec.user.vo.ReviewVO;
 import com.spring.ec.user.vo.WishVO;
@@ -169,5 +170,34 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int addMember(MemberVO member) throws DataAccessException {
 		return userDAO.insertMember(member);
+	}
+	
+	// 공지사항 이벤트
+	@Override
+	public List<NoticeVO> noticeBoards(int page)throws Exception{
+		return userDAO.selectNoticeList(page);
+	}
+	
+	@Override
+	public List<NoticeVO> eventBoards(int page)throws Exception{
+		return userDAO.selectEventList(page);
+	}
+	
+	@Override
+	public int noticeCount()throws Exception{
+		return userDAO.noticePaging();
+	}
+	
+	@Override
+	public int eventCount()throws Exception{
+		return userDAO.eventPaging();
+	}
+	@Override
+	public NoticeVO viewNotice(int list_num) throws Exception{
+		return userDAO.selectNotice(list_num);
+	}
+	@Override
+	public void addNoticeHits(int list_num)throws Exception{
+		userDAO.addNoticeHits(list_num);
 	}
 }

@@ -15,6 +15,7 @@ import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
 import com.spring.ec.user.vo.ImageVO;
 import com.spring.ec.user.vo.MemberVO;
+import com.spring.ec.user.vo.NoticeVO;
 import com.spring.ec.user.vo.ReservVO;
 import com.spring.ec.user.vo.ReviewVO;
 import com.spring.ec.user.vo.WishVO;
@@ -238,4 +239,35 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 	
+	// 공지사항/이벤트
+	@Override
+	public List selectNoticeList(int page) throws DataAccessException{
+		page = (page-1)*10;
+		List<NoticeVO> noticeList = sqlSession.selectList("mapper.notice.selectAllNoticeList", page);
+		return noticeList;
+	}
+	
+	@Override
+	public List selectEventList(int page) throws DataAccessException{
+		page = (page-1)*10;
+		List<NoticeVO> eventList = sqlSession.selectList("mapper.notice.selectAllEventList", page);
+		return eventList;
+	}
+	@Override
+	public NoticeVO selectNotice(int list_num) throws DataAccessException{
+		return sqlSession.selectOne("mapper.notice.selectNotice", list_num);
+	}
+	@Override
+	public void addNoticeHits(int list_num)throws DataAccessException{
+		sqlSession.update("mapper.notice.addHits", list_num);
+	}
+	
+	@Override
+	public int noticePaging() throws DataAccessException {
+		return sqlSession.selectOne("mapper.notice.selectNoticeCount");
+	}
+	@Override
+	public int eventPaging() throws DataAccessException {
+		return sqlSession.selectOne("mapper.notice.selectEventCount");
+	}
 }

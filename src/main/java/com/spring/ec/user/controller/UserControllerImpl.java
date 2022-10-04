@@ -1,7 +1,6 @@
 package com.spring.ec.user.controller;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -35,8 +34,8 @@ import com.spring.ec.seller.vo.StoreVO;
 import com.spring.ec.user.service.UserService;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
-import com.spring.ec.user.vo.ImageVO;
 import com.spring.ec.user.vo.MemberVO;
+import com.spring.ec.user.vo.NoticeVO;
 import com.spring.ec.user.vo.ReservVO;
 
 @Controller("userController")
@@ -187,8 +186,6 @@ public class UserControllerImpl implements UserController  {
 		BoardVO board = userService.viewBoard(list_num);
 		List commentsList = userService.listComments(list_num);
 		ModelAndView mav = new ModelAndView();
-//		HttpSession session = request.getSession();
-//		MemberVO memberVO = (MemberVO)session.getAttribute("member");
 		mav.setViewName(viewName);
 		mav.addObject("board", board);
 		mav.addObject("comments", commentsList);
@@ -615,4 +612,108 @@ public class UserControllerImpl implements UserController  {
 		ModelAndView mav = new ModelAndView(viewName);
 		return mav;
 	   }
+	// 공지사항-이벤트 보드
+	@Override
+	@RequestMapping(value = "/user/notice", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView listNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		int boardCount = userService.noticeCount();
+		System.out.println("글숫자" + boardCount);
+		int displayNum = 10;
+		int page = 0;
+		if(request.getParameter("page") != null){
+		page = Integer.parseInt(request.getParameter("page"));
+		}else {
+		page = 1;
+		}
+		int endPage = (int)(Math.ceil(page/(double)displayNum)* displayNum);
+		int tempEndPage = (int)(Math.ceil(boardCount/(double)displayNum));
+		int startPage = (endPage-displayNum) + 1;
+		if(endPage > tempEndPage) {
+			endPage = tempEndPage;
+		}
+		
+		boolean prev = startPage == 1? false : true;
+		boolean next = endPage*displayNum >= boardCount ? false : true;
+		
+		Map paging = new HashMap();
+		paging.put("boardCount", boardCount);
+		paging.put("displayNum", displayNum);
+		paging.put("startPage", startPage);
+		paging.put("nowPage", page);
+		paging.put("endPage", endPage);
+		paging.put("prev", prev);
+		paging.put("next", next);
+		System.out.println("시작페이지" + startPage);
+		System.out.println("종료" + endPage);
+		List noticeList = userService.noticeBoards(page);
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("paging", paging);
+		mav.addObject("noticeList", noticeList);
+		return mav;
+	}
+	@Override
+	@RequestMapping(value = "/user/event", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView listEvent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		int boardCount = userService.eventCount();
+		int displayNum = 10;
+		int page = 0;
+		if(request.getParameter("page") != null){
+		page = Integer.parseInt(request.getParameter("page"));
+		}else {
+		page = 1;
+		}
+		int endPage = (int)(Math.ceil(page/(double)displayNum)* displayNum);
+		int tempEndPage = (int)(Math.ceil(boardCount/(double)displayNum));
+		int startPage = (endPage-displayNum) + 1;
+		if(endPage > tempEndPage) {
+			endPage = tempEndPage;
+		}
+		
+		boolean prev = startPage == 1? false : true;
+		boolean next = endPage*displayNum >= boardCount ? false : true;
+		
+		Map paging = new HashMap();
+		paging.put("boardCount", boardCount);
+		paging.put("displayNum", displayNum);
+		paging.put("startPage", startPage);
+		paging.put("nowPage", page);
+		paging.put("endPage", endPage);
+		paging.put("prev", prev);
+		paging.put("next", next);
+		System.out.println(boardCount);
+		System.out.println(displayNum);
+		System.out.println(page);
+		System.out.println(endPage);
+		List eventList = userService.eventBoards(page);
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("paging", paging);
+		mav.addObject("eventList", eventList);
+		return mav;
+	}
+	@Override
+	@RequestMapping(value = "/user/notice/view", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView viewNotice(@RequestParam("list_num") int list_num, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		userService.addNoticeHits(list_num);
+		NoticeVO notice = userService.viewNotice(list_num);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("notice", notice);
+		return mav;
+	}
+	@Override
+	@RequestMapping(value = "/user/event/view", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView viewEvent(@RequestParam("list_num") int list_num, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		userService.addNoticeHits(list_num);
+		NoticeVO notice = userService.viewNotice(list_num);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("notice", notice);
+		return mav;
+	}
 }

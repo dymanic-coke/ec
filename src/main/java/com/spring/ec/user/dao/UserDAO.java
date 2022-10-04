@@ -10,6 +10,7 @@ import com.spring.ec.seller.vo.SellerVO;
 import com.spring.ec.seller.vo.StoreVO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.MemberVO;
+import com.spring.ec.user.vo.NoticeVO;
 import com.spring.ec.user.vo.ReservVO;
 import com.spring.ec.user.vo.ReviewVO;
 import com.spring.ec.user.vo.WishVO;
@@ -75,4 +76,21 @@ public List<SellerVO> selectAllStores() throws Exception;
 	
 	//회원가입
 	public int insertMember(MemberVO memberVO) throws DataAccessException;
+	
+	//공지사항/이벤트
+	
+	public List selectNoticeList(int page) throws DataAccessException;
+	
+	public List selectEventList(int page) throws DataAccessException;
+	
+	public NoticeVO selectNotice(int list_num) throws DataAccessException;
+	
+	public void addNoticeHits(int list_num)throws DataAccessException;
+	
+	public int noticePaging() throws DataAccessException;
+	
+	public int eventPaging() throws DataAccessException;
+	
+	
+	
 }

@@ -147,16 +147,16 @@ list-style: none;
     <div class="first">
     <ul class="ff">
     <li class="second">
-    	<button type="button" id="menu01" style="border:none;"></button>
+    	<button type="button" id="menu01" style="border:none;" onClick="location.href='${contextPath}/category.do'"></button>
     </li>
      <li class="second">
-    	<button type="button" id="menu02" style="border:none;"></button>
+    	<button type="button" id="menu02" style="border:none;" onClick="location.href='${contextPath}/user/u_board'"></button>
     </li>
      <li class="second">
-    	<button type="button" id="menu03" style="border:none;"></button>
+    	<button type="button" id="menu03" style="border:none;" onClick="location.href='${contextPath}/user/notice'"></button>
     </li>
      <li class="second">
-    	<button type="button" id="menu04" style="border:none;"></button>
+    	<button type="button" id="menu04" style="border:none;" onClick="location.href='${contextPath}/user/event'"></button>
     </li>
   <li>
     	<button type="button" id="menu05" style="border:none;">

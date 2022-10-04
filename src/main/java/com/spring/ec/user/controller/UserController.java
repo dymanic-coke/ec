@@ -72,4 +72,11 @@ public interface UserController {
 	public ModelAndView find_id(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView find_pwd(HttpServletRequest request, HttpServletResponse response) throws Exception ;
+	
+	//공지사항-이벤트
+	public ModelAndView listNotice(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView listEvent(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewNotice(@RequestParam("list_num") int list_num, HttpServletRequest request,HttpServletResponse response) throws Exception;
+	public ModelAndView viewEvent(@RequestParam("list_num") int list_num, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 }

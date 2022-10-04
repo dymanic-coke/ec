@@ -11,6 +11,7 @@ import com.spring.ec.seller.vo.StoreVO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
 import com.spring.ec.user.vo.MemberVO;
+import com.spring.ec.user.vo.NoticeVO;
 import com.spring.ec.user.vo.ReservVO;
 import com.spring.ec.user.vo.ReviewVO;
 import com.spring.ec.user.vo.WishVO;
@@ -64,4 +65,12 @@ public List<SellerVO> selectAllStores() throws Exception;
 	public int addMember(MemberVO memberVO) throws DataAccessException; 
 	//로그인
 	public MemberVO login(MemberVO member)throws DataAccessException;
+	
+	//공지사항 이벤트
+	public List<NoticeVO> noticeBoards(int page)throws Exception;
+	public List<NoticeVO> eventBoards(int page)throws Exception;
+	public int noticeCount()throws Exception;
+	public int eventCount()throws Exception;
+	public NoticeVO viewNotice(int list_num) throws Exception;
+	public void addNoticeHits(int list_num)throws Exception;
 }
