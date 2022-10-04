@@ -16,28 +16,24 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 <style type="text/css">
-#content{
-	width: 90%;
-	display: block;
-}
 </style>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
 <body>
 	<div id="container">
 		<div id="container">
-		<div id="header">
+ 		<%-- <div id="header">
 			<tiles:insertAttribute name="header" />
 		</div>
-		<div id="sidebar-right">
+		<div id="sidebar-left">
 			<tiles:insertAttribute name="side" />
-		</div>
+		</div> --%>
 		<div id="content">
 			<tiles:insertAttribute name="body" />
 		</div>
-		<div id="footer">
+		<%-- <div id="footer">
 			<tiles:insertAttribute name="footer" />
-		</div>
+		</div> --%>
 	</div>
 
 	</div>

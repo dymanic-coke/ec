@@ -12,14 +12,21 @@ import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.MemberVO;
 import com.spring.ec.user.vo.ReservVO;
 import com.spring.ec.user.vo.ReviewVO;
+import com.spring.ec.user.vo.WishVO;
 
 public interface UserDAO {
 	// 먹플리 볼플리
-	public List selectAllBoardsList() throws DataAccessException;
+	public List selectAllBoardsList(int page) throws DataAccessException;
 	
-	public List selectEatBoardsList() throws DataAccessException;
+	public List selectEatBoardsList(int page) throws DataAccessException;
 	
-	public List selectSeeBoardsList() throws DataAccessException;
+	public List selectSeeBoardsList(int page) throws DataAccessException;
+	
+	public int eatBoardPaging() throws DataAccessException;
+	
+	public int seeBoardPaging() throws DataAccessException;
+	
+	public int allBoardPaging() throws DataAccessException;
 	
 	public BoardVO selectBoard(int list_num) throws DataAccessException;
 	
@@ -35,7 +42,7 @@ public interface UserDAO {
 	
 	public int insertNewComment(Map commentMap) throws Exception;
 	// 카테고리 정보 
-	public List<SellerVO> selectAllStores() throws Exception;
+public List<SellerVO> selectAllStores() throws Exception;
 	
 	public List<SellerVO> selectSearchStores(Map<String, String> listMap) throws Exception;
 	
@@ -50,6 +57,16 @@ public interface UserDAO {
 	public int updatereviewlike(int review_num) throws Exception;
 	
 	public String selectreviewlike(int review_num) throws Exception;
+	
+	public List<ReviewVO> selectReviewavgsum() throws Exception;
+	
+	public int addwish(Map<String, String> listMap) throws DataAccessException;
+	
+	public List<WishVO> selectwish(String user_id) throws Exception;
+	
+	public int delwish(Map<String, String> listMap) throws DataAccessException;
+	
+	public List selectwishsum() throws DataAccessException;
 	//예약
 	public ReservVO selectStoreInfo2(String seller_id) throws DataAccessException;
 	

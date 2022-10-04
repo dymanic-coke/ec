@@ -43,6 +43,8 @@ import com.spring.ec.user.vo.ReservVO;
 public class UserControllerImpl implements UserController  {
 	private static final Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
 	private static final String U_IMAGE_REPO="C:\\board\\u_board_imagefile";
+	public static final int pagePerList = 10;
+	public static final int pagingCount = 10;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -65,11 +67,75 @@ public class UserControllerImpl implements UserController  {
 	}
 	// 멕플리 볼플리 페이지
 	@Override
+	@RequestMapping(value = "/user/u_board", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView listBoards(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		int boardCount = userService.allListCount();
+		int displayNum = 10;
+		int page = 0;
+		if(request.getParameter("page") != null){
+		page = Integer.parseInt(request.getParameter("page"));
+		}else {
+		page = 1;
+		}
+		int endPage = (int)(Math.ceil(page/(double)displayNum)* displayNum);
+		int tempEndPage = (int)(Math.ceil(boardCount/(double)displayNum));
+		int startPage = (endPage-displayNum) + 1;
+		if(endPage > tempEndPage) {
+			endPage = tempEndPage;
+		}
+		
+		boolean prev = startPage == 1? false : true;
+		boolean next = endPage*displayNum >= boardCount ? false : true;
+		
+		Map paging = new HashMap();
+		paging.put("boardCount", boardCount);
+		paging.put("displayNum", displayNum);
+		paging.put("startPage", startPage);
+		paging.put("nowPage", page);
+		paging.put("endPage", endPage);
+		paging.put("prev", prev);
+		paging.put("next", next);
+		List boardsList = userService.listBoards(page);
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("paging", paging);
+		mav.addObject("boardsList", boardsList);
+		return mav;
+	}
+	
+	@Override
 	@RequestMapping(value = "/user/u_board/eatpl", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView listEatBoards(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		List boardsList = userService.eatListBoards();
+		int boardCount = userService.eatListCount();
+		int displayNum = 10;
+		int page = 0;
+		if(request.getParameter("page") != null){
+		page = Integer.parseInt(request.getParameter("page"));
+		}else {
+		page = 1;
+		}
+		int endPage = (int)(Math.ceil(page/(double)displayNum)* displayNum);
+		int tempEndPage = (int)(Math.ceil(boardCount/(double)displayNum));
+		int startPage = (endPage-displayNum) + 1;
+		if(endPage > tempEndPage) {
+			endPage = tempEndPage;
+		}
+		
+		boolean prev = startPage == 1? false : true;
+		boolean next = endPage*displayNum >= boardCount ? false : true;
+		
+		Map paging = new HashMap();
+		paging.put("boardCount", boardCount);
+		paging.put("displayNum", displayNum);
+		paging.put("startPage", startPage);
+		paging.put("nowPage", page);
+		paging.put("endPage", endPage);
+		paging.put("prev", prev);
+		paging.put("next", next);
+		List boardsList = userService.eatListBoards(page);
 		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("paging", paging);
 		mav.addObject("boardsList", boardsList);
 		return mav;
 	}
@@ -78,8 +144,36 @@ public class UserControllerImpl implements UserController  {
 	@RequestMapping(value = "/user/u_board/seepl", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView listSeeBoards(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		List boardsList = userService.seeListBoards();
+		
+		int boardCount = userService.seeListCount();
+		int displayNum = 10;
+		int page = 0;
+		if(request.getParameter("page") != null){
+		page = Integer.parseInt(request.getParameter("page"));
+		}else {
+		page = 1;
+		}
+		int endPage = (int)(Math.ceil(page/(double)displayNum)* displayNum);
+		int tempEndPage = (int)(Math.ceil(boardCount/(double)displayNum));
+		int startPage = (endPage-displayNum) + 1;
+		if(endPage > tempEndPage) {
+			endPage = tempEndPage;
+		}
+		
+		boolean prev = startPage == 1? false : true;
+		boolean next = endPage*displayNum >= boardCount ? false : true;
+		
+		Map paging = new HashMap();
+		paging.put("boardCount", boardCount);
+		paging.put("displayNum", displayNum);
+		paging.put("startPage", startPage);
+		paging.put("nowPage", page);
+		paging.put("endPage", endPage);
+		paging.put("prev", prev);
+		paging.put("next", next);
+		List boardsList = userService.seeListBoards(page);
 		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("paging", paging);
 		mav.addObject("boardsList", boardsList);
 		return mav;
 	}
@@ -90,11 +184,13 @@ public class UserControllerImpl implements UserController  {
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		userService.addHits(list_num);
-		Map boardMap = userService.viewBoard(list_num);
+		BoardVO board = userService.viewBoard(list_num);
 		List commentsList = userService.listComments(list_num);
 		ModelAndView mav = new ModelAndView();
+//		HttpSession session = request.getSession();
+//		MemberVO memberVO = (MemberVO)session.getAttribute("member");
 		mav.setViewName(viewName);
-		mav.addObject("boardMap", boardMap);
+		mav.addObject("board", board);
 		mav.addObject("comments", commentsList);
 		return mav;
 	}
@@ -109,12 +205,11 @@ public class UserControllerImpl implements UserController  {
 	}
 	
 	@Override
-	@RequestMapping(value="/board/addNewboard.do", method = RequestMethod.POST)
+	@RequestMapping(value="/board/addNewboard", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity addNewBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
 	  multipartRequest.setCharacterEncoding("utf-8");
-	  String imageFileName = null;
-	  
+	  String image_fileName = null;
 	  Map boardMap = new HashMap();
 	  Enumeration enu = multipartRequest.getParameterNames();
 	  while(enu.hasMoreElements()) { 
@@ -122,172 +217,157 @@ public class UserControllerImpl implements UserController  {
 	  String value = multipartRequest.getParameter(name);
 	  boardMap.put(name, value); 
 	  }
+	  System.out.println(multipartRequest.getParameter("category_code"));
+	  int category_code = Integer.parseInt(multipartRequest.getParameter("category_code"));
 	  
-	   
+	  String category = null;
+	  if(category_code == 1) {
+		  category = "eatpl";
+	  }else if(category_code == 2) {
+		  category = "seepl";
+	  }
+	  image_fileName = upload(multipartRequest);
+	  System.out.println("conroller=" + image_fileName);
 	  HttpSession session = multipartRequest.getSession();
 	  MemberVO memberVO = (MemberVO)session.getAttribute("member");
 //	  String user_id = memberVO.getUser_id();
 	  boardMap.put("user_id", "test1");
 	  boardMap.put("parent_num", 0);
-	  
-	  List<String> fileList = upload(multipartRequest);
-	  List<ImageVO> image_fileList = new ArrayList<ImageVO>();
-	  if(fileList != null && fileList.size() !=0) {
-		  for(String fileName : fileList){ 
-			  ImageVO imageVO = new ImageVO();
-			  imageVO.setImage_fileName(fileName);
-			  image_fileList.add(imageVO); 
-		  }
-		  boardMap.put("image_fileList",image_fileList);
-	  }
+	  boardMap.put("category_code", category_code);
+	  boardMap.put("image_fileName", image_fileName);
 	  String message;
 	  ResponseEntity resEnt = null;
 	  HttpHeaders responseHeaders = new HttpHeaders();
-	  responseHeaders.add("Content-Type","text/html; charset=utf-8");
-	  try { 
+	  responseHeaders.add("Content-Type", "text/html; charset=utf-8"); 
+	  try {
 		  int list_num = userService.addNewBoard(boardMap);
-		  if(image_fileList != null && image_fileList.size() != 0) {
-			  for(ImageVO imageVO:image_fileList) {
-				  imageFileName = imageVO.getImage_fileName();
-				  File srcFile = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName); 
-				  File destDir = new File(U_IMAGE_REPO + "\\" + list_num);
-				  //destDir.mkdirs(); 
-				  FileUtils.moveFileToDirectory(srcFile, destDir, true);
-				  } 
-			  }
-		  
-		  message = "<script>"; 
-		  message += " alert('글작성에 성공하셨습니다.');";
-		  message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board'; ";
-		  message += " </script>";
-		  resEnt = new ResponseEntity(message, responseHeaders,HttpStatus.CREATED); 
-		  } catch(Exception e) { 
-			  if(image_fileList != null && image_fileList.size() != 0) { 
-				  for(ImageVO imageVO:image_fileList) {
-					  	imageFileName = imageVO.getImage_fileName(); 
-					  	File srcFile = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
-					  	srcFile.delete(); 
-				  } 
-			}
-	  
-		 message = "<script>"; 
-		 message += " alert('글작성에 실패 하였습니다.');"; 
-		 message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board/boardForm'; "; 
-		 message += " </script>"; 
-		 resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
-		 e.printStackTrace(); 
-		 } 
-	  	 return resEnt; 
-	  }
-	
-	@Override
-	@RequestMapping(value = "/user/u_board/addcomment", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity addComment(HttpServletRequest Request, HttpServletResponse response)
-			throws Exception {
-		Request.setCharacterEncoding("utf-8");
-		Map<String, Object> commentMap = new HashMap<String, Object>();
-		Enumeration enu = Request.getParameterNames();
-		while (enu.hasMoreElements()) {
-			String name = (String) enu.nextElement();
-			String value = Request.getParameter(name);
-			commentMap.put(name, value);
-		}
-		HttpSession session = Request.getSession();
-		MemberVO memberVO = (MemberVO) session.getAttribute("member");
-		String comment_id = memberVO.getUser_id();
-		int parent_num = Integer.parseInt(Request.getParameter("parent_num"));
-		commentMap.put("parent_num", parent_num);
-		commentMap.put("comment_id", comment_id);
-		String message;
-		ResponseEntity resEnt = null;
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		try {
-			int comment_num = userService.addNewComment(commentMap);
-			message = "<script>";
-			message += " location.href='" + Request.getContextPath() + "/user/u_board/u_boardView'; ";
+		  System.out.println(list_num);
+		  if(image_fileName != null && image_fileName.length() != 0) {
+			  File srcFile = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + image_fileName);
+			  File destDir = new File(U_IMAGE_REPO + "\\" + list_num);
+			  FileUtils.moveFileToDirectory(srcFile, destDir, true);
+		  }
+		  message = "<script>";
+			message += " alert('새글을 추가했습니다.');";
+			message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
-		} catch (Exception e) {
+	  } catch (Exception e) {
+		  File srcFile = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + image_fileName);
+			srcFile.delete();
+
 			message = "<script>";
 			message += " alert('오류가 발생했습니다. 다시 시도해 주세요');";
-			message += " location.href='" + Request.getContextPath() + "/user/u_board/u_boardView'; ";
+			message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
 			e.printStackTrace();
-		}
-		return resEnt;
+	  }	  
+	  return resEnt;
 	}
 	
-	private List<String> upload(MultipartHttpServletRequest multipartRequest)throws Exception
-	{
-		List<String> fileList = new ArrayList<String>();
+	@Override
+	@RequestMapping(value = "/u_board/addcomment", method = RequestMethod.POST)
+	public ModelAndView addComment(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("utf-8");
+		  Map commentMap = new HashMap(); 
+		  String comment_id = request.getParameter("comment_id"); 
+		  String comments = request.getParameter("comments"); 
+		  int list_num =Integer.parseInt(request.getParameter("list_num"));
+		  commentMap.put("comment_id", "test1"); 
+		  commentMap.put("comments", comments);
+		  commentMap.put("list_num", list_num); 
+		  commentMap.put("parent_num", "0");
+		  userService.addNewComment(commentMap);
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/user/u_board/u_boardView?list_num="+list_num);
+		return mav; 
+	}
+	
+	private String upload(MultipartHttpServletRequest multipartRequest)throws Exception{
+		String image_fileName = null;
 		Iterator<String> fileNames = multipartRequest.getFileNames();
-
-		while (fileNames.hasNext()) {
+		while(fileNames.hasNext()) {
 			String fileName = fileNames.next();
 			MultipartFile mFile = multipartRequest.getFile(fileName);
-			String originalFileName = mFile.getOriginalFilename();
-			fileList.add(originalFileName);
+			image_fileName = mFile.getOriginalFilename();
+			System.out.println("upload="+image_fileName);
 			File file = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + fileName);
-
-			if (mFile.getSize() != 0) {
-				if (!file.exists()) {
+			if(mFile.getSize() !=0) {
+				if(!file.exists()) {
 					file.getParentFile().mkdirs();
-					mFile.transferTo(new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + originalFileName));
+					mFile.transferTo(new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + image_fileName));
 				}
 			}
 		}
-		return fileList;
+		return image_fileName;
 	}
 	//카테고리
 	@Override
 	@RequestMapping(value = "/category.do", method = RequestMethod.GET)
 	public ModelAndView category(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = "/category/categorymain";
-		System.out.println("viewName::" + viewName);
 		List StoreList = userService.selectAllStores();
 		List MenuList = userService.selectMenu();
 		List ReviewList = userService.selectReview();
-
+		List Reviewavgsum = userService.selectReviewavgsum();
+		List wishList= null;
+		HttpSession session = request.getSession();
 		
-		System.out.println("StoreList::" + StoreList);
-		System.out.println("MenuList::" + MenuList);
+		
+		if(session.getAttribute("member") != null) {
+			MemberVO mm = (MemberVO) session.getAttribute("member");
+			wishList = userService.selectwish(mm.getUser_id());
+		}
+		
+		List wishsum = userService.selectwishsum();
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("StoreList", StoreList);
 		mav.addObject("menuList", MenuList);
 		mav.addObject("reviewList", ReviewList);
+		mav.addObject("reviewavgsum", Reviewavgsum);
+		mav.addObject("wishList", wishList);
+		mav.addObject("wishsum", wishsum);
 		return mav;
 	}
 
 	/*검색*/
 	@Override
 	@RequestMapping(value = "/searchcategory.do", method = RequestMethod.GET)
-	public ModelAndView searchcategory(@RequestParam(value = "search") String search,@RequestParam(value = "area") String area, HttpServletRequest request,
+	public ModelAndView searchcategory(@RequestParam(value = "search") String search,@RequestParam(value = "kind") String kind,@RequestParam(value = "area") String area, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = "/category/searchcategory";
-		System.out.println("viewName::" + viewName);
+		ModelAndView mav = new ModelAndView(viewName);
 		List<String> searchword = Arrays.asList(search.split(" "));
 		Map<String, String> listMap = new HashMap<String, String>();
 		for (int i = 0; i < searchword.size(); i++) {
 			listMap.put("key0" + (i + 1), searchword.get(i));
 
 		}
-		System.out.println("listMap::::" + listMap);
-		System.out.println("Type is: " + listMap.getClass());
 		
 		if(area == null || area.equals("null") ) {
-			
+			mav.setViewName("redirect:/category.do");
 		} else {
 			listMap.put("area", area);
 		}
 		
+		if (area.equals("null") && kind.equals("null") && search == null ) {
+			mav.setViewName("redirect:/category.do");
+		}
+		
 		
 		List StoreList = userService.selectSearchStores(listMap);
-		System.out.println("StoreList::" + StoreList);
-		ModelAndView mav = new ModelAndView(viewName);
+		List MenuList = userService.selectMenu();
+		List ReviewList = userService.selectReview();
+		List Reviewavgsum = userService.selectReviewavgsum();
+		
+
 		mav.addObject("StoreList", StoreList);
+		mav.addObject("menuList", MenuList);
+		mav.addObject("reviewList", ReviewList);
+		mav.addObject("reviewavgsum", Reviewavgsum);
 		return mav;
 	}
 	
@@ -298,11 +378,9 @@ public class UserControllerImpl implements UserController  {
 	public ModelAndView storeInfo(@RequestParam(value = "seller_id") String seller_id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = "/category/storeInfo";
-		System.out.println("viewName::" + viewName);
 		//Map<String, String> listMap = new HashMap<String, String>();
 
 		StoreVO StoreList = userService.selectstoreInfo(seller_id);
-		System.out.println("StoreList::" + StoreList);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("StoreList", StoreList);
 		return mav;
@@ -312,13 +390,48 @@ public class UserControllerImpl implements UserController  {
 	/* 리뷰 좋아요 up*/
 	@Override
 	@RequestMapping(value = "/reviewlike.do", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody String reviewlike( HttpServletRequest request,
+	public @ResponseBody String reviewlike(@RequestParam(value = "review_num") int reviewnum, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		int reviewnum = 1;
+		
 		userService.updatereviewlike(reviewnum);
 		String result = userService.selectreviewlike(reviewnum);
-		System.out.println("result::" + result);
 		return result;
+	}
+	
+	//찜하기
+	@Override
+	@RequestMapping(value="/addwish.do", method = RequestMethod.POST)
+	public @ResponseBody String addwish(@RequestParam(value = "seller_id") String seller_id, @RequestParam(value = "user_id") String user_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		Map<String, String> listMap = new HashMap<String, String>();
+		listMap.put("seller_id", seller_id);
+		listMap.put("user_id", user_id);
+		int result = userService.addwish(listMap);
+		String state ="";
+		if(result == 1) {
+			state = "true";
+		} else {
+			state = "false";
+		}
+		return state;
+	}
+	
+	//찜삭제
+	@Override
+	@RequestMapping(value="/delwish.do", method = RequestMethod.POST)
+	public @ResponseBody String delwish(@RequestParam(value = "seller_id") String seller_id, @RequestParam(value = "user_id") String user_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		Map<String, String> listMap = new HashMap<String, String>();
+		listMap.put("seller_id", seller_id);
+		listMap.put("user_id", user_id);
+		int result = userService.delwish(listMap);
+		String state ="";
+		if(result == 1) {
+			state = "false";
+		} else {
+			state = "true";
+		}
+		return state;
 	}
 	
 	//예약페이지
@@ -365,7 +478,6 @@ public class UserControllerImpl implements UserController  {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result", result);
 		mav.setViewName(viewName);
-		System.out.println("controller:" + viewName);
 		return mav;
 		
 	}
@@ -382,7 +494,6 @@ public class UserControllerImpl implements UserController  {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result", result); /*ModelAndView객체 이용하여 값 추가*/
 		mav.setViewName(viewName);
-		System.out.println("controller:" + viewName);
 		return mav;	 /* ModelAndView객체 이용하여 값을 전달 */
 	}
 	@Override
@@ -447,7 +558,6 @@ public class UserControllerImpl implements UserController  {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
-		System.out.println("controller : main.do");
 		return mav;
 	}
 	
@@ -458,7 +568,6 @@ public class UserControllerImpl implements UserController  {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
-		System.out.println("controller : main.do");
 		return mav;
 	}
 	

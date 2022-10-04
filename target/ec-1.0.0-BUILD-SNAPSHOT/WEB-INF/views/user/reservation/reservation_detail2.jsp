@@ -269,7 +269,7 @@ td.day:hover {
 	<div class="container">
 		<div class="detail_header">
 			<div class="reserv_title">
-				<a href="#" class="btn_back"><i class="bi bi-arrow-left"></i></a>
+				<a href="#" onClick="history.back()" class="btn_back"><i class="bi bi-arrow-left"></i></a>
 				<h2>
 					<a href="#" class="seller_title">임시 상호명</a>
 				</h2>

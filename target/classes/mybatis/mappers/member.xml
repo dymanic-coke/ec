@@ -65,22 +65,34 @@
 		<result property="commision" column="commision" />
 		<result property="reg_date" column="reg_date" />
 		<result property="mod_date" column="mod_date" />
-	</resultMap>	
-	<resultMap type="reviewVO" id="revResult">
-		<result property="review_num" column="review_num" />
-		<result property="user_id" column="user_id" />
-		<result property="pro_num" column="pro_num" />
-		<result property="seller_id" column="seller_id" />
-		<result property="image_fileName" column="image_fileName" />
-		<result property="content" column="content" />
-		<result property="rating" column="rating" />
-		<result property="liked" column="liked" />
-		<result property="reg_date" column="reg_date" />
-		<result property="mod_date" column="mod_date" />
 	</resultMap>
+
+	<resultMap id="revResult" type="reviewVO">
+		<result column="review_num" property="review_num" />
+		<result column="user_id" property="user_id" />
+		<result column="pro_num" property="pro_num" />
+		<result column="seller_id" property="seller_id" />
+		<result column="image_fileName" property="image_fileName" />
+		<result column="content" property="content" />
+		<result column="rating" property="rating" />
+		<result column="rating_avg" property="rating_avg" />
+		<result column="review_count" property="review_count" />
+		<result column="liked" property="liked" />
+		<result column="reg_date" property="reg_date" />
+		<result column="mod_date" property="mod_date" />
+	</resultMap>
+	
+	<resultMap id="wishResult" type="wishVO">
+		<result column="wish_num" property="wish_num" />
+		<result column="category_code" property="category_code" />
+		<result column="user_id" property="user_id" />
+		<result column="seller_id" property="seller_id" />
+		<result column="wish_sum" property="wish_sum" />
+	</resultMap>
+	
 	<!--카테고리-가게select  -->
 	<select id="selectAllStores" resultMap="sellResult">
-		<![CDATA[ SELECT a.*, b.storeInfo_num, b.image_fileName, b.store_introduce, b.openTime, b.closeDay, b.store_nic,b.store_benefit FROM seller_tbl a, storeinfo_tbl b WHERE a.seller_id = b.seller_id ]]>
+		<![CDATA[ SELECT a.*, b.storeInfo_num, b.image_fileName, b.store_introduce, b.open_time, b.closeDay, b.store_nic,b.store_benefit FROM seller_tbl a, storeinfo_tbl b WHERE a.seller_id = b.seller_id ]]>
 	</select>
 	
 	
@@ -92,7 +104,7 @@
 	
 	<!--카테고리-가게리뷰 select  -->
 	<select id="selectReview" resultMap="revResult">
-		<![CDATA[ SELECT * FROM review_tbl ]]>
+		<![CDATA[ SELECT *, (rating / 5.0) * 100 as rating_percent FROM review_tbl ]]>
 	</select>
 	
 	
@@ -106,19 +118,24 @@
 		]]>
 	</update>
 	
-	<!--카테고리-리뷰 좋아요 select  -->
+	<!--카테고리-리뷰 좋아요 select -->
 	<select id="selectreviewlike" parameterType="int" resultType="String">
-			select liked from review_tbl
-			where
-			review_num=#{review_num}
+		select liked from review_tbl where review_num=#{review_num}
+	</select>
+
+	<!--카테고리-리뷰 총개수, 평균별점 select -->
+	<select id="selectReviewavgsum" resultMap="revResult">
+	SELECT seller_id, round(AVG(rating),2) AS rating_avg , COUNT(*) AS review_count
+	FROM review_tbl GROUP BY seller_id 
 	</select>
 	
 	<!--카테고리-가게검색select  -->
 	<select id="selectSearchStores" parameterType="java.util.HashMap" resultMap="sellResult">
 		<![CDATA[
-			select * from seller_tbl
+			 SELECT a.*, b.storeInfo_num, b.image_fileName, b.store_introduce, b.openTime, b.closeDay, b.store_nic,b.store_benefit FROM seller_tbl a, storeinfo_tbl b
 		]]>
 		<where>
+			a.seller_id = b.seller_id and
 			<if test="key01!=null and key01!=''" >
 				keyword like CONCAT('%',#{key01},'%') or
 			</if>
@@ -132,7 +149,7 @@
 				area = #{area}
 			</if>
 		</where>
-		order by reg_date desc
+		
 	</select>
 	<!--카테고리 지역검색  -->
 	<select id="selectsearcharea" parameterType="String" resultType="sellerVO" >
@@ -147,6 +164,32 @@
 			select * from storeinfo_tbl where seller_id = #{seller_id} 
 		]]>
 	</select>
+	
+	<!--찜  insert  -->
+	<insert id="addwish" parameterType="java.util.HashMap" >
+		<![CDATA[
+		insert into wish_tbl(wish_num,category_code,user_id,seller_id)
+			values((SELECT IFNULL(MAX(wish_num)+1,1) FROM wish_tbl b), 10, #{user_id}, #{seller_id})
+		]]>
+	</insert>
+	
+	
+	<!--로그인 된 회원의 찜목록 select  -->
+	<select id="selectwish" resultMap="wishResult" parameterType="String">
+		<![CDATA[ SELECT * FROM wish_tbl WHERE user_id = #{user_id} ]]>
+	</select>
+	
+	<!--찜  delete  -->
+	<delete id="delwish"  parameterType="String">
+		<![CDATA[ delete FROM wish_tbl WHERE user_id = #{user_id} and seller_id = #{seller_id} ]]>
+	</delete>
+	
+	
+	<!--가게별 찜개수 -->
+	<select id="selectwishsum" resultType="wishVO">
+		SELECT seller_id , COUNT(*) AS wish_sum FROM wish_tbl GROUP BY seller_id;
+	</select>
+	
 	
 	<insert id="insertMember" parameterType="memberVO">
 		<![CDATA[

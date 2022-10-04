@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component("boardVO")
 public class BoardVO {
-	private int level;
 	private int list_num;
 	private int parent_num;
 	private String category_code;
@@ -24,19 +23,10 @@ public class BoardVO {
 
 	}
 
-	public BoardVO(int level, int list_num, int parent_num, String category_code, String user_id, String u_title, String u_content,
+	public BoardVO(int list_num, int parent_num, String category_code, String user_id, String u_title, String u_content,
 			String image_fileName, int hits, int liked, int bad, Date reg_date, Date mod_date) {
 
 	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
 	public int getList_num() {
 		return list_num;
 	}

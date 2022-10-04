@@ -22,5 +22,7 @@
 			alias="reservVO" />
 		<typeAlias type="com.spring.ec.user.vo.MemberVO"
 			alias="memberVO" />	
+		<typeAlias type="com.spring.ec.user.vo.WishVO"
+			alias="wishVO" />
 	</typeAliases>
 </configuration>

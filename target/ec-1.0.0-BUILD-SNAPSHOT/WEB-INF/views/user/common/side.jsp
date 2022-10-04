@@ -10,68 +10,75 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-<style>
-  /* 사이드바 래퍼 스타일 */
-  
-  #sidebar-wrapper {
-  	position: fixed;
-    width: 150px;
-    height: 400px;
-    right:0;
-    float: right;
-    background: #000;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  /* 사이드바 스타일 */
-  
-  .sidebar-nav {
-    width: 250px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  
-  .sidebar-nav li {
-    text-indent: 1.5em;
-    line-height: 2.8em;
-  }
-  
-  .sidebar-nav li a {
-    display: block;
-    text-decoration: none;
-    color: #999;
-  }
-  
-  .sidebar-nav li a:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-  .sidebar-nav > .sidebar-brand {
-    font-size: 1.3em;
-    line-height: 3em;
-  }
-
-</style>
-<title>사이드 메뉴</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="css/side.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"><title>사이드 메뉴</title>
 </head>
-<body>
-	<div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-      <li class="sidebar-brand">
-        <a href="#">Zeta</a>
-      </li>
-      <li><a href="#">메뉴 1</a></li>
-      <li><a href="#">메뉴 2</a></li>
-      <li><a href="#">메뉴 3</a></li>
-      <li><a href="#">메뉴 4</a></li>
-    </ul>
-  </div>
+<body class="menu">
+<!--사이드바 -->
+<nav class="main-menu">
+ <div>
+    <a class="logo" href="http://startific.com">
+    </a> 
+  </div> 
+<div class="settings"></div>
+<ul>
+  
+<li>                                   
+<a href="#">
+<i class="fa fa-home fa-lg pl-30 "></i>
+<span class="nav-text">Home</span>
+</a>
+</li>   
+   
+<li>                                 
+<a href="http://startific.com">
+<i class="fa fa-user fa-lg"></i>
+<span class="nav-text">Login</span>
+</a>
+</li>   
+
+
+<li class="darkerli">
+<a href="http://startific.com">
+<i class="fa fa-desktop fa-lg"></i>
+<span class="nav-text">Technology</span>
+</a>
+</li>
+  
+<li class="darkerli">
+<a href="http://startific.com">
+<i class="fa fa-plane fa-lg"></i>
+<span class="nav-text">Travel</span>
+</a>
+</li>
+  
+<li class="darkerli">
+<a href="http://startific.com">
+<i class="fa fa-shopping-cart"></i>
+ <span class="nav-text">Shopping</span>
+</a>
+</li>
+  
+<li class="darkerli">
+<a href="http://startific.com">
+<i class="fa fa-microphone fa-lg"></i>
+<span class="nav-text">Film & Music</span>
+</a>
+</li>
+
+<li class="darkerli">
+<a href="http://startific.com">
+<i class="fa fa-flask fa-lg"></i>
+<span class="nav-text">Web Tools</span>
+</a>
+</li>
+  
+
+</ul>
+</nav>
   <!-- /사이드바 -->
 </body>
 </html>

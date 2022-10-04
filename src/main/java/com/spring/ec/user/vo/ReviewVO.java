@@ -14,6 +14,9 @@ public class ReviewVO {
 	private String image_fileName;
 	private String content;
 	private float rating;
+	private float rating_percent;
+	private float rating_avg;
+	private int review_count;
 	private int liked;
 	private Date reg_date;
 	private Date mod_date;
@@ -23,7 +26,7 @@ public class ReviewVO {
 
 	}
 
-	public ReviewVO(int review_num, String user_id, int pro_num, String seller_id, String image_fileName, String content, float rating,int liked,Date reg_date, Date mod_date) {
+	public ReviewVO(int review_num, String user_id, int pro_num, String seller_id, String image_fileName, String content, float rating,float rating_percent, float rating_avg,int review_count, int liked,Date reg_date, Date mod_date) {
 		this.review_num = review_num;
 		this.user_id= user_id;
 		this.pro_num = pro_num;
@@ -31,6 +34,9 @@ public class ReviewVO {
 		this.image_fileName = image_fileName;
 		this.content = content;
 		this.rating = rating;
+		this.rating_percent = rating_percent;
+		this.rating_avg = rating_avg;
+		this.review_count = review_count;
 		this.liked = liked;
 		this.reg_date = reg_date;
 		this.mod_date = mod_date;
@@ -90,6 +96,32 @@ public class ReviewVO {
 
 	public void setRating(float rating) {
 		this.rating = rating;
+	}
+	
+
+	public float getRating_percent() {
+		return rating_percent;
+	}
+
+	public void setRating_percent(float rating_percent) {
+		this.rating_percent = rating_percent;
+	}
+
+	public float getRating_avg() {
+		return rating_avg;
+	}
+
+	public void setRating_avg(float rating_avg) {
+		this.rating_avg = rating_avg;
+	}
+	
+
+	public int getReview_count() {
+		return review_count;
+	}
+
+	public void setReview_count(int review_count) {
+		this.review_count = review_count;
 	}
 
 	public int getLiked() {

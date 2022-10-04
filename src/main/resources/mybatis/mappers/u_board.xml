@@ -7,7 +7,6 @@
 <mapper namespace="mapper.board">
 	<!-- 레코드의 컬럼 이름에 대해 memberVO와 같은 속성 값을 지정 -->
 	<resultMap type="boardVO" id="boardsResult">
-		<result property="level" column="level" />
 		<result property="list_num" column="list_num" />
 		<result property="parent_num" column="parent_num" />
 		<result property="category_code" column="category_code" />
@@ -28,6 +27,7 @@
 		<result property="origin_fileName" column="origin_fileName" />
 		<result property="image_fileName" column="image_fileName" />
 	</resultMap>
+	
 	<resultMap id="commResult" type="commentVO">
 		<result property="comment_num" column="comment_num" />
 		<result property="list_num" column="list_num" />
@@ -37,31 +37,22 @@
 		<result property="reg_date" column="reg_date" />
 		<result property="mod_date" column="mod_date" />
 	</resultMap>
-<!--  
-	<resultMap type="imageVO" id="imgResult">
-		<result property="imageFileNo" column="imageFileNo"/>
-		<result property="articleNo" column="articleNo"/>
-		<result property="imageFileName" column="imageFileName"/>
-		<result property="regDate" column="regDate"/>
-	</resultMap>
--->
-	<!-- <resultMap type="java.util.HashMap" id="memResult"> <result property="id" 
-		column="id" /> <result property="pw" column="pw" /> <result property="name" 
-		column="name" /> <result property="email" column="email" /> <result property="joinDate" 
-		column="joinDate" /> </resultMap> -->
-	<!-- id : DAO에서 id를 이용해 해당 SQL문 호출 resultMap : 반환되는 레코드를 memResult에 저장 -->
-	<select id="selectAllBoardsList" resultMap="boardsResult">
-		<![CDATA[ SELECT * FROM u_board_tbl ORDER BY list_num DESC			
+	
+	<select id="selectAllBoardsList" resultMap="boardsResult" parameterType="int">
+		<![CDATA[ 
+		SELECT * FROM u_board_tbl ORDER BY list_num DESC limit #{page},10		
 		 ]]>
 	</select>
 	
 	<select id="selectEatBoardsList" resultMap="boardsResult">
-		<![CDATA[SELECT * FROM u_board_tbl WHERE category_code=1 ORDER BY list_num DESC
+		<![CDATA[
+		SELECT * FROM u_board_tbl WHERE category_code=1 ORDER BY list_num DESC limit #{page},10
 		 ]]>
 	</select>
 	
 	<select id="selectSeeBoardsList" resultMap="boardsResult">
-		<![CDATA[ SELECT * FROM u_board_tbl WHERE category_code=2 ORDER BY list_num DESC	
+		<![CDATA[ 
+		SELECT * FROM u_board_tbl WHERE category_code=2 ORDER BY list_num DESC limit #{page},10	
 		 ]]>
 	</select>
 	
@@ -75,14 +66,14 @@
   
 	<insert id="insertNewBoard" parameterType="java.util.Map">
 		<![CDATA[
-			insert into u_board_tbl(list_num, parent_num, category_code, user_id, u_title,u_content,reg_date, mod_date)
-			values(#{list_num}, #{parent_num}, 1, #{user_id}, #{u_title},#{u_content},now(),now() )			
+			insert into u_board_tbl(list_num, parent_num, category_code, user_id, u_title,u_content,reg_date, mod_date, image_fileName)
+			values(#{list_num}, #{parent_num}, #{category_code}, #{user_id}, #{u_title},#{u_content},now(),now(),#{image_fileName} )			
 		 ]]>
 	</insert>  
   
 	<insert id="insertNewComment" parameterType="java.util.Map">
 		<![CDATA[
-			insert into u_comment_tbl(comment_num, parent_num, list_num, comments, comment_id)
+			insert into u_comments_tbl(comment_num, parent_num, list_num, comments, comment_id)
 			values(#{comment_num}, #{parent_num}, #{list_num}, #{comments}, #{comment_id})			
 		 ]]>
 	</insert>
@@ -95,7 +86,7 @@
 	
 	<select id="selectNewComment_num" resultType="int">
 		<![CDATA[
-			select max(comment_num)+1 from u_comment_tbl 			
+			select max(comment_num)+1 from u_comments_tbl 			
 		 ]]>
 	</select>
 
@@ -120,44 +111,32 @@
 			where list_num=#{list_num} 
 		]]>
 	</select>
-<!--	
-	<delete id="deleteArticle" parameterType="int">
+	<select id="selectEatBoardCount" resultType="int" >
 		<![CDATA[
-			DELETE FROM t_board WHERE articleNo = #{articleNo} OR parentNo = #{articleNo}		
-		 ]]>
-	</delete>
--->
-	<!-- 다중 이미지 추가 sql문 -->
-<!--  	
-	<insert id="insertNewArticle" parameterType="java.util.Map">
+			select count(*) from u_board_tbl
+			where category_code=1; 
+		]]>
+	</select>
+	<select id="selectSeeBoardCount" resultType="int" >
 		<![CDATA[
-			insert into t_board(articleNo, title, content, imageFileName, id)
-			values(#{articleNo, #{title}, #{content}, null, #{id})			
-		 ]]>
+			select count(*) from u_board_tbl
+			where category_code=2; 
+		]]>
+	</select>
+	<select id="selectAllBoardCount" resultType="int" >
+		<![CDATA[
+			select count(*) from u_board_tbl 
+		]]>
+	</select>
+	<insert id="insertNewImage" parameterType="ImageVO">
+	<![CDATA[
+			insert into u_image_tbl (image_num, list_num, origin_fileName,image_fileName)
+			values(#{image_num}, #{list_num}, #{origin_fileName}, #{image_fileName})
+		]]>
 	</insert>
-	
-	<insert id="insertNewImage" parameterType="java.util.Map">
-		insert into t_imageFile(imageFileNo, , imageFileName, articleNo, regDate) values
-		<foreach collection="list" item="item" separator=",">
-			   (#{item.imageFileNo},
-				#{item.imageFileName},
-				#{item.articleNo},
-				now())
-		</foreach>
-	</insert>
--->
-<!--  
-	<select id="selectNewImageFileNo" resultType="int">
+	<select id="selectNewImage_num" resultType="int">
 		<![CDATA[
-			select max(articleNo)+1 from t_imageFile 		
+			select max(image_num)+1 from u_image_tbl 			
 		 ]]>
 	</select>
-	
-	<select id="selectImageFileList" resultType="imgResult" parameterType="int">
-		<![CDATA[
-			select * from t_imageFIle
-			where articleNo = #{articleNo}
-		 ]]>
-	</select>
--->
 </mapper>

@@ -97,7 +97,7 @@ request.setCharacterEncoding("utf-8");
 <script type="text/javascript">
 
 	function backToList(obj){
-		obj.action="${contextPath}/user/u_board";
+		obj.action="${contextPath}/user/u_board/eatpl";
 		obj.submit();
 	}	
 	function fn_modify_article(obj){
@@ -118,35 +118,6 @@ request.setCharacterEncoding("utf-8");
 		document.body.appendChild(form);
 		form.submit();
 	}
-	
-	function fn_reply_form(url, parent_num){
-		var form = document.createElement("form");
-		form.setAttribute("method", "post");
-		form.setAttribute("action", url);
-		var parent_numInput = document.createElement("input");
-		parentNoInput.setAttribute("type", "hidden");
-		parentNoInput.setAttribute("name", "parent_num");
-		parentNoInput.setAttribute("value", parent_num);
-		
-		form.appendChild(parent_numInput);
-		document.body.appendChild(form);
-		form.submit();
-	}
-	
-	function fn_mod_form(url, list_num){
-		var form = document.createElement("form");
-		form.setAttribute("method", "post");
-		form.setAttribute("action", url);
-		var parent_numInput = document.createElement("input");
-		parentNoInput.setAttribute("type", "hidden");
-		parentNoInput.setAttribute("name", "list_num");
-		parentNoInput.setAttribute("value", list_num);
-		
-		form.appendChild(parent_numInput);
-		document.body.appendChild(form);
-		form.submit();
-	}
-	
 	function readURL(input){
 		if(input.files && input.files[0]){
 			var reader = new FileReader();
@@ -259,18 +230,21 @@ request.setCharacterEncoding("utf-8");
             <div class="row">
             <div class="form-group col-sm-2">
             ${member.user_id}
+            <form action="${contextPath}/user/u_board/addcomment" method="post">
+            <input type="hidden" name="comment_id" value="${member.user_id}">
+            <input type="hidden" name="list_num" value="${member.board.list_num}">
 			</div>
             <div class="form-group col-sm-8">
-            <input class="form-control input-sm" id="newReplyText"
-            type="text" placeholder="댓글 입력...">
+            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력...">
             </div>
 			<div class="form-group col-sm-2">
-			<button type="button" class="btn btn-primary btn-sm btn-block replyAddBtn">
+			<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn">
 			<i class="fa fa-save"></i> 댓글쓰기
 			</button>
 			</div>
 			</div>	
 	      </div>
+	      </form>
 	      <div class="card-footer">
             <table align="center" width="80%" id="table-comment" >
 			<c:choose>

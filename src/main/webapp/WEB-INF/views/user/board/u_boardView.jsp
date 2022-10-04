@@ -7,8 +7,6 @@
 request.setCharacterEncoding("utf-8");
 %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="board" value="${boardMap.board}" />
-<c:set var="image_fileList" value="${boardMap.image_fileList }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,11 +21,11 @@ request.setCharacterEncoding("utf-8");
 <style>
 
 #left-imageslide{
-	margin-top: 4.5%;
+	margin-top: 10%;
 	margin-bottom: 10%;
-	margin-right: 40px;
-	margin-left: 50px;
-	width:45%;
+	margin-right: 5%;
+	margin-left: 8%;
+	width:550px;
 	float: left;
 }
 
@@ -80,14 +78,11 @@ request.setCharacterEncoding("utf-8");
 #comment-td{
 	padding-left: 15px;
 }
-/* .carousel-control-prev-icon {
- background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+.main_title{
+	width: 300px;
+	display: block;
+	margin: 0 auto;
 }
-
-.carousel-control-next-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
-} */
-
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script
@@ -97,7 +92,7 @@ request.setCharacterEncoding("utf-8");
 <script type="text/javascript">
 
 	function backToList(obj){
-		obj.action="${contextPath}/user/u_board";
+		obj.action="${contextPath}/user/u_board/eatpl";
 		obj.submit();
 	}	
 	function fn_modify_article(obj){
@@ -118,35 +113,6 @@ request.setCharacterEncoding("utf-8");
 		document.body.appendChild(form);
 		form.submit();
 	}
-	
-	function fn_reply_form(url, parent_num){
-		var form = document.createElement("form");
-		form.setAttribute("method", "post");
-		form.setAttribute("action", url);
-		var parent_numInput = document.createElement("input");
-		parentNoInput.setAttribute("type", "hidden");
-		parentNoInput.setAttribute("name", "parent_num");
-		parentNoInput.setAttribute("value", parent_num);
-		
-		form.appendChild(parent_numInput);
-		document.body.appendChild(form);
-		form.submit();
-	}
-	
-	function fn_mod_form(url, list_num){
-		var form = document.createElement("form");
-		form.setAttribute("method", "post");
-		form.setAttribute("action", url);
-		var parent_numInput = document.createElement("input");
-		parentNoInput.setAttribute("type", "hidden");
-		parentNoInput.setAttribute("name", "list_num");
-		parentNoInput.setAttribute("value", list_num);
-		
-		form.appendChild(parent_numInput);
-		document.body.appendChild(form);
-		form.submit();
-	}
-	
 	function readURL(input){
 		if(input.files && input.files[0]){
 			var reader = new FileReader();
@@ -159,61 +125,22 @@ request.setCharacterEncoding("utf-8");
 </script>
 </head>
 <body>
+<div class="main_title" >
 <h1 align="center">게시글</h1>
-<div id="left-imageslide">
-	<c:if test="${not empty image_fileList && image_fileList !='null'}">
-	<c:choose>
-	<c:when test="${fn:length(image_fileList) == 1}">
-	<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-	<div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="${status.index}" class="active" aria-current="true" aria-label="Slide 1"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="${contextPath}/u_board/download.do?list_num=${board.list_num}&image_fileName=${board.image_fileName}" class="d-block w-100" alt="..." width="300px" height="300px" >
-    </div>
-  </div>
 </div>
-	</c:when>
-	<c:when test="${fn:length(image_fileList) > 1}">
-	<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-	<div class="carousel-indicators">
-	<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-	<c:forEach var="item" items="${imageFileList}" varStatus="status">
-	<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="${status.count}" aria-label="Slide ${status.count+1}"></button>
-	</c:forEach>
-	</div>
-	<div class="carousel-inner">
-    <div class="carousel-item active">
-    <img src="${contextPath}/u_board/download.do?list_num=${board.list_num}&image_fileName=${board.image_fileName}" class="d-block w-100" alt="..." width="300px" height="300px" >
-    </div>
-    <c:forEach var="item" items="${imageFileList}" varStatus="status">
-    <div class="carousel-item">
-      <img src="${contextPath}/u_board/download.do?list_num=${board.list_num}&image_fileName=${board.image_fileName}" class="d-block w-100" alt="..." width="300px" height="300px" >
-    </div>
-    </c:forEach>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-	  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	    <span class="visually-hidden">Next</span>
-	  </button>
-	</c:when>
-	</c:choose>
-</c:if>
+<div id="left-imageslide">
+	<c:if test="${not empty board.image_fileName && board.image_fileName !='null'}">
+		<img src="${contextPath}/u_board/download?list_num=${board.list_num}&image_fileName=${board.image_fileName}" width="550px">
+	</c:if>
 </div>
 	<div id="write">
-	<form name="frmBoard" method="post" action="${contextpath}"
-		enctype="multipart/form-data">
+	<form name="frmBoard" method="post" action="${contextpath}/board/addNewboard.do" enctype="multipart/form-data">
 		<table align="center" class="table">
 			<tr style="border-top: none;">
 				<td width="150" align="center" style="border-top: none;" >
 				작성자 아이디
 				</td>
-				<td style="border-top: none;>
+				<td style="border-top: none;">
 				${board.user_id}
 				<input type="hidden" value="${board.user_id}" name="user_id" />
 				</td>
@@ -224,18 +151,17 @@ request.setCharacterEncoding("utf-8");
 				</td>
 				<td>
 					<fmt:formatDate value="${board.mod_date}"/>
-					<input type="hidden" value="<fmt:formatDate value="${board.mod_date}"/>" disabled />
+					<input type="hidden" value='<fmt:formatDate value="${board.mod_date}"/>' disabled />
 				</td>
 			</tr>
 			<tr>
-				<td width="150" align="center"">
+				<td width="150" align="center">
 				제목
 				</td>
 				<td>
 				${board.u_title}
 				</td>
 			</tr>
-			
 			<tr>
 				<td width="150" height="300" align="center" style="vertical-align: middle;">
 				내용
@@ -245,11 +171,12 @@ request.setCharacterEncoding("utf-8");
 				</td>
 			</tr>	
 		</table>
-		<c:if test="${member.user_id==board.user_id}">
-				<input class="writebtn" type="button" value="수정하기" onClick="fn_reply_form('${contextPath}/user/u_board/modForm', ${board.list_num})" />
+		<c:if test="${member.user_id==board.user_id}">			
 				<input class="writebtn" type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/user/removeBoard', ${board.list_num})" />
 			</c:if>
 				<input class="writebtn" type="button" value="리스트로 돌아가기" onClick="backToList(this.form)" />
+	</form>
+	<form action="${contextPath}/u_board/addcomment" method="post">
 		<div class="col-lg-12" id="comments-div">
     <div class="card" id="comments-card">
         <div class="card-header with-border">
@@ -258,19 +185,20 @@ request.setCharacterEncoding("utf-8");
         <div class="card-body">
             <div class="row">
             <div class="form-group col-sm-2">
-            ${member.user_id}
+            ${member.user_id}           
+            <input type="hidden" name="comment_id" value="${member.user_id}">
+            <input type="hidden" name="list_num" value="${board.list_num}">
 			</div>
             <div class="form-group col-sm-8">
-            <input class="form-control input-sm" id="newReplyText"
-            type="text" placeholder="댓글 입력...">
+            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력...">
             </div>
 			<div class="form-group col-sm-2">
-			<button type="button" class="btn btn-primary btn-sm btn-block replyAddBtn">
+			<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn">
 			<i class="fa fa-save"></i> 댓글쓰기
 			</button>
 			</div>
-			</div>	
-	      </div>
+			</div>
+			</div>
 	      <div class="card-footer">
             <table align="center" width="80%" id="table-comment" >
 			<c:choose>
@@ -309,8 +237,8 @@ request.setCharacterEncoding("utf-8");
 		</table>
         </div>
     </div>
-  </div>						
-	</form>
+  </div>
+  </form>						
 	</div>
 </body>
 </html>

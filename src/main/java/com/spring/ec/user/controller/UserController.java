@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,6 +19,8 @@ public interface UserController {
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	//사용자 게시판 연결 메소드
+	public ModelAndView listBoards(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	public ModelAndView listEatBoards(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView listSeeBoards(HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -28,16 +31,20 @@ public interface UserController {
 	
 	public ResponseEntity addNewBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
 	
-	public ResponseEntity addComment(HttpServletRequest Request, HttpServletResponse response)throws Exception;
+	public ModelAndView addComment(HttpServletRequest Request, HttpServletResponse response)throws Exception;
 	
 	//사용자 카테고리 메소드
-	public ModelAndView searchcategory(@RequestParam(value = "search") String search,@RequestParam(value = "area") String area, HttpServletRequest request,HttpServletResponse response) throws Exception;
+	public ModelAndView searchcategory(@RequestParam(value = "search") String search,@RequestParam(value = "kind") String kind,@RequestParam(value = "area") String area, HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
 	
 	public ModelAndView category(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	public ModelAndView storeInfo(@RequestParam(value = "seller_id") String seller_id, HttpServletRequest request,HttpServletResponse response) throws Exception;
 	
-	public String reviewlike(/* @RequestParam(value = "review_num") int reviewNum, */ HttpServletRequest request,HttpServletResponse response) throws Exception;
+	public @ResponseBody String reviewlike(@RequestParam(value = "review_num") int reviewnum, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	public @ResponseBody String addwish(@RequestParam(value = "seller_id") String seller_id, @RequestParam(value = "user_id") String user_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public @ResponseBody String delwish(@RequestParam(value = "seller_id") String seller_id, @RequestParam(value = "user_id") String user_id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	
 	// 예약 기능

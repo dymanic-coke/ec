@@ -1,6 +1,5 @@
-package com.spring.ec.user.service;
+	package com.spring.ec.user.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +13,10 @@ import com.spring.ec.seller.vo.StoreVO;
 import com.spring.ec.user.dao.UserDAO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
-import com.spring.ec.user.vo.ImageVO;
 import com.spring.ec.user.vo.MemberVO;
 import com.spring.ec.user.vo.ReservVO;
 import com.spring.ec.user.vo.ReviewVO;
+import com.spring.ec.user.vo.WishVO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -26,35 +25,45 @@ public class UserServiceImpl implements UserService {
 	
 	// 먹플리 볼플리 
 	@Override
-	public List<BoardVO> listBoards()throws Exception{
-		return userDAO.selectAllBoardsList();
+	public List<BoardVO> listBoards(int page)throws Exception{
+		return userDAO.selectAllBoardsList(page);
 	}
 	
 	@Override
-	public List<BoardVO> eatListBoards()throws Exception{
-		return userDAO.selectEatBoardsList();
+	public List<BoardVO> eatListBoards(int page)throws Exception{
+		return userDAO.selectEatBoardsList(page);
 	}
 	
 	@Override
-	public List<BoardVO> seeListBoards()throws Exception{
-		return userDAO.selectSeeBoardsList();
+	public List<BoardVO> seeListBoards(int page)throws Exception{
+		return userDAO.selectSeeBoardsList(page);
 	}
 	
 	@Override
-	public Map viewBoard(int list_num) throws Exception{
-		Map articleMap = new HashMap();
-		BoardVO boardVO = userDAO.selectBoard(list_num);
-		List<ImageVO> image_fileList = userDAO.selectImageFileList(list_num);
-		articleMap.put("board", boardVO);
-		articleMap.put("image_fileList", image_fileList);
-		return articleMap;
+	public int allListCount()throws Exception{
+		return userDAO.allBoardPaging();
+	}
+	
+	@Override
+	public int eatListCount()throws Exception{
+		return userDAO.eatBoardPaging();
+	}
+	
+	@Override
+	public int seeListCount()throws Exception{
+		return userDAO.seeBoardPaging();
+	}
+	@Override
+	public BoardVO viewBoard(int list_num) throws Exception{
+		return userDAO.selectBoard(list_num);
+		
 	}
 	
 	@Override
 	public int addNewBoard(Map boardMap) throws Exception {
 		int list_num = userDAO.insertNewBoard(boardMap);
 		boardMap.put("list_num", list_num);
-		/* userDAO.insertNewImage(boardMap); */
+		userDAO.insertNewImage(boardMap);
 		return list_num;
 	}
 	
@@ -122,10 +131,37 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public List<ReviewVO> selectReviewavgsum() throws Exception {
+		List<ReviewVO> ReviewList = userDAO.selectReviewavgsum();
+		return ReviewList;
+	}
+	
+	
+	@Override
 	public ReservVO selectStoreInfo(String seller_id) throws Exception{
 		return userDAO.selectStoreInfo2(seller_id);
 	}
 	
+	@Override
+	public int addwish(Map<String, String> listMap) throws DataAccessException {
+		return userDAO.addwish(listMap);
+	}
+	
+	@Override
+	public List<WishVO> selectwish(String user_id) throws Exception {
+		List<WishVO> WishList = userDAO.selectwish(user_id);
+		return WishList;
+	}
+	
+	@Override
+	public int delwish(Map<String, String> listMap) throws DataAccessException {
+		return userDAO.delwish(listMap);
+	}
+	
+	@Override
+	public List selectwishsum() throws DataAccessException {
+		return userDAO.selectwishsum();
+	}
 	@Override
 	public MemberVO login(MemberVO memberVO) throws DataAccessException{
 		return userDAO.loginById(memberVO);

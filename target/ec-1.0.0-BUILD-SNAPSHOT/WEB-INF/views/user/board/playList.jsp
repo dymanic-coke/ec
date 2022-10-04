@@ -3,15 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="URL" value="${pageContext.request.requestURL}" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<%-- 
-<c:set var="articlesList" value="${articlesMap.articlesList}" />
-<c:set var="totArticles" value="${articlesMap.totAricles}" />
-<c:set var="section" value="${articlesMap.section}" />
-<c:set var="pageNum" value="${articlesMap.pageNum}" />
---%>
 <%
 request.setCharacterEncoding("utf-8");
+String viewName = (String)request.getAttribute("viewName");
 %>
 <!DOCTYPE html>
 <html>
@@ -24,7 +20,7 @@ request.setCharacterEncoding("utf-8");
 <style>
 #board {
 	margin-top: 5%;
-	margin-left: 25%;
+	margin-left: 24.5%;
 	margin-bottom: 10%;
 	width: 60%;
 }
@@ -64,6 +60,9 @@ request.setCharacterEncoding("utf-8");
 	width: 100%;
 	vertical-align: center;
 }
+.paging {
+	padding-left: 0 auto;
+}
 </style>
 <script>
 	function fn_boardForm(isLogOn, boardForm, loginForm) {
@@ -84,12 +83,7 @@ request.setCharacterEncoding("utf-8");
 </head>
 <body>
 	<section id="board">
-		<div class="btn-group">
-			<a href="${contextPath}/user/u_board" class="btn btn-primary">전체</a> 
-			<a href="${contextPath}/user/u_board/eatpl" class="btn btn-primary">먹플리</a> 
-			<a href="${contextPath}/user/u_board/seepl" class="btn btn-primary">볼플리</a>
-		</div>
-		<br><br>
+		
 		<table align="center" width="80%" class="table table-hover" >
 			<thead height="10" align="center" id="non-hover">
 				<td></td>
@@ -125,10 +119,17 @@ request.setCharacterEncoding("utf-8");
 									</td>
 								</c:otherwise>
 							</c:choose>
-							<td width="10%">${fn:length(boardsList)-boardNum.index}</td>
+								<c:choose>
+								<c:when test="${paging.nowPage == 1 }">
+									<td width="10%">${paging.boardCount-boardNum.index}</td>
+								</c:when>
+								<c:otherwise>
+									<td width="10%">${paging.boardCount-((paging.nowPage-1)*10)-boardNum.index}</td>
+								</c:otherwise>
+								</c:choose>
 							<td width="10%">${board.user_id}</td>
 							<td align="center" width="35%">${board.u_title}</td>
-							<td width="15%"><fmt:formatDate value="${board.mod_date}" /></td>
+							<td width="15%"><fmt:formatDate value="${board.reg_date}" /></td>
 							<td width="10%">${board.hits}</td>
 						</tr>
 						</a>
@@ -136,6 +137,47 @@ request.setCharacterEncoding("utf-8");
 				</c:when>
 			</c:choose>
 		</table>
+		<nav class="paging">
+  			<ul class="pagination pg-darkgrey">
+  			<c:if test="${paging.prev == 'false'}">
+    			<li class="page-item">
+      				<a class="page-link" aria-label="Previous" href="">
+        				<span aria-hidden="true">&laquo;</span>
+        				<span class="sr-only">Previous</span>
+      				</a>
+    			</li>
+    		</c:if>
+    		<c:if test="${paging.prev == 'true'}">
+    			<li class="page-item">
+      				<a class="page-link" aria-label="Previous" href="${contextPath}/<%=viewName%>?page=${paging.startPage -1}">
+        				<span aria-hidden="true">&laquo;</span>
+        				<span class="sr-only">Previous</span>
+      				</a>
+    			</li>
+    		</c:if>
+    		<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+    			<li <c:out value="${paging.nowPage == i ? 'class= page-item active' : 'class=page-item'}"/>>
+    			<a class="page-link" href="${contextPath}/<%=viewName%>?page=${i}">${i}</a>
+    			</li>
+    		</c:forEach>
+    		<c:if test="${paging.next == 'false'}">
+    			<li class="page-item">
+      				<a class="page-link" aria-label="Next"  href="">
+        				<span aria-hidden="true">&raquo;</span>
+        				<span class="sr-only">Next</span>
+      				</a>
+    			</li>
+    		</c:if>
+    		<c:if test="${paging.next == 'true'}">
+    			<li class="page-item">
+      				<a class="page-link" aria-label="Next"  href="${contextPath}/<%=viewName%>?page=${paging.endPage + 1}">
+        				<span aria-hidden="true">&raquo;</span>
+        				<span class="sr-only">Next</span>
+      				</a>
+    			</li>
+    		</c:if>
+  			</ul>
+		</nav>
 		<button type="button" class="btn btn-light" id="writeBoard" onClick="fn_boardForm('${isLogOn}', '${contextPath}/user/u_board/boardForm', '${contextPath}/member/loginForm.do')">글쓰기</button>
 	</section>
 </body>

@@ -5,23 +5,19 @@
 <%
 	request.setCharacterEncoding("utf-8");
 %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
- <c:set var="contextPath" value="${pageContext.request.contextPath}" />
- 
+
  <!--autosize js  -->
  <script src="${contextPath }/js/autosize.min.js"></script>
  <script src="${contextPath }/js/autosize.js"></script>
  
  <!--ajax -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-
- 
- 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
  <!-- Bootstrap CSS,js -->
 <script
    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -200,7 +196,7 @@ li {
 	z-index: 1;
 	top:0;
 	overflow-x:hidden;
-	overflow-y:auto; 
+	overflow-y:auto; 
 
 }
 
@@ -774,7 +770,7 @@ svg:not(:root) {
 }
 
 .Jxtsc .tpj9w:last-child {
-    padding: 0 20px 0 12px;
+    padding: 0 35px 0 12px;
 }
 
 .Jxtsc .veBoZ {
@@ -1717,6 +1713,7 @@ path[Attributes Style] {
     font-weight: bold;
     color: #424242;
     /* color: rgba(var(--place-color-text3), 1); */
+    
 }
 
 .Xj_yJ .m7jAR {
@@ -2037,6 +2034,14 @@ path[Attributes Style] {
   white-space: normal;
 }
 
+em {
+	font-style:normal;
+	font-weight: bold;
+}
+
+/*리뷰 별점  */
+
+
 
 </style>
 
@@ -2124,35 +2129,39 @@ $(document).ready(function() {
 
 
 /* 더보기  */
-function btnmore(){
-	var feedMore = document.getElementById("reviewcon");
-	var status = feedMore.classList.toggle("more");
+function btnmore(moreOpenid,reviewconid){
+	var moreOpen = moreOpenid;
+	/* var feedMore = document.getElementById(reviewconid); */
+	var status = reviewconid.classList.toggle("more");
 	
 	if (status == true) {
-		$('.moreOpen').html('닫기');
+		$(moreOpen).html('닫기');
 	} else {
-		$('.moreOpen').html('더보기');
+		$(moreOpen).html('더보기');
 	}
 
 }
 
 /* 리뷰 좋아요 up */
-function likeValidation(){
-	var documentId = "1";
-	like(documentId);
+function likeValidation(review_num,likenumid){
+	var review_num = review_num;
+	var likenumid = likenumid;
+	like(review_num,likenumid);
 }
 
-function like(documentId) {
+function like(review_num,likenumid) {
+	var likenumid = likenumid;
 	$.ajax({
-		url:"${contextPath}/reviewlike.do?review_num=1",
+		url:"${contextPath}/reviewlike.do?review_num=" + review_num,
 		type : 'POST',
 		dataType:"text",
 		data : {
-			review_num : documentId
+			review_num : review_num
+			
 		},
 	    success: function (data) {
 	    	console.log("성공");
-	    	$('#likenum').html(data);
+	    	$(likenumid).html(data);
         },
         error: function(request, status, error, data) {
         	console.log("error: " + error);
@@ -2160,14 +2169,12 @@ function like(documentId) {
         	console.log("Data::::: " + data);
         	
         }
-/* 		
-		success: function(data) {
-			alert("data:::" + data);
-			
-		} */
 	});
 }
 
+
+
+/*리뷰 별점 표시  */
 
 
   
@@ -2198,16 +2205,34 @@ $(".tab_cont > div").eq(idx).show();
 </head>
 <body>
 <!--지도  -->
-<div id="map" style="width:100%;height:970px; z-index:-1;"></div>
+<div id="map" style="width:100%;height:970px;"></div>
 <script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new kakao.maps.LatLng(37.5666805, 126.9784147), // 지도의 중심좌표
         level: 8 // 지도의 확대 레벨
     };
-    
+
 //지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
+var geocoder = new kakao.maps.services.Geocoder(); 
+var list =[];
+
+<c:forEach items="${StoreList}" var="item">
+list.push({addr:'${item.seller_addr}', name:'${item.seller_name}'});
+</c:forEach>
+list.forEach(function(sell, index){
+	geocoder.addressSearch(sell.addr,function(result, status){
+		if (status === daum.maps.services.Status.OK) {
+		    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		 var marker = new kakao.maps.Marker({
+			 map:map,
+			 position: coords,
+			 title: sell.name
+		}); 
+		};
+	});
+	});
 //서울로 화면 이동
 function setMap(value) {            
     // 이동할 위도 경도 위치를 생성합니다 
@@ -2250,7 +2275,7 @@ function setMap(value) {
 }
 
 // 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다
-var geocoder = new kakao.maps.services.Geocoder();
+
 
 </script>
 
@@ -2331,7 +2356,7 @@ var geocoder = new kakao.maps.services.Geocoder();
   <%--<button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
     <%=searcharea %>
   </button> --%>
-  <select name="area" class="btn btn-primary dropdown-toggle" style="width:130px" onchange="setMap(this.value)">
+  <select name="area" class="btn btn-primary dropdown-toggle" style="width:130px;" onchange="setMap(this.value)">
   	<option class="dropdown-item" style="background-color: white;" hidden><%=searcharea %></option>
   	<option class="dropdown-item" style="background-color: white;" value="null">전체</option>
   	<option class="dropdown-item" style="background-color: white;"  value="서울특별시" <c:if test="${area eq '서울특별시'}">selected</c:if>>서울특별시</option>
@@ -2376,7 +2401,7 @@ var geocoder = new kakao.maps.services.Geocoder();
     </div>
     </form>
     
-<hr style="margin-right: 10px;">
+<hr>
     
 <!--검색 결과 리스트 -->
 <c:choose>
@@ -2405,7 +2430,7 @@ var geocoder = new kakao.maps.services.Geocoder();
 						<div class="CB8aP" data-nclicks-area-code="btp" >
 						<!-- <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" style="float:right"></button> -->
 							<div class="uDR4i fnRPu">
-							<img alt="가게이미지" src="image/store_img/${store.image_fileName }" width="362">
+							<img alt="가게이미지" src="${contextPath}/image/store_img/${store.image_fileName }" width="362">
 <!-- 								<div class="CEX4u">
 								
 									<div class="fNygA">
@@ -2501,7 +2526,7 @@ var geocoder = new kakao.maps.services.Geocoder();
 										</svg>찜하기
 										</a>
 									</span>
-									<span class="yxkiA">
+<!-- 									<span class="yxkiA">
 									<a href="javascript:openPop()" id="_btp.share" class="D_Xqt naver-splugin spi_sns_share" target="_self" data-style="type_a" data-title="임천정육식당 대전 동구 백룡로6번길 104"
 										data-line-template-type="custom_web" data-line-title="임천정육식당"
 										data-line-description="대전 동구 백룡로6번길 104"
@@ -2520,12 +2545,12 @@ var geocoder = new kakao.maps.services.Geocoder();
 										<path d="M15.6 17.6H1.4V6.4h4.58V5H0v14h17v-4.35h-1.4v2.95zm-4.18-8.26h3.03v3.47L20 7.41 14.45 2v3.35h-3.03c-3.6 0-5.66 3.53-5.97 7.7 0 0 1.42-3.71 5.96-3.71z"></path>
 										</svg>공유</a>
 									</a>
-										</span>
+										</span> -->
 								</div>
 								
 							</div>
 							<!-- 링크공유 -->
-							<div class="popup_layer" id="popup_layer" style="display: none;">
+<%-- 							<div class="popup_layer" id="popup_layer" style="display: none;">
 							  <div class="popup_box">
 							      <div style="height: 10px; width: 375px; float: top;">
 							        <a href="javascript:closePop();"><img src="image/ic_close.svg" class="m_header-banner-close" width="30px" height="30px"></a>
@@ -2549,12 +2574,12 @@ var geocoder = new kakao.maps.services.Geocoder();
 							          <a href="javascript:closePop();">닫기</a>
 							      </div>
 							  </div>
-							</div>
+							</div> --%>
 							
 							<div class="UoIF_ Afmx0 cgBhJ">
 								<div class="gR5KI">
 									<span class="yxkiA">
-									<a href="#" arget="_self" role="button" class="D_Xqt ">
+									<a href="${contextPath }/reservation.do" arget="_self" role="button" class="D_Xqt ">
 	
 										<span class="yJySz">예약</span></a></span>
 								</div>
@@ -2571,17 +2596,21 @@ var geocoder = new kakao.maps.services.Geocoder();
 									<div class="flicking-viewport"
 										style="user-select: none; -webkit-user-drag: none; touch-action: pan-y;">
 										<div class="flicking-camera tab_title" id="" style="transform: translate(0px);">
-											<a href="#home" role="tab" class="tpj9w _tab-menu on" aria-selected="true" title="" id="" style="width: 96px;">
+											<a href="#home" role="tab" class="tpj9w _tab-menu on" aria-selected="true" title="" id="" style="width: 120px;">
 											<span class="veBoZ">홈</span>
 											</a>
-											<a href="#menu" target="_self" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="tab_title" style="width: 96px;">
+											<a href="#menu" target="_self" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="tab_title" style="width: 120px;">
 											<span class="veBoZ">메뉴</span></a>
-											<a href="#review" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 96px;">
+											<a href="#review" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;">
 											<span class="veBoZ" >리뷰</span>
 											</a>
-											<a href="#reserve" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 96px;">
+<!-- 											<a href="#reserve" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 110px;">
+											<span class="veBoZ">예약</span>
+											</a> -->
+											
+<!-- 											<a href="#reserve" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 96px;">
 											<span class="veBoZ" >예약</span>
-											</a>
+											</a> -->
 										</div>
 									</div>
 								</div>
@@ -2803,7 +2832,7 @@ var geocoder = new kakao.maps.services.Geocoder();
 																	<span class="zPfVt">
 																	${review.content }
 																	</span>
-																	<a href="#" onclick="btnmore();" class="moreOpen">더보기</a>
+																	<a href="#" onclick="btnmore();" id="">더보기</a>
 <!-- 																	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7" class="Ky28p" aria-hidden="true">
 																		<path d="M11.47.52a.74.74 0 00-1.04 0l-4.4 4.45v.01L1.57.52A.74.74 0 10.53 1.57l5.12 5.08a.5.5 0 00.7 0l5.12-5.08a.74.74 0 000-1.05z"></path>
 																		</svg>
@@ -2879,336 +2908,41 @@ var geocoder = new kakao.maps.services.Geocoder();
 										<div class="place_section no_margin">
 											<div class="place_section_content">
 												<ul class="ZUYk_">
+												<c:forEach var="menu" items="${menuList }" varStatus="menuNum">
+												<c:if test="${menu.seller_id eq store.seller_id}">
+												
 													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_0" role="button"
+														href="#" role="button"
 														class="qpNnn"><div class="r8zp9">
 																<div class="place_thumb vMMzE">
 																	<div class="K0PDV"
 																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20170321_210%2F1490090806016JftY6_JPEG%2Fb78c8c09-6efb-4232-ac94-f96cc0a7811c.jpeg&quot;);">
-																		<span class="place_blind">마르게리따 피자(화덕피자)</span>
+																		<span class="place_blind">${menu.pro_name }</span>
 																	</div>
 																</div>
 															</div>
 															<div class="LZ3Zm">
 																<div class="pr1Qk">
 																	<div class="MR0bc">
-																		<span class="Sqg65">마르게리따 피자(화덕피자)</span><span
-																			class="GPETv"><svg
+																		<span class="Sqg65">${menu.pro_name }</span>
+																		<!-- <span class="GPETv">
+																			<svg
 																				xmlns="http://www.w3.org/2000/svg"
 																				viewBox="0 0 29 16" class="Udax8" aria-hidden="true">
 																				<path fill="#ffaf3b"
 																					d="M8 0h13c4.4 0 8 3.6 8 8s-3.6 8-8 8H8c-4.4 0-8-3.6-8-8s3.6-8 8-8z"></path>
 																				<path fill="#fff"
 																					d="M13.7 12.9h-1.2V8h-.9v4.5h-1.2V3.2h1.2v3.7h.9V3.1h1.2v9.8zM6.9 9.5c1 0 2.2-.1 2.8-.2l.1 1c-.7.2-2.2.3-3.3.3h-.9V4.2h3.7v1H6.9v4.3zm16.5 2.1h-8.9v-1h2.2V8.7H18v1.9h1.9V8.7h1.3v1.9h2.2v1zm-.9-3.3h-7.2v-1h1.4l-.2-1.8 1.3-.1.1 2H20l.3-2 1.2.2-.3 1.8h1.3v.9zm.1-3.5h-7.2v-1h7.2v1z"></path></svg><span
-																			class="place_blind">대표</span></span>
+																			class="place_blind">대표</span></span> -->
 																	</div>
 																</div>
 																<div class="TvLl7">
 																	<div class="eCaG_"></div>
 																</div>
-																<div class="SSaNE">18,000원</div>
+																<div class="SSaNE">${menu.pro_price } 원</div>
 															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_1" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220630_1%2F1656575204422iRiAG_PNG%2F%25C7%25C3%25B6%25F3%25C0%25D7%25C6%25D2%25C6%25C4%25BD%25BA%25C5%25B8.png&quot;);">
-																		<span class="place_blind">파스타 플라잉팬</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">파스타 플라잉팬</span><span class="GPETv"><svg
-																				xmlns="http://www.w3.org/2000/svg"
-																				viewBox="0 0 29 16" class="Udax8" aria-hidden="true">
-																				<path fill="#ffaf3b"
-																					d="M8 0h13c4.4 0 8 3.6 8 8s-3.6 8-8 8H8c-4.4 0-8-3.6-8-8s3.6-8 8-8z"></path>
-																				<path fill="#fff"
-																					d="M13.7 12.9h-1.2V8h-.9v4.5h-1.2V3.2h1.2v3.7h.9V3.1h1.2v9.8zM6.9 9.5c1 0 2.2-.1 2.8-.2l.1 1c-.7.2-2.2.3-3.3.3h-.9V4.2h3.7v1H6.9v4.3zm16.5 2.1h-8.9v-1h2.2V8.7H18v1.9h1.9V8.7h1.3v1.9h2.2v1zm-.9-3.3h-7.2v-1h1.4l-.2-1.8 1.3-.1.1 2H20l.3-2 1.2.2-.3 1.8h1.3v.9zm.1-3.5h-7.2v-1h7.2v1z"></path></svg><span
-																			class="place_blind">대표</span></span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">16,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_2" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200928_294%2F16012748116391XSlI_JPEG%2FFirSoXFvAFBFIDPqt13VwcgH.JPG.jpg&quot;);">
-																		<span class="place_blind">뽈로스테이크(치킨)</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">뽈로스테이크(치킨)</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">19,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_3" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20170321_84%2F1490090806081AM3RB_JPEG%2F4970a537-7c7f-42b6-a427-f69578187e37.jpeg&quot;);">
-																		<span class="place_blind">루꼴라 피자(화덕피자)</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">루꼴라 피자(화덕피자)</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">20,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_4" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20170321_288%2F1490090806209b1tMb_JPEG%2F8e70ada1-f759-4568-ba1d-679935f6d102.jpeg&quot;);">
-																		<span class="place_blind">버섯크림 피자(화덕피자)</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">버섯크림 피자(화덕피자)</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">20,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_5" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200928_150%2F1601274649854QGIGs_JPEG%2F2ckBgzJdPC89gp7rzrfH91oJ.JPG.jpg&quot;);">
-																		<span class="place_blind">데미오믈렛</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">데미오믈렛</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">15,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_6" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200928_202%2F1601274667528bRKJn_JPEG%2F3OqMDH9YjrW7isH6_PQo3VMD.JPG.jpg&quot;);">
-																		<span class="place_blind">디아볼라피자</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">디아볼라피자</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">19,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_7" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200928_112%2F1601274717319EuzAT_JPEG%2FyH0YArvYh07gjC84CoSDlbW0.JPG.jpg&quot;);">
-																		<span class="place_blind">한우 안심 스테이크</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">한우 안심 스테이크</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">43,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_8" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200928_219%2F1601274745304zajuz_JPEG%2F4tp6-L3xumPDUtYcnT1vnQa7.JPG.jpg&quot;);">
-																		<span class="place_blind">바베큐 폭립</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">바베큐 폭립</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">35,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_9" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200928_121%2F16012747849109WDHt_JPEG%2FEN3CEqqly57IUQ2d1U3EZCUN.JPG.jpg&quot;);">
-																		<span class="place_blind">꽈리 크림 스테이크 파스타</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">꽈리 크림 스테이크 파스타</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">17,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_10" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220630_174%2F1656575281881Gy14g_PNG%2F%25C0%25CC%25C5%25BB%25B8%25AE%25BE%25C8%25C5%25AC%25B7%25A1%25BD%25C4.png&quot;);">
-																		<span class="place_blind">이탈리안 클래식 파스타</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">이탈리안 클래식 파스타</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">14,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_11" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220630_200%2F1656575294224OmwQf_PNG%2F%25C6%25C4%25BD%25BA%25C5%25B8153.png&quot;);">
-																		<span class="place_blind">파스타 153</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">파스타 153</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">15,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_12" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220630_202%2F1656575312434mQ5aR_PNG%2F%25C6%25E4%25C6%25DB%25B7%25CE%25B4%25CF.png&quot;);">
-																		<span class="place_blind">페퍼로니피자</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">페퍼로니피자</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">15,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_13" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220630_299%2F1656575322289VwpDI_PNG%2F%25C4%25E2%25C6%25AE%25B7%25CE%25C6%25F7%25B8%25A3%25B8%25B6%25C1%25F6%25BF%25C0.png&quot;);">
-																		<span class="place_blind">콰트로 포르마지오</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">콰트로 포르마지오</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">19,000원</div>
-															</div></a></li>
-													<li class="P_Yxm"><a
-														href="/restaurant/16045148/menu/16045148_14" role="button"
-														class="qpNnn"><div class="r8zp9">
-																<div class="place_thumb vMMzE">
-																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220630_39%2F1656575344780biF4d_PNG%2F%25C6%25C4%25BD%25BA%25C5%25B8%25C7%25C7%25C4%25AD%25C5%25D7.png&quot;);">
-																		<span class="place_blind">파스타 피칸테</span>
-																	</div>
-																</div>
-															</div>
-															<div class="LZ3Zm">
-																<div class="pr1Qk">
-																	<div class="MR0bc">
-																		<span class="Sqg65">파스타 피칸테</span>
-																	</div>
-																</div>
-																<div class="TvLl7">
-																	<div class="eCaG_"></div>
-																</div>
-																<div class="SSaNE">16,000원</div>
-															</div></a></li>
+													</c:if>
+													</c:forEach>
 												</ul>
 												<div class="KPQDP">메뉴 항목과 가격은 각 매장의 사정에 따라 기재된 내용과 다를
 													수 있습니다.</div>
@@ -3245,20 +2979,25 @@ var geocoder = new kakao.maps.services.Geocoder();
 						
 							<!--review:start  -->
 									<div data-nclicks-area-code="rrv" id="review">
+									
 										<div class="place_section lcndr Xj_yJ">
+										<c:forEach var="rev" items="${reviewavgsum }" varStatus="reviewNum">
+										<c:if test="${rev.seller_id eq store.seller_id}">
 											<h2 class="place_section_header">
-												리뷰<span class="place_section_count">314</span>
+												리뷰<span class="place_section_count">${rev.review_count }</span>
 											<span class="m7jAR ohonc">
 												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" class="SuAGt" aria-hidden="true">
 												<path d="M8.26 4.68h4.26a.48.48 0 01.28.87L9.35 8.02l1.33 4.01a.48.48 0 01-.18.54.48.48 0 01-.56 0l-3.44-2.5-3.44 2.5a.48.48 0 01-.74-.54l1.33-4L.2 5.54a.48.48 0 01.28-.87h4.26l1.3-4a.48.48 0 01.92 0l1.3 4z">
 												</path>
 												</svg>
-												<em>4.4</em>
+												<em>${rev.rating_avg }</em>
 											</span>
 											<div class="Qo7sP">
-														평균 별점은 <em>21년 10월</em>까지 참여한 결과입니다.
+														총 리뷰 개수는 <em>${rev.review_count }</em> 평균 별점은 <em>${rev.rating_avg }</em>입니다.
 											</div>
 											</h2>
+											</c:if>
+											</c:forEach>
 											<div class="place_section_content">
 												<div id="_tag_filters"></div>
 												<ul class="eCPGL" style="padding:0; margin-bottom: 0">
@@ -3267,18 +3006,38 @@ var geocoder = new kakao.maps.services.Geocoder();
 													<div style="border-bottom: 1px solid #ecf0f2">
 													<li class="YeINN"><div class="Lia3P">
 															<a
-																href="https://m.place.naver.com/my/5bd43c058587be8df589300f/review?v=2"
+																href="#"
 																target="_blank" role="button" class="DqSJm"><div
 																	class="place_thumb">
 																	<img
 																		src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png"
 																		class="sKXBJ" alt="프로필" width="38" height="38">
 																</div></a>
-																<a href="https://m.place.naver.com/my/5bd43c058587be8df589300f/review?v=2" target="_blank" role="button" class="Hazns">
+																<a href="#" target="_blank" role="button" class="Hazns">
 																<div class="sBWyy">${review.seller_id }</div>
-<!-- 																<div class="Qde7Q">
-																	<span class="P1zUJ" style="font-size:small; color:#8f8f8f;">리뷰 286</span>
-																</div> -->
+																<div class="Qde7Q">
+																	<span class="P1zUJ" style="font-size:small; color:#8f8f8f;">
+																	
+																	
+																	
+																	<!-- 별점 -->
+																		<div style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	BACKGROUND: url(image/icon_star2.gif) 0px 0px;	FLOAT: left;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+																			<p style="WIDTH: ${review.rating_percent}%; PADDING-RIGHT:0px;	PADDING-LEFT:0px;	BACKGROUND: url(image/icon_star.gif) 0px 0px;	PADDING-BOTTOM: 0px;	MARGIN: 0px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
+																				
+																			</p>
+																		</div>
+																		<div>
+																		<b style="margin-left:5px;font-size:small; color:#8f8f8f;">${review.rating}</b>
+																				<%-- <span style="margin-left:90px;font-size:small; color:#8f8f8f;">
+																				${review.rating + 0.0}
+																				</span> --%>
+																		</div>
+
+																	
+																	
+																	
+																	</span>
+																</div> 
 																</a>
 														</div>
 
@@ -3286,11 +3045,11 @@ var geocoder = new kakao.maps.services.Geocoder();
 															<a id="#" href="#" target="_self" role="button"
 																aria-expanded="false" class="xHaT3"
 																style="display: block;">
-																<span class="zPfVt" id="reviewcon"> <!--id="reviewcon"  -->
+																<span class="zPfVt" id="reviewcon${reviewNum.index}"> <!--id="reviewcon"  -->
 																${review.content}
         														</span>
 																	<span class="rvCSr">
-																	<a href="#" onclick="btnmore();" class="moreOpen" style="font-size:small; color:#8f8f8f;">더보기</a>
+																	<a href="#" onclick="btnmore(moreOpen${reviewNum.index}, reviewcon${reviewNum.index});" id="moreOpen${reviewNum.index}" style="font-size:small; color:#8f8f8f;">더보기</a>
 <!-- 																	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7" class="Ky28p" aria-hidden="true" >
 																		<path d="M11.47.52a.74.74 0 00-1.04 0l-4.4 4.45v.01L1.57.52A.74.74 0 10.53 1.57l5.12 5.08a.5.5 0 00.7 0l5.12-5.08a.74.74 0 000-1.05z"></path>
 																	</svg> -->
@@ -3299,21 +3058,19 @@ var geocoder = new kakao.maps.services.Geocoder();
 															</a>
 														</div>
 														<div class="gyAGI">
-														<c:set var="reviewnum" value="${review.review_num }"></c:set>
+														
 															<span class="P1zUJ">
-															<a href="#" onclick="likeValidation();">
+															<a href="#" onclick="likeValidation(${review.review_num },likenum${reviewNum.index});">
 															<img src="image/thumb_up.png" class="PtIou" alt="" width="18" height="18">리뷰가 도움이 됐어요
 															</a>
 															</span>
-															<span target="_self" role="button" class="P1zUJ ZGKcF" aria-haspopup="true" aria-expanded="false">+<span id="likenum">${review.liked}</span>
+															<span target="_self" role="button" class="P1zUJ ZGKcF" aria-haspopup="true" aria-expanded="false">+<span id="likenum${reviewNum.index}">${review.liked}</span>
 															<span class="place_blind">개의 좋아요가 있습니다</span><span class="place_blind">펼쳐보기</span></span>
 														</div>
 														<div class="sb8UA">
 															<span class="P1zUJ"><span class="place_blind">최근
 																	방문일</span>
-															<time aria-hidden="true">8.26.금</time><span
-																class="place_blind">2022년 8월 26일 금요일</span></span><span
-																class="P1zUJ">1번째 방문</span><span class="P1zUJ">영수증</span>
+															<time aria-hidden="true">${review.reg_date}</time></span>
 														</div>
 														</li>
 														</div>
@@ -3356,13 +3113,25 @@ var geocoder = new kakao.maps.services.Geocoder();
 						
 						
 						
+						
+						
+						
+						
+						
+						
 						</div>
 						</div>
 					</div>
 					</div>
 
+
 				
   			<!-- </a> -->
+  			
+  			
+  			
+  		
+  			
   			
   			
   			</c:forEach>

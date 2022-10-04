@@ -3,15 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="URL" value="${pageContext.request.requestURL}" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<%-- 
-<c:set var="articlesList" value="${articlesMap.articlesList}" />
-<c:set var="totArticles" value="${articlesMap.totAricles}" />
-<c:set var="section" value="${articlesMap.section}" />
-<c:set var="pageNum" value="${articlesMap.pageNum}" />
---%>
 <%
 request.setCharacterEncoding("utf-8");
+String viewName = (String)request.getAttribute("viewName");
 %>
 <!DOCTYPE html>
 <html>
@@ -23,10 +19,7 @@ request.setCharacterEncoding("utf-8");
 	crossorigin="anonymous">
 <style>
 #board {
-	margin-top: 5%;
-	margin-left: 25%;
-	margin-bottom: 10%;
-	width: 60%;
+	margin: 5% 20% 10% 20%;
 }
 #non-hover {
 	pointer-events: none;
@@ -64,12 +57,20 @@ request.setCharacterEncoding("utf-8");
 	width: 100%;
 	vertical-align: center;
 }
+.paging {
+	padding-left: 0 auto;
+}
+.btn-group{
+	width: 100%;
+	height: 70px;
+}
 </style>
 <script>
 	function fn_boardForm(isLogOn, boardForm, loginForm) {
 		if (isLogOn != '' && isLogOn != 'false') {
 			location.href = boardForm;
 		} else {
+			$('#writeBoard').attr("disabled", true);
 			alert("로그인 후 글쓰기가 가능합니다.(임시 작업중)")
 			location.href = boardForm;
 		}
@@ -84,15 +85,14 @@ request.setCharacterEncoding("utf-8");
 </head>
 <body>
 	<section id="board">
-		<div class="btn-group">
-			<a href="${contextPath}/user/u_board" class="btn btn-primary">전체</a> 
-			<a href="${contextPath}/user/u_board/eatpl" class="btn btn-primary">먹플리</a> 
-			<a href="${contextPath}/user/u_board/seepl" class="btn btn-primary">볼플리</a>
+		<div class="btn-group" role="group" aria-label="Horizontal Button Group">
+			<button type="button" class="btn btn-primary" onClick="location.href='${contextPath}/user/u_board'">플레이 리스트</button>
+			<button type="button" class="btn btn-warning" onClick="location.href='${contextPath}/user/u_board/eatpl'">먹 . 플 . 리</button>
+			<button type="button" class="btn btn-danger" onClick="location.href='${contextPath}/user/u_board/seepl'">볼 . 플 . 리</button>
 		</div>
-		<br><br>
 		<table align="center" width="80%" class="table table-hover" >
 			<thead height="10" align="center" id="non-hover">
-				<td></td>
+				<td>분류</td>
 				<td>글번호</td>
 				<td>작성자</td>
 				<td>제목</td>
@@ -110,9 +110,8 @@ request.setCharacterEncoding("utf-8");
 					</tr>
 				</c:when>
 				<c:when test="${!empty boardsList}">
-					<c:forEach var="board" items="${boardsList}" varStatus="boardNum">
-					<a class="cls1" href="${contextPath}/user/u_boardView.do?list_num=${board.list_num}">
-						<tr align="center" class="table-primary" onClick="location.href='${contextPath}/user/u_board/u_boardView.do?list_num=${board.list_num}'">
+					<c:forEach var="board" items="${boardsList}" varStatus="boardNum">				
+						<tr align="center" class="table-primary" onClick="location.href='${contextPath}/user/u_board/u_boardView?list_num=${board.list_num}'">
 							<c:choose>
 								<c:when test="${board.category_code==1}">
 								<td width="10%">
@@ -125,17 +124,64 @@ request.setCharacterEncoding("utf-8");
 									</td>
 								</c:otherwise>
 							</c:choose>
-							<td width="10%">${fn:length(boardsList)-boardNum.index}</td>
+								<c:choose>
+								<c:when test="${paging.nowPage == 1 }">
+									<td width="10%">${paging.boardCount-boardNum.index}</td>
+								</c:when>
+								<c:otherwise>
+									<td width="10%">${paging.boardCount-((paging.nowPage-1)*10)-boardNum.index}</td>
+								</c:otherwise>
+								</c:choose>
 							<td width="10%">${board.user_id}</td>
 							<td align="center" width="35%">${board.u_title}</td>
-							<td width="15%"><fmt:formatDate value="${board.mod_date}" /></td>
+							<td width="15%"><fmt:formatDate value="${board.reg_date}" /></td>
 							<td width="10%">${board.hits}</td>
 						</tr>
-						</a>
 					</c:forEach>
 				</c:when>
 			</c:choose>
 		</table>
+		<nav class="paging">
+  			<ul class="pagination pg-darkgrey">
+  			<c:if test="${paging.prev == 'false'}">
+    			<li class="page-item">
+      				<a class="page-link" aria-label="Previous" href="">
+        				<span aria-hidden="true">&laquo;</span>
+        				<span class="sr-only">Previous</span>
+      				</a>
+    			</li>
+    		</c:if>
+    		<c:if test="${paging.prev == 'true'}">
+    			<li class="page-item">
+      				<a class="page-link" aria-label="Previous" href="${contextPath}<%=viewName%>?page=${paging.startPage -1}">
+        				<span aria-hidden="true">&laquo;</span>
+        				<span class="sr-only">Previous</span>
+      				</a>
+    			</li>
+    		</c:if>
+    		<c:forEach var="i" begin="${paging.startPage}" end="${paging.endPage}">
+    			<li <c:out value="${paging.nowPage == i ? 'class= page-item active' : 'class=page-item'}"/>>
+    			<a class="page-link" href="${contextPath}<%=viewName%>?page=${i}">${i}</a>
+    			</li>
+    		</c:forEach>
+    		<c:if test="${paging.next == 'false'}">
+    			<li class="page-item">
+      				<a class="page-link" aria-label="Next"  href="">
+        				<span aria-hidden="true">&raquo;</span>
+        				<span class="sr-only">Next</span>
+      				</a>
+    			</li>
+    		</c:if>
+    		<c:if test="${paging.next == 'true'}">
+    			<li class="page-item">
+      				<a class="page-link" aria-label="Next"  href="${contextPath}<%=viewName%>?page=${paging.endPage + 1}">
+        				<span aria-hidden="true">&raquo;</span>
+        				<span class="sr-only">Next</span>
+      				</a>
+    			</li>
+    		</c:if>
+  			</ul>
+		</nav>
 		<button type="button" class="btn btn-light" id="writeBoard" onClick="fn_boardForm('${isLogOn}', '${contextPath}/user/u_board/boardForm', '${contextPath}/member/loginForm.do')">글쓰기</button>
 	</section>
 </body>

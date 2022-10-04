@@ -1,6 +1,5 @@
 package com.spring.ec.user.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,41 +12,46 @@ import com.spring.ec.seller.vo.ProductVO;
 import com.spring.ec.seller.vo.SellerVO;
 import com.spring.ec.seller.vo.StoreVO;
 import com.spring.ec.user.vo.BoardVO;
+import com.spring.ec.user.vo.CommentVO;
 import com.spring.ec.user.vo.ImageVO;
 import com.spring.ec.user.vo.MemberVO;
 import com.spring.ec.user.vo.ReservVO;
 import com.spring.ec.user.vo.ReviewVO;
+import com.spring.ec.user.vo.WishVO;
 
 @Repository("userDAO")
 public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	//¸ÔÇÃ¸® º¼ÇÃ¸®
+	//ë¨¹í”Œë¦¬ ë³¼í”Œë¦¬
 	@Override
-	public List selectAllBoardsList() throws DataAccessException{
-		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectAllBoardsList");
+	public List selectAllBoardsList(int page) throws DataAccessException{
+		page = (page-1)*10;
+		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectAllBoardsList", page);
 		return boardsList;
 	}
 	
 	@Override
-	public List selectEatBoardsList() throws DataAccessException{
-		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectEatBoardsList");
+	public List selectEatBoardsList(int page) throws DataAccessException{
+		page = (page-1)*10;
+		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectEatBoardsList", page);
+
 		return boardsList;
 	}
 	
 	@Override
-	public List selectSeeBoardsList() throws DataAccessException{
-		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectSeeBoardsList");
+	public List selectSeeBoardsList(int page) throws DataAccessException{
+		page = (page-1)*10;
+		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectSeeBoardsList", page);
 		return boardsList;
 	}
 	
 	@Override
 	public BoardVO selectBoard(int list_num) throws DataAccessException{
 		return sqlSession.selectOne("mapper.board.selectBoard", list_num);
-		
 	}
-	//ÀÌ¹ÌÁö ÆÄÀÏ ¸®½ºÆ® È£Ãâ
+	//ì´ë¯¸ì§€ íŒŒì¼ ë¦¬ìŠ¤íŠ¸ í˜¸ì¶œ
 	@Override
 	public List selectImageFileList(int list_num) throws DataAccessException {
 		List<ImageVO> imageFileList = null;
@@ -70,19 +74,22 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public void insertNewImage(Map boardMap) throws DataAccessException {
-		List<ImageVO> image_fileList = (ArrayList)boardMap.get("image_fileList");
+		String image_fileName = (String)boardMap.get("image_fileName");
+		System.out.println("DAO"+image_fileName);
 		int list_num = (Integer)boardMap.get("list_num");
 		int image_num = selectNewImage_num();
-		for(ImageVO imageVO : image_fileList) {
-			imageVO.setImage_num(++image_num);
-			imageVO.setList_num(list_num);
-		}
-		sqlSession.insert("mapper.board.insertNewImage", image_fileList);
+		ImageVO imageVO = new ImageVO();
+		imageVO.setImage_num(image_num);
+		imageVO.setList_num(list_num);
+		imageVO.setOrigin_fileName(image_fileName);
+		imageVO.setImage_fileName(image_fileName);
+		
+		sqlSession.insert("mapper.board.insertNewImage", imageVO);
 	}
 	
 	@Override
 	public List selectAllCommentsList(int list_num) throws DataAccessException{
-		List<BoardVO> commentsList = sqlSession.selectList("mapper.board.selectAllCommentsList", list_num);
+		List<CommentVO> commentsList = sqlSession.selectList("mapper.board.selectAllCommentsList", list_num);
 		return commentsList;
 	}
 	
@@ -106,79 +113,129 @@ public class UserDAOImpl implements UserDAO {
 	private int selectNewComment_num() throws DataAccessException {
 		return sqlSession.selectOne("mapper.board.selectNewComment_num");
 	}
-	
-	// Ä«Å×°í¸®
 	@Override
-	public List<SellerVO> selectAllStores() throws Exception {
-		List<SellerVO> articlesList = sqlSession.selectList("mapper.member.selectAllStores");
-		return articlesList;
+	public int eatBoardPaging() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectEatBoardCount");
+	}
+	@Override
+	public int seeBoardPaging() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectSeeBoardCount");
 	}
 	
-	/*Å°¿öµå °Ë»ö*/
 	@Override
-	public List<SellerVO> selectSearchStores(Map<String, String> listMap) throws Exception {
-		List<SellerVO> articlesList = sqlSession.selectList("mapper.member.selectSearchStores",listMap);
-		return articlesList;
+	public int allBoardPaging() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectAllBoardCount");
 	}
 	
-	/*Áö¿ª °Ë»ö*/
-	@Override
-	public List<SellerVO> selectsearcharea(String area) throws Exception {
-		List<SellerVO> articlesList = sqlSession.selectList("mapper.member.selectsearcharea",area);
-		return articlesList;
-	}
-	
-	/*°¡°Ô »ó¼¼ °Ë»ö*/
-	@Override
-	public StoreVO selectstoreInfo(String seller_id) throws Exception {
-		StoreVO articlesList = sqlSession.selectOne("mapper.member.selectstoreInfo",seller_id);
-		return articlesList;
-	}
-	
-	/*¸Ş´º°Ë»ö*/
-	@Override
-	public List<ProductVO> selectMenu() throws Exception {
-		List<ProductVO> articlesList = sqlSession.selectList("mapper.member.selectMenu");
-		return articlesList;
-	}
-	
-	/*¸®ºä*/
-	@Override
-	public List<ReviewVO> selectReview() throws Exception {
-		List<ReviewVO> articlesList = sqlSession.selectList("mapper.member.selectReview");
-		return articlesList;
-	}
-	
-	/*¸®ºä ÁÁ¾Æ¿ä up*/
-	@Override
-	public int updatereviewlike(int review_num) throws Exception {
-		int result = sqlSession.update("mapper.member.updatereviewlike", review_num);
-		return result;
-	}
-	
-	
-	/*¸®ºä ÁÁ¾Æ¿ä select*/
-	@Override
-	public String selectreviewlike(int review_num) throws Exception {
-		String result = sqlSession.selectOne("mapper.member.selectreviewlike", review_num);
-		return result;
-	}
-	// ¿¹¾à
+	// ì¹´å ìŒ“ê³¤ì˜™
+		@Override
+		public List<SellerVO> selectAllStores() throws Exception {
+			List<SellerVO> articlesList = sqlSession.selectList("mapper.member.selectAllStores");
+			return articlesList;
+		}
+		
+		/*ï¿½ê¶ï¿½ì™ï¿½ë±¶ å¯ƒï¿½ï¿½ê¹‹*/
+		@Override
+		public List<SellerVO> selectSearchStores(Map<String, String> listMap) throws Exception {
+			List<SellerVO> articlesList = sqlSession.selectList("mapper.member.selectSearchStores",listMap);
+			return articlesList;
+		}
+		
+		/*ï§ï¿½ï¿½ë¿­ å¯ƒï¿½ï¿½ê¹‹*/
+		@Override
+		public List<SellerVO> selectsearcharea(String area) throws Exception {
+			List<SellerVO> articlesList = sqlSession.selectList("mapper.member.selectsearcharea",area);
+			return articlesList;
+		}
+		
+		/*åª›ï¿½å¯ƒï¿½ ï¿½ê¸½ï¿½ê½­ å¯ƒï¿½ï¿½ê¹‹*/
+		@Override
+		public StoreVO selectstoreInfo(String seller_id) throws Exception {
+			StoreVO articlesList = sqlSession.selectOne("mapper.member.selectstoreInfo",seller_id);
+			return articlesList;
+		}
+		
+		/*ï§ë¶¾ë±å¯ƒï¿½ï¿½ê¹‹*/
+		@Override
+		public List<ProductVO> selectMenu() throws Exception {
+			List<ProductVO> articlesList = sqlSession.selectList("mapper.member.selectMenu");
+			return articlesList;
+		}
+		
+		/*ç”±Ñ‰ëŸ­*/
+		@Override
+		public List<ReviewVO> selectReview() throws Exception {
+			List<ReviewVO> articlesList = sqlSession.selectList("mapper.member.selectReview");
+			return articlesList;
+		}
+		
+		/*ç”±Ñ‰ëŸ­ é†«ë—­ë¸˜ï¿½ìŠ‚ up*/
+		@Override
+		public int updatereviewlike(int review_num) throws Exception {
+			int result = sqlSession.update("mapper.member.updatereviewlike", review_num);
+			return result;
+		}
+		
+		
+		/*ç”±Ñ‰ëŸ­ é†«ë—­ë¸˜ï¿½ìŠ‚ select*/
+		@Override
+		public String selectreviewlike(int review_num) throws Exception {
+			String result = sqlSession.selectOne("mapper.member.selectreviewlike", review_num);
+			return result;
+		}
+		
+		/*ç”±Ñ‰ëŸ­ è¹‚ê¾©ì  ï¿½ë£Šæ´¹ï¿½,ç”±Ñ‰ëŸ­åª›ì’–ë‹”*/
+		@Override
+		public List<ReviewVO> selectReviewavgsum() throws Exception {
+			List<ReviewVO> articlesList = sqlSession.selectList("mapper.member.selectReviewavgsum");
+			return articlesList;
+		}
+		/* ï§¡ï¿½ ï§â‘¸ì¤‰ ç•°ë¶½ï¿½*/
+		@Override
+		public int addwish(Map<String, String> listMap) throws DataAccessException {
+			int result = sqlSession.insert("mapper.member.addwish", listMap);
+			return result;
+		}
+		
+		/* ï§¡ï¿½ ï§â‘¸ì¤‰ ï¿½ê¶˜ï¿½ì £*/
+		@Override
+		public int delwish(Map<String, String> listMap) throws DataAccessException {
+			int result = sqlSession.delete("mapper.member.delwish", listMap);
+			return result;
+		}
+		
+		
+		
+		/*æ¿¡ì’“ë ‡ï¿½ì”¤ ï§¡ï¿½ ï§â‘¸ì¤‰ è­°ê³ ì‰¶*/
+		@Override
+		public List<WishVO> selectwish(String user_id) throws Exception {
+			List<WishVO> articlesList = sqlSession.selectList("mapper.member.selectwish",user_id);
+			return articlesList;
+		}
+		
+		/*ê°€ê²Œ ë³„ ì°œê°œìˆ˜*/
+		@Override
+		public List selectwishsum() throws DataAccessException {
+			List result = sqlSession.selectList("mapper.member.selectwishsum");
+			return result;
+		}
+	// ì˜ˆì•½
 	
 	@Override 
 	public ReservVO selectStoreInfo2(String seller_id) throws DataAccessException{ 
 		return sqlSession.selectOne("mapper.reserv.selectStoreInfo", seller_id); 
 	}
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 	@Override
 	public MemberVO loginById(MemberVO memberVO) throws DataAccessException {
 		MemberVO vo = sqlSession.selectOne("mapper.member.loginById", memberVO);
 		return vo;
 	}
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	@Override
 	public int insertMember(MemberVO memberVO) throws DataAccessException {
 		int result = sqlSession.insert("mapper.member.insertMember", memberVO);
 		return result;
 	}
+	
 }

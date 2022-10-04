@@ -61,7 +61,7 @@ function setBusan() {
 var geocoder = new kakao.maps.services.Geocoder();
 
 // 주소로 좌표를 검색합니다
-/* for(i= 0; i<${seller.length}; i++){
+for(i= 0; i<${seller.length}; i++){
 	var addr= ${seller.seller_addr[i]};
 	var titles = ${seller.Seller_name[i]};
 geocoder.addressSearch(addr[i], function(result, status) {
@@ -78,6 +78,6 @@ geocoder.addressSearch(addr[i], function(result, status) {
         });
     } 
 });
-}; */
+};
 </script>
 </html>
