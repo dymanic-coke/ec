@@ -1,3 +1,5 @@
+
+
 <!-- 되는거임!!! tiles 없앨방법 알아보기!!  -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
@@ -50,14 +52,11 @@
 	max-height:969px;
 	min-width:100%;  /* 1900  */
 } 
-
-
 .togglebtn {
 	position: absolute;
 	right:50px;
 	top:10px;
 }
-
     
     /* 먹거리, 먹플리 버튼  */
     #eat {
@@ -83,7 +82,6 @@
 	.section ul li {
 	float:left;
 	} */
-
 	 /* 볼거리, 볼플리 버튼  */
     #see {
 	position: absolute;
@@ -131,11 +129,9 @@
 	function myFunction() {
 	    document.getElementById("myDropdown").classList.toggle("show");
 	}
-
 	// Close the dropdown menu if the user clicks outside of it
 	window.onclick = function(event) {
 	  if (!event.target.matches('.dropbtn')) {
-
 	    var dropdowns = document.getElementsByClassName("dropdown-content");
 	    var i;
 	    for (i = 0; i < dropdowns.length; i++) {
@@ -157,7 +153,6 @@
        item.addEventListener('mousewheel', function(event){
          event.preventDefault();
          let delta = 0;
-
          if (!event) event = window.event;
          if (event.wheelDelta) {
              delta = event.wheelDelta / 120;
@@ -165,10 +160,8 @@
          } 
          else if (event.detail)
              delta = -event.detail / 3;
-
          let moveTop = window.scrollY;
          let elmSelector = elm[index];
-
          // wheel down : move to next section
          if (delta < 0){
            if (elmSelector !== elmCount-1){
@@ -185,7 +178,6 @@
              }catch(e){}
            }
          }
-
          const body = document.querySelector('html');
          window.scrollTo({top:moveTop, left:0, behavior:'smooth'});
        });
@@ -264,30 +256,38 @@
     
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
-      	<h5 class="offcanvas-title" id="offcanvasNavbarLabel">로그인이 필요합니다.<br></h5>
+      <!-- 사용자 로그인시 -->
+      <c:if test="${isLogOn == true && member !=null }">
+      	<h4 class="offcanvas-title" id="offcanvasNavbarLabel">환영합니다<br>${member.user_nick }님!</h4>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+         </c:if>
+      <!-- 비로그인시 -->
+         <c:if test="${member == null && k_name == null }">
+      	<h4 class="offcanvas-title" id="offcanvasNavbarLabel">로그인이 필요합니다<br></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+       </c:if>
+       <!-- 카카오 로그인시 -->
+       <c:if test="${k_name !=null }">
+      	<h4 class="offcanvas-title" id="offcanvasNavbarLabel">환영합니다<br>${k_name }님!</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+         </c:if>
       </div>
       <hr id="sidehr">
       <div class="offcanvas-body">
         <ul class="nav nav-pills flex-column mb-auto"">
-      <li>
-        <a href="#" class="nav-link nav-hover"> <!-- aria-current="page" -->
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          회원가입
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link nav-hover">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          로그인
-        </a>
-      </li>
+        <!-- 사용자 로그인시 -->
+      <c:if test="${isLogOn == true && member !=null }">
       
-      <!-- 로그인시 나타나는 항목 -->
-      <li>
-        <a href="#" class="nav-link nav-hover">
+       <li>
+        <a href="${contextPath }/mypage.do" class="nav-link nav-hover">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
           내 정보
+        </a>
+      </li>
+       <li>
+        <a href="${contextPath }/user/logout.do" class="nav-link nav-hover">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          로그아웃
         </a>
       </li>
       <li>
@@ -318,8 +318,6 @@
           찜
         </a>
       </li>
-      <!-- 로그인시 나타나는 항목-e  -->
-      
       <li>
         <a href="#" class="nav-link nav-hover">
           <span class="bi pe-none me-2" width="16" height="16">📅</span>
@@ -327,16 +325,103 @@
           예약조회
         </a>
       </li>
-
       <li>
         <a href="#" class="nav-link link-dark">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
           <b>최근 본 즐길거리</b><br><br>
-          < 
-          <img src="image/dog.jpg" width="50px" height="50px" /> >
+          <img src="image/dog.jpg" width="50px" height="50px" /> 
         </a>
       </li>
-    </ul>
+      </c:if>
+       <!-- 비로그인시 -->
+           <c:if test="${member == null && k_name == null }">
+          <li>
+          <a href="${contextPath}/user/loginForm.do " class="nav-link nav-hover">
+       		<svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          로그인
+       	</a>
+       	</li>
+       	<li>
+          <a href="${contextPath}/user/memberForm_main.do " class="nav-link nav-hover">
+       		<svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          회원가입
+       	</a>
+       	</li>
+          <li>
+        <a href="#" class="nav-link nav-hover">
+          <span class="bi pe-none me-2" width="16" height="16">📅</span>
+          <!-- <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#calendar3"/></svg> -->
+          예약조회
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link link-dark">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+          <b>최근 본 즐길거리</b><br><br>
+          <img src="image/dog.jpg" width="50px" height="50px" /> 
+        </a>
+      </li>
+      </c:if>
+       <!-- 카카오 로그인시 --> <!-- 사용자 마이페이지와 어떻게 연동시키지?? -->
+       <c:if test="${k_name !=null }">
+       <li>
+        <a href="${contextPath }/mypage.do" class="nav-link nav-hover">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          내 정보
+        </a>
+      </li>
+       <li>
+        <a href="${contextPath }/kakao/logout.do" class="nav-link nav-hover">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          로그아웃
+        </a>
+      </li>
+      <li>
+        <a href="${contextPath }/category.do" class="nav-link nav-hover">
+          <span class="bi pe-none me-2" width="16" height="16">📷</span>
+          <!-- <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#collection"/></svg> -->
+          Category
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link nav-hover">
+          <span class="bi pe-none me-2" width="16" height="16">💬</span>
+          <!-- <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#chat-quote-fill"/></svg> -->
+          Community
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link nav-hover">
+          <span class="bi pe-none me-2" width="16" height="16">📣</span>
+          <!-- <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#geo-fill"/></svg> -->
+          Event
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link nav-hover">
+          <span class="bi pe-none me-2" width="16" height="16">❤</span>
+          <!-- <svg class="bi pe-none me-2" width="16" height="16">❤</svg> -->
+          찜
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link nav-hover">
+          <span class="bi pe-none me-2" width="16" height="16">📅</span>
+          <!-- <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#calendar3"/></svg> -->
+          예약조회
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link link-dark">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+          <b>최근 본 즐길거리</b><br><br>
+          <img src="image/dog.jpg" width="50px" height="50px" /> 
+        </a>
+      </li>
+      </c:if>
+       
+      </ul>
+    
       </div>
     </div>
 </nav>
@@ -401,7 +486,6 @@
   	<a href="#" id="footer4"><img src="image/footer4.png" alt="먹보소식" width="150px" height="50px"></a>
   	
   </div>
-
 	
 </body>
 </html>

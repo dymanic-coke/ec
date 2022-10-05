@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
+import com.spring.ec.user.vo.LikedVO;
 
 public interface BoardService {
 	//플레이 리스트 게시판 목록
@@ -29,4 +30,18 @@ public interface BoardService {
 	public List<CommentVO> listComments(int list_num)throws Exception;
 	// 댓글 작성
 	public int addNewComment(Map commentMap) throws Exception;
+	
+	public int likedCheck(Map likedMap) throws Exception;
+	
+	public int likedUp(Map likedMap)throws Exception;
+	
+	public int likedDown(Map likedMap)throws Exception;
+	
+	public int badCheck(Map badMap) throws Exception;
+	
+	public int badUp(Map badMap)throws Exception;
+	
+	public int badDown(Map badMap)throws Exception;
+	
+	
 }

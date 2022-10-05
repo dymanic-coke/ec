@@ -27,6 +27,10 @@
 		<typeAlias type="com.spring.ec.user.vo.NoticeVO"
 			alias="noticeVO" />
 		<typeAlias type="com.spring.ec.kakao.vo.KakaoVO"
-			alias="kakaoVO" />	
+			alias="kakaoVO" />
+		<typeAlias type="com.spring.ec.user.vo.LikedVO"
+			alias="likedVO" />	
+		<typeAlias type="com.spring.ec.user.vo.BadVO"
+			alias="badVO" />	
 	</typeAliases>
 </configuration>

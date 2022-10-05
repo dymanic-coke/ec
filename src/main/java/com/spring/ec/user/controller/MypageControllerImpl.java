@@ -25,7 +25,6 @@ public class MypageControllerImpl implements MypageController {
 	@Autowired
 	MemberVO memberVO;
 	
-	// 마이페이지
 	@Override
 	@RequestMapping(value = "/mypage.do", method = RequestMethod.GET)
 	public ModelAndView myPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -34,7 +33,7 @@ public class MypageControllerImpl implements MypageController {
 		return mav;
 	}
 	@Override
-	@RequestMapping(value = "/board/myplist.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/my_pList.do", method = RequestMethod.GET)
 	public ModelAndView myplist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
@@ -76,8 +75,18 @@ public class MypageControllerImpl implements MypageController {
 	@Override
 	@RequestMapping(value = "/mypage/recent_view.do", method = RequestMethod.GET)
 	public ModelAndView recentView(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = "/mypage/recent_view";
-		ModelAndView mav = new ModelAndView(viewName);
-		return mav;
+	    String viewName = (String) request.getAttribute("viewName");
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName(viewName);
+        return mav;
 	}
+	@Override
+    @RequestMapping(value = "/mypage/myinfo.do", method = RequestMethod.GET)
+    public ModelAndView myinfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    String viewName = (String) request.getAttribute("viewName");
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName(viewName);
+        return mav;
+    }
+	
 }
