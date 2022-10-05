@@ -16,21 +16,55 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 <style type="text/css">
-#content{
-	display: block;
+#container {
+	height: 1500px;
+}
+#neo {
+	margin-top: 100px;
+	float: left;
+	width: 90%;
+	height: 500px;
+}
+#content {
+	margin-left: 230px;
+	width: 80%;
+	margin-top: -670px;
+}
+#aa {
+	width: 90%;
+	height: 70px;
+	margin-top: 100px;
+}
+#bb {
+	width: 100%;
+	margin-top: 100px;
+}
+#header {
+	height: 100px;
+}
+body {
+
 }
 </style>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
 <body>
 	<div id="container">
-		<div id="sidebar-right">
+		<div id="header">
+			<tiles:insertAttribute name="header" />
+		</div>
+		<div id="neo">
 			<tiles:insertAttribute name="side" />
+			<div id="content">
+				<div id="aa">
+				<tiles:insertAttribute name="c_header" />
+				</div>
+				<div id="bb">
+				<tiles:insertAttribute name="body" />
+				</div>
+			</div>
 		</div>
-		<div id="content">
-			<tiles:insertAttribute name="body" />
-		</div>
-		
+
 	</div>
 </body>
 </html>

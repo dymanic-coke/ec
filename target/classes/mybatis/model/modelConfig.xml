@@ -25,6 +25,8 @@
 		<typeAlias type="com.spring.ec.user.vo.WishVO"
 			alias="wishVO" />
 		<typeAlias type="com.spring.ec.user.vo.NoticeVO"
-			alias="noticeVO" />	
+			alias="noticeVO" />
+		<typeAlias type="com.spring.ec.kakao.vo.KakaoVO"
+			alias="kakaoVO" />	
 	</typeAliases>
 </configuration>

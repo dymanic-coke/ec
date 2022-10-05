@@ -22,7 +22,7 @@
 
 <!-- 리뷰 별점 보이기  -->
 <script src="js/jquery-1.11.3.min.js"></script>
-
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css'/>
 
  
  
@@ -41,6 +41,8 @@
    crossorigin="anonymous">
  <link href="css/styles.css" rel="stylesheet" />
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<!--카카오 상담  -->
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <title>카테고리 상세</title>
 <style>
@@ -2305,11 +2307,164 @@ textarea {
     resize: none;
 }
 
+
+
+/*리뷰 사진추가  */
+.PhotoUpload_thumb_list_wrapper__1zf50 {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.PhotoUpload_thumb_list__3Ed8u {
+    overflow: hidden;
+    white-space: nowrap;
+    overflow-x: auto;
+    margin: 24px -20px 0;
+    padding-bottom: 10px;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_list_item__3pHeU:first-child {
+    padding-left: 20px;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_list_item__3pHeU {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_thumb_area__1PUuv {
+    overflow: hidden;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_btn_close__NIeQt {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: 24px;
+    height: 24px;
+    background: rgba(0,0,0,.6);
+}
+
+.Clickable_clickable__1OAjy {
+    font-family: inherit;
+    font-size: inherit;
+    -webkit-tap-highlight-color: rgba(0,0,0,.1);
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_list_item__3pHeU.PhotoUpload_upload_file__3l-FW {
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 60px;
+    height: 166px;
+    padding-left: 30px;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_list_item__3pHeU:last-child {
+    padding-right: 20px;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_list_item__3pHeU.PhotoUpload_upload_file__3l-FW .PhotoUpload_btn__1yi4_ {
+    position: relative;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_label_file__KLY0N {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border: 1px solid #d9d9d9;
+   /*  border-color: rgba(var(--place-color-border15),1); */
+    border-radius: 50%;
+    -webkit-box-shadow: 0 5px 4px 0 rgb(0 0 0 / 5%);
+    box-shadow: 0 5px 4px 0 rgb(0 0 0 / 5%);
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_label_file__KLY0N:after, .PhotoUpload_thumb_list__3Ed8u .PhotoUpload_label_file__KLY0N:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #424242;
+    /* background: rgba(var(--place-color-text3),1); */
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    content: "";
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_label_file__KLY0N:before {
+    width: 2px;
+    height: 20px;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_label_file__KLY0N:after {
+    width: 20px;
+    height: 2px;
+}
+
+.PhotoUpload_thumb_list__3Ed8u .PhotoUpload_label_file__KLY0N:after, .PhotoUpload_thumb_list__3Ed8u .PhotoUpload_label_file__KLY0N:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #424242;
+    /* background: rgba(var(--place-color-text3),1); */
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    content: "";
+}
+
+.PhotoUploadButton_input_file__2OjEc {
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0,0,0,0);
+}
+
+.PhotoUpload_txt_count__199FM {
+    margin-top: 10px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #b8b8b8;
+    /* color: rgba(var(--place-color-text16),1); */
+    letter-spacing: -.2px;
+    text-align: center;
+}
+
+.PhotoUpload_txt_count__199FM em {
+    color: #424242;
+    /* color: rgba(var(--place-color-text3),1); */
+}
+
+
+
+
+/* 카카오 채널 */
+/*pc 카카오톡 채널 버튼 위치  */
+@media (min-width: 768px) {
+    #kakao-talk-channel-chat-button {
+    position: fixed;
+    z-index: 999;
+    right: 30px; /* 화면 오른쪽으로부터의 거리, 숫자만 변경 */
+    bottom: 30px; /* 화면 아래쪽으로부터의 거리, 숫자만 변경 */
+    }
+}
+
+
 </style>
 
 <script>
-
-
 function shareSns(sns){
     var snsTitle = '';
     var snsItems = new Array();
@@ -2375,32 +2530,46 @@ function openPop() {
  }
  
  
- /*카드 클릭시 홈으로 탭메뉴 초기화  */
-  function homereset(addr){
-	  setCenter(addr);
-	  $('.tab_title a').click(function () {
-/* 	    $('.tab_title a').removeClass('on'); */
-/* 	    $('.tab_title a').attr('aria-selected','false'); */
-	    $(this).addClass('on');
-	    /* $(this).attr('aria-selected','true'); */
-	    return false;
-	  }).filter(':eq(0)').click();
-}   
- 
+
+
  
  /* 탭메뉴 */
-   $(function(){
+    $(function(){
 	  $('.tab_cont > div').hide();
 	  $('.tab_title a').click(function () {
 	    $('.tab_cont > div').hide().filter(this.hash).fadeIn();
 	    $('.tab_title a').removeClass('on');
-	    /* $('.tab_title a').removeAttr('aria-selected'); */
+	    $('.hometab').removeAttr('aria-selected','true');
+	    $('.tab_title a').removeAttr('aria-selected'); 
 	    $(this).addClass('on');
 	    $(this).attr('aria-selected','true');
 	    return false;
 	  }).filter(':eq(0)').click();
 
-  });
+  }); 
+ 
+    /*카드 클릭시 홈으로 탭메뉴 초기화  */
+    $(function(){
+   	   $('.card').click(function () {  
+   		$('.tab_title a').click(function () { 
+      	    $('.tab_title a').removeClass('on'); 
+      	    //$('.tab_title a').attr('aria-selected','false'); 
+     	    $(this).addClass('on');
+     	    
+     	    var a = $(this).attr('class');
+     	    if(a == "tpj9w _tab-menu hometab on" ){
+     	    	console.log("a::: true :::" + a);
+     	    	$('.hometab').attr('aria-selected','true');
+     	    } else {
+     	    	console.log("false:::: " + a);
+     	    	
+     	    }
+     	    
+     	    return false;
+     	  	
+     	    }).filter(':eq(0)').click();
+   	   });
+    }); 
  
 
 /* $(document).ready(function() {
@@ -2458,7 +2627,7 @@ function like(review_num,likenumid) {
 
 
 /*찜 추가/삭제  */
-function wishstate(seller_id, imgid) {
+function wishstate(seller_id, imgid,wishid) {
 	var user_id = "${member.user_id}";
 	var seller_id = seller_id;
 	var status = $( imgid ).attr( 'status' );
@@ -2481,6 +2650,7 @@ function wishstate(seller_id, imgid) {
 			    	console.log("성공");
 			    	alert("추가되었습니다 : )");
 			    	$(imgid).attr("src", "image/category_wish.png");
+			    	$(wishid).html(data);
 			    	$(imgid).attr("status", "true");
 			    	
 			    	
@@ -2507,6 +2677,7 @@ function wishstate(seller_id, imgid) {
 			    	console.log("성공");
 			    	alert("삭제되었습니다 : )");
 			    	$(imgid).attr("src", "image/nowish.png");
+			    	$(wishid).html(data);
 			    	$(imgid).attr("status", "false");
 			    	
 			    	
@@ -2523,6 +2694,56 @@ function wishstate(seller_id, imgid) {
 }
 }
 
+  
+  /* 	var $tablink = $(".tab_title span").click(function() {
+	var home = $("#home").index(this);
+	var idx = $tablink.index(this);
+  $(".tab_title a").removeClass("on");
+  $(".tab_title a").eq(idx).addClass("on");
+  
+  $(".tab_cont > div").hide();
+  $(".tab_cont > div").eq(idx).show();
+	
+}) */
+/*     $(".tab_title a").click(function() {
+var idx = $(this).index();
+
+$(".tab_title a").removeClass("on");
+$(".tab_title a").eq(idx).addClass("on");
+
+$(".tab_cont > div").hide();
+$(".tab_cont > div").eq(idx).show();
+})   */
+
+
+/* 해피봇 상담 */
+
+	var ht = null;
+    (function(id, scriptSrc, callback) {
+        var d = document,
+            tagName = 'script',
+            $script = d.createElement(tagName),
+            $element = d.getElementsByTagName(tagName)[0];
+		console.log($element);
+        $script.id = id;
+        $script.async = true;
+        $script.src = scriptSrc;
+        if (callback) { 
+        $script.addEventListener('load', function (e) {
+        	callback(null, e); 
+        	}, 
+        	false); 
+        }
+        $element.parentNode.insertBefore($script, $element);
+    })
+    ('happytalkSDK', 'https://design.happytalkio.com/sdk/happytalk.chat.v2.min.js', function() {
+        ht = new Happytalk({
+          siteId: '4000002425',
+          siteName: '먹고보자',
+          categoryId: '151360',
+          divisionId: '151361'
+      });
+    });
 
 </script>
 
@@ -2649,7 +2870,7 @@ geocoder.addressSearch(addr,function(result, status){
 				<div _mgcpmtemt-ewg-c33 class="scroll_box">
 					<ul _ngcontent-ewg-c33 class="list_navbar">
 						<li _ngcontent-ewg-c33 class="item_navbar">
-						<a _ngcontent-ewg-c33 href="#" class="link_navbar home active"> 
+						<a _ngcontent-ewg-c33 href="${contextPath }/category.do" class="link_navbar home active"> 
 							<img alt="카테고리홈" src="image/category_home.png" width="20" height="20">
 							<span _ngcontent-ewg-c33 class="navbar_text">카테고리홈</span>
 						</a>
@@ -2659,7 +2880,7 @@ geocoder.addressSearch(addr,function(result, status){
 						
 						
 						<li _ngcontent-ewg-c33 class="item_navbar">
-						<a _ngcontent-ewg-c33 href="#" class="link_navbar home active"> 
+						<a _ngcontent-ewg-c33 href="${contextPath }/user/memberForm_main.do" class="link_navbar home active"> 
 							<img alt="회원가입" src="image/signup.png" width="20" height="20">
 							<span _ngcontent-ewg-c33 class="navbar_text">회원가입</span>
 						</a>
@@ -2685,7 +2906,7 @@ geocoder.addressSearch(addr,function(result, status){
 						</li>
 						
 						<li _ngcontent-ewg-c33 class="item_navbar">
-						<a _ngcontent-ewg-c33 href="#" class="link_navbar home active">
+						<a _ngcontent-ewg-c33 href="${contextPath }/user/logout.do" class="link_navbar home active">
 							<img alt="로그아웃" src="image/category_login.png" width="20" height="20"> 
 							<span _ngcontent-ewg-c33 class="navbar_text">로그아웃</span>
 						</a>
@@ -2733,15 +2954,10 @@ geocoder.addressSearch(addr,function(result, status){
   <div class="btn-group" style="margin-top:21px;">
    <select name="kind" class="btn btn-primary dropdown-toggle" style="width:130px;font-size:15px; margin-left: 10px;">
   	<option class="dropdown-item" style="background-color: white;" hidden><%=searchkind %></option>
-  	<option class="dropdown-item" style="background-color: white;" value="null" <c:if test="${area eq '전체'}">selected</c:if>>전체</option>
-  	<option class="dropdown-item" style="background-color: white;" value="서울특별시" <c:if test="${area eq '서울특별시'}">selected</c:if>>서울특별시</option>
-  	<option class="dropdown-item" style="background-color: white;" value="부산광역시" <c:if test="${area eq '부산광역시'}">selected</c:if>>부산광역시</option>
-  	<option class="dropdown-item" style="background-color: white;" value="대구광역시" <c:if test="${area eq '대구광역시'}">selected</c:if>>대구광역시</option>
-  	<option class="dropdown-item" style="background-color: white;" value="인천광역시" <c:if test="${area eq '인천광역시'}">selected</c:if>>인천광역시</option>
-  	<option class="dropdown-item" style="background-color: white;" value="광주광역시" <c:if test="${area eq '광주광역시'}">selected</c:if>>광주광역시</option>
-  	<option class="dropdown-item" style="background-color: white;" value="대전광역시" <c:if test="${area eq '대전광역시'}">selected</c:if>>대전광역시</option>
-  	<option class="dropdown-item" style="background-color: white;" value="울산광역시" <c:if test="${area eq '울산광역시'}">selected</c:if>>울산광역시</option>
-  	<option class="dropdown-item" style="background-color: white;" value="세종특별자치시" <c:if test="${area eq '세종특별자치시'}">selected</c:if>>세종특별자치시</option>
+  	<option class="dropdown-item" style="background-color: white;" value="null" <c:if test="${kind eq '전체'}">selected</c:if>>전체</option>
+  	<option class="dropdown-item" style="background-color: white;" value="먹거리" <c:if test="${kind eq '먹거리'}">selected</c:if>>먹거리</option>
+  	<option class="dropdown-item" style="background-color: white;" value="볼거리" <c:if test="${kind eq '볼거리'}">selected</c:if>>볼거리</option>
+
   </select>
 
 </div>
@@ -2762,13 +2978,14 @@ geocoder.addressSearch(addr,function(result, status){
 		<c:when test="${!empty StoreList }">
 			<c:forEach var="store" items="${StoreList }" varStatus="storeNum">
 			<%-- <a href="${contextPath }/storeInfo.do?seller_id=${store.seller_id}"> --%>
-					<div class="card" data-bs-toggle="offcanvas" href="#${store.seller_id }"  aria-controls="offcanvasExample" style="margin-top:10px; margin-left: 5px; margin-right: 5px;" onClick="homereset('${store.seller_addr}');">
+					<div class="card" data-bs-toggle="offcanvas" href="#${store.seller_id }"  aria-controls="offcanvasExample" style="margin-top:10px; margin-left: 5px; margin-right: 5px;" id="card${storeNum.index }">
 	 					<img src="https://ldb-phinf.pstatic.net/20220919_260/16635542007495NypM_JPEG/KakaoTalk_20220919_112238901.jpg" class="card-img-top" alt="..." width="286" height="180" style="object-fit:contain;">
 		  				<div class="card-body">
 		   				<p class="card-text">
 		    				<h1>${store.seller_name }</h1>
 		    				${store.seller_addr }
 		    				가게소개
+		    				
 		    			</p>
 		  				</div>
   					</div>
@@ -2881,16 +3098,18 @@ geocoder.addressSearch(addr,function(result, status){
 							<div class="sVyWx">
 								<div class="gR5KI" >
 									<span class="yxkiA oGuDI">
-										<a href="http://talk.naver.com/w4wuze?frm=mnmb&amp;frm=nmb_detail" target="_blank" role="button" class="D_Xqt">
+										<a href="#" role="button" class="D_Xqt" id="ff">
+											
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="Mq0QC" aria-hidden="true">
 														<path fill-rule="evenodd" d="M.37 14.91a.85.85 0 01-.37-.7V1.95C0 .87.88 0 1.95 0h10.56c.46 0 .9.16 1.26.45l1.11.85c.47.37.75.93.75 1.53v8.33a1.8 1.8 0 01-1.86 1.86H6.7c-1.23 0-2.28.65-3.1 1.55l-.96 1.04c-.16.2-.4.35-.65.39a.92.92 0 01-.5-.22l-1.12-.87zm.62-.57l1.04-1.12a4.87 4.87 0 013.55-1.69h7.07a1.01 1.01 0 001.12-1.11V1.86A1.01 1.01 0 0012.65.74H1.86A1.01 1.01 0 00.74 1.86v12.28c0 .12 0 .26.11.26a.19.19 0 00.14-.06zm4.14-7.27V4.99a.84.84 0 00-1.7 0v2.08a.84.84 0 001.7 0zm5.9 0V4.99a.84.84 0 00-1.7 0v2.08a.84.84 0 101.7 0z"></path>
 											</svg>
 											<span class="yJySz">문의</span>
+											
 										</a>
 									</span>
 									
 									<span class="yxkiA">
-										<a href="#" target="_self" role="button" class="D_Xqt" aria-pressed="false"  onclick="wishstate('${store.seller_id }', wish${storeNum.index});">
+										<a href="#" target="_self" role="button" class="D_Xqt" aria-pressed="false"  onclick="wishstate('${store.seller_id }', wish${storeNum.index}, wishsum${storeNum.index });">
 										<img alt="nowish" src="image/nowish.png" width="20" height="20" status="false" id="wish${storeNum.index}">
 										찜하기
 										<!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="Mq0QC" aria-hidden="true">
@@ -2981,12 +3200,12 @@ geocoder.addressSearch(addr,function(result, status){
 									<div class="flicking-viewport"
 										style="user-select: none; -webkit-user-drag: none; touch-action: pan-y;">
 										<div class="flicking-camera tab_title" id="" style="transform: translate(0px);">
-											<a href="#home" role="tab" class="tpj9w _tab-menu on" aria-selected="true" title="" id="" style="width: 120px;" onClick="tabclick();">
+											<a href="#home" role="tab" class="tpj9w _tab-menu on hometab" aria-selected="true" title="" id="" style="width: 120px;">
 											<span class="veBoZ">홈</span>
 											</a>
-											<a href="#menu" target="_self" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;"onClick="tabclick();" >
+											<a href="#menu" target="_self" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;" >
 											<span class="veBoZ">메뉴</span></a>
-											<a href="#review" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;" onClick="tabclick();">
+											<a href="#review" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;" >
 											<span class="veBoZ" >리뷰</span>
 											</a>
 <!-- 											<a href="#reserve" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 110px;">
@@ -3120,17 +3339,15 @@ geocoder.addressSearch(addr,function(result, status){
 										<ul class="mpoxR">
 								
 										
-										<c:forEach var="product" items="${menuList }" varStatus="proNum" end="3">
+										<c:forEach var="product" items="${menuList }" varStatus="proNum">
 											<c:if test="${product.seller_id eq store.seller_id}">
 											
 											<li class="yhGu6"><a
-												href="https://m.store.naver.com/restaurants/33875361/tabs/menus/baemin/1014811300?more=false&amp;entry=pll&amp;pcmap=1"
-												target="_blank" role="button" class="Ozh8q">
+												href="#"
+												 role="button" class="Ozh8q">
 												<div class="ZHqBk">
 														<div class="place_thumb">
-															<img
-																src="https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f400_300&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200114_125%2F1578973566680qzTVW_JPEG%2Fm001291_286.jpg"
-																alt="최고급한우육회(소)" width="100%" height="auto">
+															<img src="#" width="100%" height="auto">
 														</div>
 													</div>
 													<div class="MN48z">
@@ -3147,16 +3364,23 @@ geocoder.addressSearch(addr,function(result, status){
 										</ul>
 									</div>
 									
+									
+									
+									
+
 									<div class="lfH3O">
 										<a
-											href="https://m.store.naver.com/restaurants/33875361/tabs/menus/baemin/list?more=true&amp;entry=pll&amp;pcmap=1"
+											href="#"
 											target="_self" role="button" class="fvwqf"><span
-											class="iNSaH">메뉴</span>더보기<svg
-												xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 13"
-												class="W0cVZ" aria-hidden="true">
-												<path fill-rule="evenodd"
-													d="M8.5 0l-.71.7 5.3 5.3H0v1h13.08L7.8 12.3l.7.7L15 6.5z"></path></svg></a>
+											class="iNSaH">총 <em id="menusum${storeNum.index }">0</em>개의 메뉴</span></a>
 									</div>
+									<c:forEach var="prosum" items="${prosumList }" varStatus="proNum">
+										<c:if test="${prosum.seller_id eq store.seller_id}">
+										<script>
+											$('#menusum${storeNum.index }').text('${prosum.pro_sum}');
+										</script>
+										</c:if>
+									</c:forEach>
 								</div>
 							<div class="place_section" data-nclicks-area-code="qbk">
 								<h2 class="place_section_header">
@@ -3191,7 +3415,7 @@ geocoder.addressSearch(addr,function(result, status){
 											<div class="F21yP">
 												<a href="#" target="_self" role="button" class="place_thumb"><img
 													src="image/store_img/${store.image_fileName }"
-													class="_img" alt="플라잉팬 예약" width="87" height="87"></a>
+													class="_img" alt="" width="87" height="87"></a>
 											</div>
 											</li>
 									</ul>
@@ -3205,7 +3429,7 @@ geocoder.addressSearch(addr,function(result, status){
 										<div class="TraH1">
 											<ul class="Uf1BQ" style="padding:0">
 											
-											<c:forEach var="review" items="${reviewList }" varStatus="revNum" end="3">
+											<c:forEach var="review" items="${reviewList }" varStatus="revNum">
 											<c:if test="${review.seller_id eq store.seller_id}">
 												<li class="qrzj_"><div class="IEbo1">
 														<div class="GP2eR">
@@ -3219,25 +3443,21 @@ geocoder.addressSearch(addr,function(result, status){
         														</span>
 																	<span class="rvCSr">
 																	<a href="#" onclick="btnmore(moreOpen${revNum.index}, mainreview${revNum.index});" id="moreOpen${revNum.index}" style="font-size:small; color:#8f8f8f;">더보기</a>
-<!-- 																	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7" class="Ky28p" aria-hidden="true" >
-																		<path d="M11.47.52a.74.74 0 00-1.04 0l-4.4 4.45v.01L1.57.52A.74.74 0 10.53 1.57l5.12 5.08a.5.5 0 00.7 0l5.12-5.08a.74.74 0 000-1.05z"></path>
-																	</svg> -->
 																	<span class="place_blind">내용 더보기</span>
 																	</span>
 																	</a>
 															</div>
 															<div class="ozEbl">
 																<a
-																	href="https://m.place.naver.com/my/5ecf84b18f87a842bc927267/review?v=2"
-																	target="_blank" role="button" class="iz4rh"><div
+																	href="#"
+																	 role="button" class="iz4rh"><div
 																		class="place_thumb">
 																		<img
 																			src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png"
 																			class="YMYlP" alt="프로필" width="28" height="28">
 																	</div></a>
 																	<a
-																	href="https://m.place.naver.com/my/5ecf84b18f87a842bc927267/review?v=2"
-																	target="_blank" role="button" class="iKqnp">
+																	href="#" role="button" class="iKqnp">
 																	<div class="rg88i">${review.user_id }</div>
 																	<div class="FrWK3">
 																		<span class="ExHfk"><span class="place_blind">작성일</span>
@@ -3253,12 +3473,25 @@ geocoder.addressSearch(addr,function(result, status){
 											</ul>
 										</div>
 										<div class="lfH3O">
-											<a href="#" role="button" class="fvwqf"><span class="iNSaH">방문자 리뷰</span>더보기
-											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 13" class="W0cVZ" aria-hidden="true">
-													<path fill-rule="evenodd" d="M8.5 0l-.71.7 5.3 5.3H0v1h13.08L7.8 12.3l.7.7L15 6.5z"></path>
-											</svg>
+											<a href="#" role="button" class="fvwqf"><span class="iNSaH">총 <em id="reviewcount${storeNum.index}">0</em>개의 방문자 리뷰</span>
 											</a>
+											
+											<c:forEach var="review" items="${reviewavgsum }" varStatus="revNum">
+											<c:if test="${review.seller_id eq store.seller_id}">
+												<script type="text/javascript">
+													$('#reviewcount${storeNum.index}').text(${review.review_count});
+												</script>
+											</c:if>
+											</c:forEach>
 										</div>
+										
+										<c:forEach var="prosum" items="${prosumList }" varStatus="proNum">
+										<c:if test="${prosum.seller_id eq store.seller_id}">
+										<script>
+											$('#menusum${storeNum.index }').text('${prosum.pro_sum}');
+										</script>
+										</c:if>
+									</c:forEach>
 									</div>
 								</div>
 								
@@ -3366,23 +3599,51 @@ geocoder.addressSearch(addr,function(result, status){
 									<div data-nclicks-area-code="rrv" id="review">
 									
 										<div class="place_section lcndr Xj_yJ">
+										
+										<h2 class="place_section_header">
+												리뷰<span class="place_section_count review_revsum${storeNum.index}" id="">0</span>
+											<span class="m7jAR ohonc" style="margin-top: 5px">
+											
+											<c:if test="${not empty member.user_id }">
+											<a href="#staticBackdrop"  data-bs-toggle="modal" target="_blank" role="button" class="DoBaK btn-modal" onclick="reviewmodal('${store.seller_id}','${store.store_nic }');">
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 15" class="Un0fP" aria-hidden="true">
+													<path d="M7.42 1.92l3.54 3.56L3.55 13H0V9.44l7.42-7.52zM14 12.3v.7H5.6v-.7H14zM10.34 0a2.54 2.54 0 011.91 4.17l-.02.02-.78.79-3.54-3.55.79-.79C9.17.24 9.73 0 10.34 0z"></path>
+												</svg>나도 참여
+											</a>
+											</c:if>
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" class="SuAGt" aria-hidden="true">
+												<path d="M8.26 4.68h4.26a.48.48 0 01.28.87L9.35 8.02l1.33 4.01a.48.48 0 01-.18.54.48.48 0 01-.56 0l-3.44-2.5-3.44 2.5a.48.48 0 01-.74-.54l1.33-4L.2 5.54a.48.48 0 01.28-.87h4.26l1.3-4a.48.48 0 01.92 0l1.3 4z">
+												</path>
+												</svg>
+												<em class="review_revavg${storeNum.index}">0</em>
+											</span>
+											<div class="Qo7sP">
+														총 리뷰 개수는 <em class="review_revsum${storeNum.index}">0</em> 평균 별점은 <em class="review_revavg${storeNum.index}">0.0</em>입니다.
+											</div>
+											</h2>
+											
 										<c:forEach var="rev" items="${reviewavgsum }" varStatus="reviewNum">
 										<c:if test="${rev.seller_id eq store.seller_id}">
+										<script type="text/javascript">
+											$('.review_revsum${storeNum.index}').text(${rev.review_count });
+											$('.review_revavg${storeNum.index}').text(${rev.rating_avg });
+										</script>
+										
+										
+						<%-- 				
 											<h2 class="place_section_header">
 												리뷰<span class="place_section_count">${rev.review_count }</span>
 											<span class="m7jAR ohonc" style="margin-top: 5px">
 											
-											
-											<a href="#staticBackdrop"  data-bs-toggle="modal" target="_blank" role="button" class="DoBaK btn-modal">
+											<c:if test="${not empty member.user_id }">
+											<a href="#staticBackdrop"  data-bs-toggle="modal" target="_blank" role="button" class="DoBaK btn-modal" onclick="reviewmodal('${store.seller_id}','${store.store_nic }');">
 												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 15" class="Un0fP" aria-hidden="true">
 													<path d="M7.42 1.92l3.54 3.56L3.55 13H0V9.44l7.42-7.52zM14 12.3v.7H5.6v-.7H14zM10.34 0a2.54 2.54 0 011.91 4.17l-.02.02-.78.79-3.54-3.55.79-.79C9.17.24 9.73 0 10.34 0z"></path>
 												</svg>나도 참여
-												<!-- Button trigger modal -->
-<!-- 												<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-												  Launch static backdrop modal
-												</button> -->
 											</a>
-											
+											</c:if>
+
+
 												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" class="SuAGt" aria-hidden="true">
 												<path d="M8.26 4.68h4.26a.48.48 0 01.28.87L9.35 8.02l1.33 4.01a.48.48 0 01-.18.54.48.48 0 01-.56 0l-3.44-2.5-3.44 2.5a.48.48 0 01-.74-.54l1.33-4L.2 5.54a.48.48 0 01.28-.87h4.26l1.3-4a.48.48 0 01.92 0l1.3 4z">
 												</path>
@@ -3392,7 +3653,7 @@ geocoder.addressSearch(addr,function(result, status){
 											<div class="Qo7sP">
 														총 리뷰 개수는 <em>${rev.review_count }</em> 평균 별점은 <em>${rev.rating_avg }</em>입니다.
 											</div>
-											</h2>
+											</h2> --%>
 											</c:if>
 											</c:forEach>
 											<div class="place_section_content">
@@ -3411,7 +3672,7 @@ geocoder.addressSearch(addr,function(result, status){
 																		class="sKXBJ" alt="프로필" width="38" height="38">
 																</div></a>
 																<a href="#" target="_blank" role="button" class="Hazns">
-																<div class="sBWyy">${review.seller_id }</div>
+																<div class="sBWyy">${review.user_id }</div>
 																<div class="Qde7Q">
 																	<span class="P1zUJ" style="font-size:small; color:#8f8f8f;">
 																	
@@ -3537,56 +3798,83 @@ geocoder.addressSearch(addr,function(result, status){
  </section>
  
  <script>
- $(".btn-modal").click(function(){
+ function reviewmodal(seller_id,store_nic) {
+		var data = $(this).data('id');
+		$("#reviewsellerid").val(seller_id);
+		$("#reviewstorenic").val(store_nic);
+		
+	    $("#contents.body-contents").val(data);
+	    $("#text-contents.body-contents").html(data);
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ function fn_addFile(){
+		$("#d_file").append("<br>" + "<input type='file' name='file" + cnt +"' />");
+		cnt++;
+	}
+ 
+ 
+ function readURL(input) {
+		if(input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#preview').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+}
+ 
+/*  $(".btn-modal").click(function(){
 		var data = $(this).data('id');
 	    $("#contents.body-contents").val(data);
 	    $("#text-contents.body-contents").html(data);
-	});
+	}); */
  </script>
  
  <!--리뷰 모달  -->
 
-
 <!-- Modal -->
+<form class="mb-3" name="myform" id="myform" method="post" action="${contextPath }/addreview.do?">
+<input type="hidden" name="seller_id" id="reviewsellerid" value="">
+<input type="hidden" name="reviewstorenic" id="reviewstorenic" value="">
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">가게이름</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">나도 참여</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form class="mb-3" name="myform" id="myform" method="post">
+      
       <div class="modal-body">
-
+					
 					<div
 						class="ReviewWrite_review_section__3oQiQ ReviewWrite_review_write_area__14iCv">
 						<div
 							class="ReviewWrite_tit_area__30Cb8 ReviewWrite_type_default__1SqXH">
 							<strong>리뷰를 남겨주세요</strong>
 						</div>
-						     <fieldset style="align:center;">
-							<input type="radio" name="reviewStar" value="5.0" id="rate1"><label
+						
+						
+						   <fieldset style="margin-left: 20%; margin-top: 10px;">
+							<input type="radio" name="rating" value="5.0" id="rate1"><label
 								for="rate1">★</label>
-							<input type="radio" name="reviewStar" value="4.5" id="rate1.5"><label
-								for="rate1.5">★</label>
-							<input type="radio" name="reviewStar" value="4.0" id="rate2"><label
+							<input type="radio" name="rating" value="4.0" id="rate2"><label
 								for="rate2">★</label>
-							<input type="radio" name="reviewStar" value="3.5" id="rate2.5"><label
-								for="rate2.5">★</label>
-							<input type="radio" name="reviewStar" value="3.0" id="rate3"><label
+							<input type="radio" name="rating" value="3.0" id="rate3"><label
 								for="rate3">★</label>
-							<input type="radio" name="reviewStar" value="2.5" id="rate3.5"><label
-								for="rate3.5">★</label>
-							<input type="radio" name="reviewStar" value="2.0" id="rate4"><label
+							<input type="radio" name="rating" value="2.0" id="rate4"><label
 								for="rate4">★</label>
-							<input type="radio" name="reviewStar" value="1.5" id="rate4.5"><label
-								for="rate4.5">★</label>
-							<input type="radio" name="reviewStar" value="1" id="rate5"><label
+							<input type="radio" name="rating" value="1" id="rate5"><label
 								for="rate5">★</label>
-							</fieldset>
-		<!-- 				<div class="PhotoUpload_upload_area__wG9mr" style="display: block">
+							</fieldset> 
+							<!-- <input type="file" name="file" id="file" style="display:none"/>
+						 <div class="PhotoUpload_upload_area__wG9mr" style="display: block">
 							<div class="PhotoUpload_inner__2pAYv">
-								<button type="button" class="PhotoUpload_label_file__KLY0N">
+								<button type="button" class="PhotoUpload_label_file__KLY0N" onclick="document.all.file.click()">
 									<svg viewBox="0 0 20 16" class="PhotoUpload_icon__17R6h"
 										aria-hidden="true">
 										<path
@@ -3598,14 +3886,59 @@ geocoder.addressSearch(addr,function(result, status){
 									for="file-upload" class="place_blind">리뷰 사진 파일</label>
 							</div>
 						</div> -->
-						<div class="TextReview_input_area__1nP4C">
+						
+						<!-- 사진 추가 시 예시 이미지 -->
+<!-- 						<img id="preview" scr="#" width=200 height=200 />
+						<div id="d_file"></div> -->
+
+							<!-- <div class="PhotoUpload_thumb_list_wrapper__1zf50">
+								<ul class="PhotoUpload_thumb_list__3Ed8u">
+									<li class="PhotoUpload_list_item__3pHeU"><div
+											class="PhotoUpload_thumb_area__1PUuv">
+											<div class="place_thumb">
+												<img
+													src="https://pup-review-phinf.pstatic.net/MjAyMjA5MzBfMTc0/MDAxNjY0NTA3MDI0MTk4.skmKhGvEh2XkoZV6bM1KDySmeWKgYnDMID1K1HUt990g.9BT79cXHbiiQPyiz6GbZGO4RuwR9wLJnYHos9wM2Tl0g.JPEG/test001.jpg?type=f442_442_70_sharpen"
+													width="166" height="166" alt="리뷰">
+												<button
+													class="Clickable_clickable__1OAjy PhotoUpload_btn_close__NIeQt"
+													type="button">
+													<svg viewBox="0 0 20 20" class="PhotoUpload_icon__17R6h"
+														aria-hidden="true">
+														<path
+															d="M10 9.214l9.33-9.33.785.787L10.785 10l9.33 9.33-.786.785L10 10.785l-9.33 9.33-.785-.786L9.215 10-.116.672l.786-.786 9.33 9.33z"></path></svg>
+													<span class="place_blind">이미지 삭제</span>
+												</button>
+											</div>
+										</div></li>
+									<li
+										class="PhotoUpload_list_item__3pHeU PhotoUpload_upload_file__3l-FW"><div
+											class="PhotoUpload_btn__1yi4_">
+											<button type="button" class="PhotoUpload_label_file__KLY0N">
+												<span class="place_blind">사진추가</span>
+											</button>
+											<input type="file" accept="image/*" id="file-upload"
+												class="PhotoUploadButton_input_file__2OjEc" multiple=""><label
+												for="file-upload" class="place_blind">리뷰 사진 파일</label>
+										</div>
+										<div class="PhotoUpload_txt_count__199FM">
+											<em>1</em>&nbsp;/ 3
+										</div></li>
+								</ul>
+							</div> -->
+
+
+
+
+
+
+							<div class="TextReview_input_area__1nP4C">
 							<div class="TextReview_inner__3qpeo">
 
-								<textarea id="text" name="text"
+								<textarea id="text" name="content"
 									class="TextReview_input_text__2zr6e"  placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현을 사용해주세요.  유용한 Tip도 남겨주세요!"></textarea>
 								<div class="TextReview_count__WBdBt">
 									<em>0</em>&nbsp;/&nbsp;
-									<!-- -->
+									
 									400
 								</div>
 							</div>
@@ -3615,13 +3948,14 @@ geocoder.addressSearch(addr,function(result, status){
 				</div>
       <div class="modal-footer">
         <div class="ReviewWrite_btn_area__wsRVi">
-			<button class="Clickable_clickable__1OAjy ReviewWrite_btn_submit__YM_r2" type="button">등록하기</button>
+			<button class="Clickable_clickable__1OAjy ReviewWrite_btn_submit__YM_r2" type="submit">등록하기</button>
 		</div>
       </div>
-      </form>	
+      	
     </div>
   </div>
 </div>
+</form>
 
 </body>
 </html>

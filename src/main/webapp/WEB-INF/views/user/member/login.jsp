@@ -65,18 +65,18 @@ function select_ck(f){
 <style>
 #wrapper{
 	width:1000px;
-	margin: 5% auto;
+	margin: 100px 15%;
 }
 #logo{
 	text-align:center;
 }
-section{
+#gg{
+	/* text-align:center;  */
 	border:1px solid #ccc;
 	border-radius : 50px;
 	height:600px;
 	width: 802px;
-	margin: 0 auto;
-	
+	margin: 0px 10%;	
 }
 table{
 font-size:12px;
@@ -172,7 +172,7 @@ color:black;
 <body>
 
 <div id ="wrapper">
-<section >
+<section id="gg" >
 <div id="logo">
 <a href="${contextPath }/main.do"><img src="${contextPath }/image/logo.png" width=200px height=200px  alt="로고사진"></a>
 <hr>
@@ -195,14 +195,14 @@ color:black;
         <tr height="2">
        
         <td class="main" colspan="3"> <input type="password" id="wide" name="user_pwd" size="20" placeholder="비밀번호" >
-   				<i class="fa-solid fa-eye"></i> 
+   			<i class="fa-solid fa-eye"></i>	<label>비밀번호 표시</label> 
    		</td>
    		
        
         </tr>
         
         <tr>
-        <td align="left"><label><input type="checkbox" id="save">ID 저장<br><br></label></td>
+        <td><br><br></td>
         <td></td>
         
      
