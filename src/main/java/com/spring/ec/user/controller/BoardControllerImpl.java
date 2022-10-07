@@ -172,7 +172,12 @@ public class BoardControllerImpl implements BoardController {
 		List commentsList = boardService.listComments(list_num);
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("member");
-		String user_id = memberVO.getUser_id();
+		String user_id = null;
+		if(memberVO != null) {
+			user_id = memberVO.getUser_id();
+		}else {
+			user_id = "1";
+		}
 		Map likedMap = new HashMap();
 		Map badMap = new HashMap();
 		likedMap.put("list_num", list_num);

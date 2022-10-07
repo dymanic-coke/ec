@@ -3094,7 +3094,7 @@ geocoder.addressSearch(addr,function(result, status){
 		<c:when test="${!empty StoreList }">
 			<c:forEach var="store" items="${StoreList }" varStatus="storeNum">
 			<%-- <a href="${contextPath }/storeInfo.do?seller_id=${store.seller_id}"> --%>
-					<div class="card" data-bs-toggle="offcanvas" href="#${store.seller_id}"  aria-controls="offcanvasExample" style="margin-top:10px; margin-left: 5px; margin-right: 5px;" id="card${storeNum.index }" OnMouseUp="cardreview('js-load${storeNum.index}');" onClick="setCenter('${store.seller_addr}')">
+					<div class="card" data-bs-toggle="offcanvas" href="#${store.seller_id }"  aria-controls="offcanvasExample" style="margin-top:10px; margin-left: 5px; margin-right: 5px;" id="card${storeNum.index }" OnMouseUp="cardreview('js-load${storeNum.index}');" onClick="setCenter('${store.seller_addr}')">
 
 	 					<img src="${contextPath }/image/store_img/${store.image_fileName}" class="card-img-top" alt="..." width="299" height="180" onclick="setcenter">
 
@@ -3227,7 +3227,7 @@ geocoder.addressSearch(addr,function(result, status){
 							<div class="sVyWx">
 								<div class="gR5KI" >
 									<span class="yxkiA oGuDI">
-										<a href="#" role="button" class="D_Xqt" id="ff">
+										<a href="${contextPath}/mypage/uAsk.do" role="button" class="D_Xqt" id="ff">
 											
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="Mq0QC" aria-hidden="true">
 														<path fill-rule="evenodd" d="M.37 14.91a.85.85 0 01-.37-.7V1.95C0 .87.88 0 1.95 0h10.56c.46 0 .9.16 1.26.45l1.11.85c.47.37.75.93.75 1.53v8.33a1.8 1.8 0 01-1.86 1.86H6.7c-1.23 0-2.28.65-3.1 1.55l-.96 1.04c-.16.2-.4.35-.65.39a.92.92 0 01-.5-.22l-1.12-.87zm.62-.57l1.04-1.12a4.87 4.87 0 013.55-1.69h7.07a1.01 1.01 0 001.12-1.11V1.86A1.01 1.01 0 0012.65.74H1.86A1.01 1.01 0 00.74 1.86v12.28c0 .12 0 .26.11.26a.19.19 0 00.14-.06zm4.14-7.27V4.99a.84.84 0 00-1.7 0v2.08a.84.84 0 001.7 0zm5.9 0V4.99a.84.84 0 00-1.7 0v2.08a.84.84 0 101.7 0z"></path>
@@ -3595,7 +3595,7 @@ geocoder.addressSearch(addr,function(result, status){
 									<ul class="i81eZ">
 										<li class="cvLXA"><div class="Zwdge">
 												<div class="F7xaA">
-													<a href="#" target="_self"
+													<a href="${contextPath}/reservation.do?seller_id=${store.seller_id}" target="_self"
 														role="button" class="y5Vxu"><span
 														class="place_bluelink wpUMQ">${store.store_nic } <br> 예약</span></a>
 												</div>
@@ -3609,7 +3609,7 @@ geocoder.addressSearch(addr,function(result, status){
 												</div> -->
 												<div class="doC0y">
 													<a
-														href="${contextPath }/reservation.do"
+														href="${contextPath}/reservation.do?seller_id=${store.seller_id}"
 														target="_self" role="button" class="K9FI6"><svg
 															xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
 															class="f_wIl" aria-hidden="true">
@@ -3963,7 +3963,7 @@ geocoder.addressSearch(addr,function(result, status){
 																		class="sKXBJ" alt="프로필" width="38" height="38">
 																</div></a>
 																<a href="#" target="_blank" role="button" class="Hazns">
-																<div class="sBWyy">${review.user_id }</div>
+																<div class="sBWyy">${review.user_nick }</div>
 																<div class="Qde7Q">
 																	<span class="P1zUJ" style="font-size:small; color:#8f8f8f;">
 																	
@@ -4230,11 +4230,11 @@ geocoder.addressSearch(addr,function(result, status){
 
 								<textarea id="text" name="content"
 									class="TextReview_input_text__2zr6e"  placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현을 사용해주세요.  유용한 Tip도 남겨주세요!"></textarea>
-								<div class="TextReview_count__WBdBt">
+<!-- 								<div class="TextReview_count__WBdBt">
 									<em>0</em>&nbsp;/&nbsp;
 									
 									400
-								</div>
+								</div> -->
 							</div>
 						</div>
 

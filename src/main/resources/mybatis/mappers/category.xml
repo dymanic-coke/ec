@@ -212,8 +212,8 @@
 	<!-- 리뷰 작성 -->
 	<insert id="addreview" parameterType="reviewVO">
 		<![CDATA[
-			insert into review_tbl(review_num, user_id, seller_id, image_fileName,content,reg_date,mod_date,rating)
-			values((SELECT IFNULL(MAX(review_num)+1,1) FROM review_tbl b), #{user_id}, #{seller_id}, #{image_fileName},#{content},now(),now(),#{rating})			
+			insert into review_tbl(review_num, user_id, seller_id, image_fileName,content,reg_date,mod_date,rating, user_nick)
+			values((SELECT IFNULL(MAX(review_num)+1,1) FROM review_tbl b), #{user_id}, #{seller_id}, #{image_fileName},#{content},now(),now(),#{rating}, #{user_nick})			
 		 ]]>
 	</insert>  
 	
@@ -248,7 +248,7 @@
 	</insert>
 	<select id="selectNewUserBook_num" resultType="int">
 		<![CDATA[
-			select max(bad_num)+1 from book_tbl 			
+			select max(book_num)+1 from book_tbl 			
 		 ]]>
 	</select>
 	<insert id="insertNoUserBooking" parameterType="java.util.Map">

@@ -282,8 +282,8 @@ public class CateControllerImpl implements CateController {
 	public ModelAndView addreview(@ModelAttribute("review") ReviewVO review, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession();
-		
 		MemberVO mm = (MemberVO) session.getAttribute("member");
+		System.out.println(mm.getUser_nick());
 		review.setUser_id(mm.getUser_id());
 		review.setUser_nick(mm.getUser_nick());
 		int result = cateService.addreview(review);

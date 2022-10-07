@@ -18,8 +18,7 @@
 <style type="text/css">
 #content{
 	width: 90%;
-	height: 800px;
-	margin-left: 200px;
+	margin: 0 auto;
 }
 #header {
 height: 100px;

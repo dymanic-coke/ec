@@ -117,37 +117,30 @@
 	</definition>
 	<definition name="/mypage" extends="mypageLayout">
 		<put-attribute name="title" value="마이페이지"/>
-		<put-attribute name="side" value="/WEB-INF/views/user/mypage/ch_mypage_side.jsp"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/mypage/mypage.jsp"/>	
 	</definition>
 	<definition name="/mypage/my_pList" extends="mypageLayout">
 		<put-attribute name="title" value="먹플리, 볼플리"/>
-		<put-attribute name="side" value="/WEB-INF/views/user/mypage/ch_mypage_side.jsp"/>
-		<put-attribute name="body" value="/WEB-INF/views/user/mypage/my_pList.jsp"/>	
+		<put-attribute name="body" value="/WEB-INF/views/user/mypage/uEatnsee.jsp"/>	
 	</definition>
 	<definition name="/mypage/uReview" extends="mypageLayout">
 		<put-attribute name="title" value="내가 쓴 리뷰"/>
-		<put-attribute name="side" value="/WEB-INF/views/user/mypage/ch_mypage_side.jsp"/>
-		<put-attribute name="body" value="/WEB-INF/views/user/mypage/my_Review.jsp"/>	
+		<put-attribute name="body" value="/WEB-INF/views/user/mypage/uReview.jsp"/>	
 	</definition>
 	<definition name="/mypage/uBook" extends="mypageLayout">
 		<put-attribute name="title" value="예약조회"/>
-		<put-attribute name="side" value="/WEB-INF/views/user/mypage/ch_mypage_side.jsp"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/mypage/uBook.jsp"/>	
 	</definition>
 	<definition name="/mypage/uLike" extends="mypageLayout">
 		<put-attribute name="title" value="찜 목록"/>
-		<put-attribute name="side" value="/WEB-INF/views/user/mypage/ch_mypage_side.jsp"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/mypage/uLike.jsp"/>	
 	</definition>
 	<definition name="/mypage/uAsk" extends="mypageLayout">
 		<put-attribute name="title" value="1:1 문의"/>
-		<put-attribute name="side" value="/WEB-INF/views/user/mypage/ch_mypage_side.jsp"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/mypage/uAsk.jsp"/>	
 	</definition>
 	<definition name="/mypage/myinfo" extends="mypageLayout">
 		<put-attribute name="title" value="내 정보"/>
-		<put-attribute name="side" value="/WEB-INF/views/user/mypage/ch_mypage_side.jsp"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/mypage/my_info.jsp"/>	
 	</definition>
 

@@ -70,11 +70,9 @@
 		 ]]>
 	</select>
 	
-	<select id="selectAllCommentsList" resultMap="commResult">
-		<![CDATA[ SELECT uct.comment_num, uct.parent_num, uct.list_num, fnc.level, uct.comments, uct.reg_date,uct.mod_date,uct.comment_id
-				FROM(SELECT FUNCTION_hierarchical_comment() AS comment_num, parent_num, list_num, @level AS LEVEL, comments, reg_date, mod_date, comment_id 
-				FROM(SELECT @start_with:=0,@comment_num:=@start_with, @level:=0) tbl JOIN u_comments_tbl WHERE list_num= #{list_num}) fnc
-				left outer join u_comments_tbl uct ON uct.comment_num = fnc.comment_num			
+	<select id="selectAllCommentsList" resultMap="commResult" parameterType="int" >
+		<![CDATA[
+			SELECT * FROM u_comments_tbl WHERE list_num = #{list_num} ORDER BY comment_num			
 		 ]]>
 	</select>
   
