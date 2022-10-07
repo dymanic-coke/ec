@@ -92,9 +92,6 @@ String viewName = (String)request.getAttribute("viewName");
 </head>
 <body>
 	<section id="board">
-		<div id="title_img">
-			<img src="${contextPath}/image/playList.png" width="300px" height="100px">
-		</div>
 		<div class="btn-group" role="group" aria-label="Horizontal Button Group">
 			<button type="button" class="btn btn-primary" onClick="location.href='${contextPath}/user/u_board'">플레이 리스트</button>
 			<button type="button" class="btn btn-warning" onClick="location.href='${contextPath}/user/u_board/eatpl'">먹 . 플 . 리</button>

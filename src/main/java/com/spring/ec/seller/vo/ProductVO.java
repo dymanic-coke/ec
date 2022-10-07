@@ -11,7 +11,8 @@ public class ProductVO {
 	private String category_code;
 	private String seller_id;
 	private String pro_name;
-	private int pro_price;
+	private String pro_img;
+	private String pro_price;
 	private int pro_stock;
 	private String pro_desc;
 	private int pro_count;
@@ -19,17 +20,19 @@ public class ProductVO {
 	private double commision;
 	private Date reg_date;
 	private Date mod_date;
+	private int pro_sum;
 	
 	
 	public ProductVO() {
 
 	}
 
-	public ProductVO(int pro_num, String category_code, String seller_id, String pro_name, int pro_price, int pro_stock, String pro_desc,int pro_count,int sales,double commision,Date reg_date, Date mod_date) {
+	public ProductVO(int pro_num, String category_code, String seller_id, String pro_name, String pro_img,String pro_price, int pro_stock, String pro_desc,int pro_count,int sales,double commision,Date reg_date, Date mod_date,int pro_sum) {
 		this.pro_num = pro_num;
 		this.category_code = category_code;
 		this.seller_id= seller_id;
 		this.pro_name = pro_name;
+		this.pro_img = pro_img;
 		this.pro_price = pro_price;
 		this.pro_stock = pro_stock;
 		this.pro_desc = pro_desc;
@@ -38,6 +41,7 @@ public class ProductVO {
 		this.commision = commision;
 		this.reg_date = reg_date;
 		this.mod_date = mod_date;
+		this.pro_sum = pro_sum;
 	}
 
 	public int getPro_num() {
@@ -72,11 +76,13 @@ public class ProductVO {
 		this.pro_name = pro_name;
 	}
 
-	public int getPro_price() {
+
+
+	public String getPro_price() {
 		return pro_price;
 	}
 
-	public void setPro_price(int pro_price) {
+	public void setPro_price(String pro_price) {
 		this.pro_price = pro_price;
 	}
 
@@ -135,6 +141,24 @@ public class ProductVO {
 	public void setMod_date(Date mod_date) {
 		this.mod_date = mod_date;
 	}
+
+	public int getPro_sum() {
+		return pro_sum;
+	}
+
+	public void setPro_sum(int pro_sum) {
+		this.pro_sum = pro_sum;
+	}
+
+	public String getPro_img() {
+		return pro_img;
+	}
+
+	public void setPro_img(String pro_img) {
+		this.pro_img = pro_img;
+	}
+	
+	
 
 
 }

@@ -24,11 +24,7 @@
 </head>
 <body>
 	<div id="container2">
-		<!-- header -->
-		<div id="header2">
-			<a href="${contextPath }/main.do"><img
-				src="${contextPath }/image/logo_7f78.png" id="logo"></a>
-		</div>
+		
 		<!-- wrapper -->
 		<div id="wrapper">
 			<!-- content-->
@@ -51,7 +47,6 @@
 						<span class="box int_id"> <input type="text" id="nick"
 							name="user_nick" class="int" maxlength="20">
 						</span> <span class="error_next_box"></span>
-						<input type="button" value="수정하기"><input type="reset" value="다시하기">
 					</div>
 
 					<!-- PW1 -->
@@ -77,7 +72,6 @@
 							src="${contextPath }/image/m_icon_check_disable.png"
 							id="pswd2_img1" class="pswdImg">
 						</span> <span class="error_next_box"></span>
-						<input type="button" value="수정하기"><input type="reset" value="다시하기">
 					</div>
 
 					<!-- NAME -->

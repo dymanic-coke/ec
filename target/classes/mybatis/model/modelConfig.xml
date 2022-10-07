@@ -21,7 +21,7 @@
 		<typeAlias type="com.spring.ec.user.vo.ReservVO"
 			alias="reservVO" />
 		<typeAlias type="com.spring.ec.user.vo.MemberVO"
-			alias="memberVO" />	
+			alias="memberVO" />
 		<typeAlias type="com.spring.ec.user.vo.WishVO"
 			alias="wishVO" />
 		<typeAlias type="com.spring.ec.user.vo.NoticeVO"
@@ -29,8 +29,8 @@
 		<typeAlias type="com.spring.ec.kakao.vo.KakaoVO"
 			alias="kakaoVO" />
 		<typeAlias type="com.spring.ec.user.vo.LikedVO"
-			alias="likedVO" />	
-		<typeAlias type="com.spring.ec.user.vo.BadVO"
-			alias="badVO" />	
+			alias="likedVO" />
+		<typeAlias type="com.spring.ec.user.vo.BadVO" alias="badVO" />
+		<typeAlias type="com.spring.ec.user.vo.AskVO" alias="askVO" />
 	</typeAliases>
 </configuration>

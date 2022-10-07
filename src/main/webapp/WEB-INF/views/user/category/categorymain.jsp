@@ -2462,6 +2462,66 @@ textarea {
 }
 
 
+
+/*리뷰 더보기*/
+.js-load {
+    display: none;
+}
+.js-load.active {
+    display: block;
+}
+.is_comp.js-load:after {
+    display: none;
+}
+
+
+/* 볼거리일때 */
+.y4sYp>li+li {
+    border-top: 1px solid;
+    border-color: #ecf0f2;
+    /* border-color: rgba(var(--place-color-border2), 1); */
+}
+
+.SF_Mq.RU_uO .X7q00 {
+    overflow: hidden;
+}
+
+.SF_Mq.RU_uO .tCVSb {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+.SF_Mq.RU_uO .tCVSb::before {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    border-top: 1px dashed;
+    border-color: #e2e5e8;
+    /* border-color: rgba(var(--place-color-border1), 1); */
+    transform: translateY(-50%);
+    content: "";
+}
+
+.SF_Mq.RU_uO .Wrdut {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+}
+
+.SF_Mq.RU_uO .kxBJK {
+    flex: none;
+    position: relative;
+    padding-left: 6px;
+    background: #fff;
+    /* background: rgba(var(--place-color-bg2), 1); */
+    color: #666;
+    /* color: rgba(var(--place-color-text4), 1); */
+}
+
+
+
 </style>
 
 <script>
@@ -2550,7 +2610,7 @@ function openPop() {
  
     /*카드 클릭시 홈으로 탭메뉴 초기화  */
     $(function(){
-   	   $('.card').click(function () {  
+   	   $('.card').click(function () { 
    		$('.tab_title a').click(function () { 
       	    $('.tab_title a').removeClass('on'); 
       	    //$('.tab_title a').attr('aria-selected','false'); 
@@ -2744,6 +2804,55 @@ $(".tab_cont > div").eq(idx).show();
           divisionId: '151361'
       });
     });
+    
+    
+    
+    
+    
+    
+    
+    
+/*리뷰 더보기*/
+/*   $(function(){
+   	   $('.fvwqf').click(function () { 
+   		var getId=$(this).attr("id");
+   	   });
+    }); 
+ */
+ 
+function cardreview(id){
+	 var id = "#" + id;
+	 loada(id, '4');
+ }
+
+ function reviewloadabc(id, btn) {
+	var id = "#" + id;
+	var btn = "#" + btn;
+	load(id, '4', btn);
+} 
+ 
+function loada(id, cnt) {
+	    var girls_list = id + " .js-load";
+	    var girls_length = $(girls_list).length;
+	    var girls_total_cnt = cnt;
+	    
+	    $(girls_list + ":lt(" + girls_total_cnt + ")").addClass("active");
+	}
+ 
+function load(id, cnt, btn) {
+    var girls_list = id + " .js-load:not(.active)";
+    var girls_length = $(girls_list).length;
+    var girls_total_cnt;
+    if (cnt < girls_length) {
+        girls_total_cnt = cnt;
+    } else {
+        girls_total_cnt = girls_length;
+        //$('.fvwqf').hide()
+    }
+    $(girls_list + ":lt(" + girls_total_cnt + ")").addClass("active");
+}
+
+
 
 </script>
 
@@ -2759,9 +2868,39 @@ mapOption = {
     center: new kakao.maps.LatLng(37.5666805, 126.9784147), // 지도의 중심좌표
     level: 8 // 지도의 확대 레벨
 };
-
 //지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
+
+<%
+String searchwordss = request.getParameter("search");
+if(searchwordss == null || searchwordss.equals("null")) {
+	searchwordss = "";
+}
+
+String searcharea = request.getParameter("area");
+if(searcharea == null || searcharea.equals("null")) {
+	searcharea = "지역";
+} else {
+%>
+	setMap("<%= searcharea%>");
+
+<%	}
+
+
+String searchkind = request.getParameter("kind");
+if(searchkind == null || searchkind.equals("null")) {
+	searchkind = "업종";
+} else if (searchkind.equals("10")) {
+	searchkind = "먹거리";
+} else if (searchkind.equals("20")) {
+	searchkind = "볼거리";
+}
+
+%>
+
+
+
+
 //서울로 화면 이동
 function setMap(value) {            
 // 이동할 위도 경도 위치를 생성합니다 
@@ -2800,15 +2939,10 @@ if (value==="서울특별시"){
 } else if (value==="제주도"){
 	map.setCenter(new kakao.maps.LatLng(33.364805, 126.542671));
 }
-
 }
-
 //버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다
 var geocoder = new kakao.maps.services.Geocoder(); 
-
-
 var list =[];
-
 <c:forEach items="${StoreList}" var="item">
 list.push({addr:'${item.seller_addr}', name:'${item.seller_name}'});
 </c:forEach>
@@ -2824,8 +2958,8 @@ geocoder.addressSearch(sell.addr,function(result, status){
 	};
 });
 });
-function setCenter(addr) {            
 
+function setCenter(addr) {            
 geocoder.addressSearch(addr,function(result, status){
 	if (status === daum.maps.services.Status.OK) {
 	    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -2836,31 +2970,13 @@ geocoder.addressSearch(addr,function(result, status){
 });   
 }
 </script>
-
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=05169d60664947410852341b56c43f34&libraries=services,clusterer,drawing"></script>
  <script src="js/myscript.js"></script>
 
-<%
-	String searchwordss = request.getParameter("search");
-	if(searchwordss == null || searchwordss.equals("null")) {
-		searchwordss = "";
-	}
-	System.out.println("search:::" + searchwordss);
-	
-	String searcharea = request.getParameter("area");
-	if(searcharea == null || searcharea.equals("null")) {
-		searcharea = "지역";
-	}
-	
-	String searchkind = request.getParameter("null");
-	if(searchkind == null || searchkind.equals("null")) {
-		searchkind = "업종";
-	}
-	
-%>
+
 <navbar _ngcontent-ewg-c62 _nghost-ewg-c33>
 	<h1 _ngcontent-ewg-c33 class="logo_box">
-		<a _ngcontent-ewg-c33 href="http://www.naver.com" class="link_logo">
+		<a _ngcontent-ewg-c33 href="${contextPath }/main.do" class="link_logo">
 		<img alt="메인로고" src="image/mainlogo.png">
 		</a>
 	</h1>
@@ -2899,7 +3015,7 @@ geocoder.addressSearch(addr,function(result, status){
 						<c:if test="${not empty member.user_id }">
 						
 						<li _ngcontent-ewg-c33 class="item_navbar">
-						<a _ngcontent-ewg-c33 href="#" class="link_navbar home active"> 
+						<a _ngcontent-ewg-c33 href="${contextPath }/mypage.do" class="link_navbar home active"> 
 							<img alt="마이페이지" src="image/reserve_check.png" width="20" height="20"> 
 							<span _ngcontent-ewg-c33 class="navbar_text">마이페이지</span>
 						</a>
@@ -2955,8 +3071,8 @@ geocoder.addressSearch(addr,function(result, status){
    <select name="kind" class="btn btn-primary dropdown-toggle" style="width:130px;font-size:15px; margin-left: 10px;">
   	<option class="dropdown-item" style="background-color: white;" hidden><%=searchkind %></option>
   	<option class="dropdown-item" style="background-color: white;" value="null" <c:if test="${kind eq '전체'}">selected</c:if>>전체</option>
-  	<option class="dropdown-item" style="background-color: white;" value="먹거리" <c:if test="${kind eq '먹거리'}">selected</c:if>>먹거리</option>
-  	<option class="dropdown-item" style="background-color: white;" value="볼거리" <c:if test="${kind eq '볼거리'}">selected</c:if>>볼거리</option>
+  	<option class="dropdown-item" style="background-color: white;" value="10" <c:if test="${kind eq 10}">selected</c:if>>먹거리</option>
+  	<option class="dropdown-item" style="background-color: white;" value="20" <c:if test="${kind eq '20'}">selected</c:if>>볼거리</option>
 
   </select>
 
@@ -2978,14 +3094,21 @@ geocoder.addressSearch(addr,function(result, status){
 		<c:when test="${!empty StoreList }">
 			<c:forEach var="store" items="${StoreList }" varStatus="storeNum">
 			<%-- <a href="${contextPath }/storeInfo.do?seller_id=${store.seller_id}"> --%>
-					<div class="card" data-bs-toggle="offcanvas" href="#${store.seller_id }"  aria-controls="offcanvasExample" style="margin-top:10px; margin-left: 5px; margin-right: 5px;" id="card${storeNum.index }">
-	 					<img src="https://ldb-phinf.pstatic.net/20220919_260/16635542007495NypM_JPEG/KakaoTalk_20220919_112238901.jpg" class="card-img-top" alt="..." width="286" height="180" style="object-fit:contain;">
+					<div class="card" data-bs-toggle="offcanvas" href="#${store.seller_id}"  aria-controls="offcanvasExample" style="margin-top:10px; margin-left: 5px; margin-right: 5px;" id="card${storeNum.index }" OnMouseUp="cardreview('js-load${storeNum.index}');" onClick="setCenter('${store.seller_addr}')">
+
+	 					<img src="${contextPath }/image/store_img/${store.image_fileName}" class="card-img-top" alt="..." width="299" height="180" onclick="setcenter">
+
 		  				<div class="card-body">
 		   				<p class="card-text">
 		    				<h1>${store.seller_name }</h1>
-		    				${store.seller_addr }
-		    				가게소개
-		    				
+		    				<span style="font-size: small">${store.seller_addr }</span> <br>
+		    				<span class="badge bg-warning text-dark">${store.keyword }</span>
+		    				<c:if test="${store.category_code eq 10 }">
+		    					<span class="badge bg-primary">먹거리</span>
+		    				</c:if>
+		    				<c:if test="${store.category_code eq 20 }">
+		    					<span class="badge bg-danger">볼거리</span>
+		    				</c:if>
 		    			</p>
 		  				</div>
   					</div>
@@ -3066,7 +3189,13 @@ geocoder.addressSearch(addr,function(result, status){
 						<div class="place_section OP4V8" data-nclicks-area-code="btp">
 							<div class="zD5Nm f7aZ0">
 								<div id="_title" class="YouOG">
-									<span class="Fc1rA">${store.store_nic}</span><!-- <span class="DJJvD">정육식당</span> -->
+								<c:if test="${store.category_code eq 10 }">
+									<span class="badge bg-primary ">먹거리</span> &nbsp;
+								</c:if>
+								<c:if test="${store.category_code eq 20 }">
+									<span class="badge bg-danger">볼거리</span> &nbsp;
+								</c:if>
+								<span class="Fc1rA">${store.store_nic}</span><!-- <span class="DJJvD">정육식당</span> -->
 								</div>
 								<div class="dAsGb">
 								
@@ -3183,7 +3312,7 @@ geocoder.addressSearch(addr,function(result, status){
 							<div class="UoIF_ Afmx0 cgBhJ">
 								<div class="gR5KI">
 									<span class="yxkiA">
-									<a href="${contextPath }/reservation.do" arget="_self" role="button" class="D_Xqt ">
+									<a href="${contextPath }/reservation.do?seller_id=${store.seller_id}" arget="_self" role="button" class="D_Xqt ">
 	
 										<span class="yJySz">예약</span></a></span>
 								</div>
@@ -3203,8 +3332,19 @@ geocoder.addressSearch(addr,function(result, status){
 											<a href="#home" role="tab" class="tpj9w _tab-menu on hometab" aria-selected="true" title="" id="" style="width: 120px;">
 											<span class="veBoZ">홈</span>
 											</a>
-											<a href="#menu" target="_self" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;" >
-											<span class="veBoZ">메뉴</span></a>
+											
+											
+											<c:if test="${store.category_code eq 10 }">
+												<a href="#menu" target="_self" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;" >
+												<span class="veBoZ">메뉴</span></a>
+											</c:if>
+											
+											<c:if test="${store.category_code eq 20 }">
+												<a href="#price" target="_self" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;" >
+												<span class="veBoZ">가격</span></a>
+											</c:if>
+											
+											
 											<a href="#review" role="tab" class="tpj9w _tab-menu" aria-selected="false" title="" id="" style="width: 120px;" >
 											<span class="veBoZ" >리뷰</span>
 											</a>
@@ -3302,13 +3442,63 @@ geocoder.addressSearch(addr,function(result, status){
 														class="nHf7b" aria-hidden="true">
 														<path
 															d="M2.92 1.15L.15 3.93a.5.5 0 00-.14.45 16.09 16.09 0 0012.6 12.61.5.5 0 00.46-.14l2.78-2.78a.5.5 0 000-.71l-4.18-4.18-.07-.06a.5.5 0 00-.64.06l-1.9 1.9-.28-.18a9.53 9.53 0 01-2.65-2.63L5.96 8 7.88 6.1a.5.5 0 000-.71L4.41 1.93l-.78-.78a.5.5 0 00-.7 0zm5.62 10.79l.37.21.09.04a.5.5 0 00.49-.13l1.82-1.82 3.48 3.47-2.24 2.24-.07-.01A15.1 15.1 0 011.14 4.84l-.1-.4 2.24-2.23 3.54 3.53-1.84 1.84a.5.5 0 00-.08.6 10.54 10.54 0 003.64 3.76z"></path></svg></strong>
-											<div class="x8JmK">
+													<div class="x8JmK">
 													<span class="dry01" id="tel">${store.seller_tel }</span>
-										<span class="mnnPt"><a href="#" target="_self" role="button" class="_vIMk" title="복사" onclick="copyToClipBoard()">
+													<span class="mnnPt"><a href="#" target="_self" role="button" class="_vIMk" title="복사" onclick="copyToClipBoard()">
 													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 13" class="pHtH_" aria-hidden="true">
 													<path d="M9 8v.48l-1.98 1.58L6 11H3v1h4.61L10 9.81V3h-.97L9 8zm0-6h1a1 1 0 011 1v7.25L8 13H3a1 1 0 01-1-1v-1H1a1 1 0 01-1-1V1a1 1 0 011-1h7a1 1 0 011 1v1zm-7 8h3.5l.87-.7L8 7.81V1H1v9h1zm0-7h4v1H2V3zm0 2h4v1H2V5zm0 2h2v1H2V7z"></path></svg>복사</a></span>
 												</div>
 											</li>
+
+
+
+													<li class="SF_Mq">
+													<strong class="RmIE4">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 18" class="nHf7b" aria-hidden="true">
+														<path d="M10.05 15.48h4.45V7.86a3.26 3.26 0 01-2.22.86c-.81 0-1.57-.3-2.15-.81a3.24 3.24 0 01-2.15.81 3.24 3.24 0 01-2.13-.79 3.24 3.24 0 01-2.13.8 3.26 3.26 0 01-2.22-.87v7.62h4.44V11.3a.5.5 0 01.5-.5h3.11a.5.5 0 01.5.5v4.17zm-1 0V11.8h-2.1v3.67h2.1zm6.45-9.79a.5.5 0 010 .04v10.25a.5.5 0 01-.5.5H1a.5.5 0 01-.5-.5V5.73 5.7a3.11 3.11 0 010-.1.5.5 0 01.05-.22L2.3 1.78a.5.5 0 01.45-.28h10.5a.5.5 0 01.45.28l1.75 3.59a.5.5 0 01.05.22v.1zM3.06 2.5L1.5 5.7a2.19 2.19 0 002.22 2.02 2.24 2.24 0 001.74-.82.5.5 0 01.78 0 2.24 2.24 0 001.74.82c.7 0 1.33-.31 1.75-.85a.5.5 0 01.79 0 2.24 2.24 0 001.76.85c1.2 0 2.16-.9 2.22-2.02l-1.56-3.2H3.06z"></path></svg>
+														<span class="place_blind">편의</span>
+													</strong>
+													<div class="x8JmK">${store.store_benefit}</div></li>
+
+
+													<!-- 볼거리 일때 보이는 페이지 -->
+											<c:if test="${store.category_code eq 20 }">
+												<li class="SF_Mq RU_uO">
+												<strong class="RmIE4">
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 18" class="nHf7b" aria-hidden="true">
+													<path d="M8 17A8 8 0 108 1a8 8 0 000 16zm0-1A7 7 0 118 2a7 7 0 010 14zM4.33 9l1.03 3.75h1.08L7.6 9h.86l1.12 3.75h1.08L11.68 9H13V8h-1.04l.54-2h-1.02l-.51 2H9.14l-.6-2H7.6l-.62 2H5.14l-.5-2H3.5l.55 2H3v1h1.33zM5.4 9h1.28L6 11.21h-.04L5.4 9zm4.04 0h1.27l-.58 2.21h-.02L9.44 9zM8.16 8H7.9l.12-.36h.03l.1.36z"></path></svg>
+													<span class="place_blind">가격표</span>
+												</strong>
+														<div class="x8JmK">
+																<ul class="X7q00 WVr9W">
+																<c:forEach var="product" items="${menuList }" varStatus="proNum">
+																<c:if test="${product.seller_id eq store.seller_id}">
+																	<li><div class="tCVSb">
+																			<div class="Wrdut">
+																				<span class="tBrX7">
+																					<span class="ob_be">
+																					${product.pro_name }
+																					</span>
+																				</span>
+																			</div>
+																			<div class="kxBJK">
+																			<span> <%-- <fmt:formatNumber value="${product.pro_price }" pattern="#,###"/> --%>${product.pro_price }</span> 원</div>
+																		</div></li>
+																	</c:if>
+																	</c:forEach>
+																</ul>
+															</div>
+														</li>
+											
+											</c:if>
+											
+											
+											
+											
+											
+											
+											
+											
 	
 											<li class="SF_Mq I5Ypx"><strong class="RmIE4"><svg
 														xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 18"
@@ -3325,6 +3515,8 @@ geocoder.addressSearch(addr,function(result, status){
 									</div>
 								</div>
 								
+								
+								<c:if test="${store.category_code eq 10 }">
 								<div class="place_section" data-nclicks-area-code="qmn">
 									<h2 class="place_section_header">
 										메뉴<!-- <em class="place_section_count">25</em> -->
@@ -3337,19 +3529,20 @@ geocoder.addressSearch(addr,function(result, status){
 									</h2>
 									<div class="place_section_content">
 										<ul class="mpoxR">
-								
 										
-										<c:forEach var="product" items="${menuList }" varStatus="proNum">
+										<c:set var="loop_flag" value="false" />		
+											<c:set var="count" value="0" />				
+											<c:forEach var="product" items="${menuList }" varStatus="proNum">
 											<c:if test="${product.seller_id eq store.seller_id}">
-											
-											<li class="yhGu6"><a
-												href="#"
-												 role="button" class="Ozh8q">
+											<c:if test="${not loop_flag }">
+										
+											<li class="yhGu6">
+											<a href="#" role="button" class="Ozh8q">
 												<div class="ZHqBk">
-														<div class="place_thumb">
-															<img src="#" width="100%" height="auto">
-														</div>
-													</div>
+												<div class="place_thumb">
+													<img src="${contextPath}/image/menu/${product.seller_id }/${product.pro_img }" width="100%" height="auto">
+												</div>
+												</div>
 													<div class="MN48z">
 														<div class="erVoL">
 															<div class="MENyI">${product.pro_name }</div>
@@ -3358,8 +3551,18 @@ geocoder.addressSearch(addr,function(result, status){
 															<div class="gl2cc">${product.pro_price } 원</div>
 														</div>
 														<div class="Qh_eq"></div>
-													</div></a></li>
+													</div>
+													</a>
+											</li>
+											</c:if>
+											<c:set var="count" value="${count + 1 }" />	
+												<c:if test="${count eq 4  }" >
+													<c:set var="loop_flag" value="true" />
+													<c:set var="count" value="0" />	
 												</c:if>
+											 
+											
+											</c:if>
 											</c:forEach>
 										</ul>
 									</div>
@@ -3382,6 +3585,8 @@ geocoder.addressSearch(addr,function(result, status){
 										</c:if>
 									</c:forEach>
 								</div>
+							</c:if>
+							
 							<div class="place_section" data-nclicks-area-code="qbk">
 								<h2 class="place_section_header">
 									예약
@@ -3390,7 +3595,7 @@ geocoder.addressSearch(addr,function(result, status){
 									<ul class="i81eZ">
 										<li class="cvLXA"><div class="Zwdge">
 												<div class="F7xaA">
-													<a href="/restaurant/16045148/booking" target="_self"
+													<a href="#" target="_self"
 														role="button" class="y5Vxu"><span
 														class="place_bluelink wpUMQ">${store.store_nic } <br> 예약</span></a>
 												</div>
@@ -3428,10 +3633,12 @@ geocoder.addressSearch(addr,function(result, status){
 									<div class="place_section_content">
 										<div class="TraH1">
 											<ul class="Uf1BQ" style="padding:0">
-											
+											<c:set var="loop_flag" value="false" />		
+											<c:set var="count" value="0" />				
 											<c:forEach var="review" items="${reviewList }" varStatus="revNum">
 											<c:if test="${review.seller_id eq store.seller_id}">
-												<li class="qrzj_"><div class="IEbo1">
+											<c:if test="${not loop_flag }">
+											<li class="qrzj_"><div class="IEbo1">
 														<div class="GP2eR">
 															<div class="RGkHL ZZ4OK">
 															
@@ -3458,19 +3665,28 @@ geocoder.addressSearch(addr,function(result, status){
 																	</div></a>
 																	<a
 																	href="#" role="button" class="iKqnp">
-																	<div class="rg88i">${review.user_id }</div>
+																	<div class="rg88i">${review.user_nick }</div>
 																	<div class="FrWK3">
 																		<span class="ExHfk"><span class="place_blind">작성일</span>
 																		<div class="rg88i">${review.reg_date }</div>
 																		<%-- <time aria-hidden="true">${reivew.reg_date}</time> --%>
 																	</div></a>
 															</div>
-														</div>
-													</div></li>
-													</c:if>
-													</c:forEach>
-												
+													</div>
+												</div>
+											</li>
+											</c:if>
+											<c:set var="count" value="${count + 1 }" />	
+												<c:if test="${count eq 3  }" >
+													<c:set var="loop_flag" value="true" />
+													<c:set var="count" value="0" />	
+												</c:if>
+											 
+											
+											</c:if>
+											</c:forEach>
 											</ul>
+											
 										</div>
 										<div class="lfH3O">
 											<a href="#" role="button" class="fvwqf"><span class="iNSaH">총 <em id="reviewcount${storeNum.index}">0</em>개의 방문자 리뷰</span>
@@ -3520,8 +3736,8 @@ geocoder.addressSearch(addr,function(result, status){
 						
 						
 						
-						
-						<!--menu:start  -->
+						<c:if test="${store.category_code eq 10 }">
+						<!--menu:start  / price:start  -->
 									<div data-nclicks-area-code="bmv" id="menu">
 										<div class="place_section no_margin">
 											<div class="place_section_content">
@@ -3534,7 +3750,7 @@ geocoder.addressSearch(addr,function(result, status){
 														class="qpNnn"><div class="r8zp9">
 																<div class="place_thumb vMMzE">
 																	<div class="K0PDV"
-																		style="width: 100px; height: 100px; background-image: url(&quot;https://search.pstatic.net/common/?autoRotate=true&amp;quality=95&amp;type=f320_320&amp;src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20170321_210%2F1490090806016JftY6_JPEG%2Fb78c8c09-6efb-4232-ac94-f96cc0a7811c.jpeg&quot;);">
+																		style="width: 100px; height: 100px; background-image: url(${contextPath}/image/menu/${menu.seller_id }/${menu.pro_img });">
 																		<span class="place_blind">${menu.pro_name }</span>
 																	</div>
 																</div>
@@ -3557,7 +3773,7 @@ geocoder.addressSearch(addr,function(result, status){
 																<div class="TvLl7">
 																	<div class="eCaG_"></div>
 																</div>
-																<div class="SSaNE">${menu.pro_price } 원</div>
+																<div class="SSaNE"><%-- <fmt:formatNumber value="${menu.pro_price }" pattern="#,###"/> --%>${menu.pro_price } 원</div>
 															</div></a></li>
 													</c:if>
 													</c:forEach>
@@ -3590,7 +3806,82 @@ geocoder.addressSearch(addr,function(result, status){
 							
 						<!-- footer:end -->
 						<!-- menu:end -->
+						</c:if>
 						
+						
+						
+						
+						<c:if test="${store.category_code eq 20 }">
+						<!-- price:start  -->
+									<div data-nclicks-area-code="bmv" id="price">
+										<div class="place_section no_margin">
+											<div class="place_section_content">
+												<ul class="ZUYk_">
+												<c:forEach var="menu" items="${menuList }" varStatus="menuNum">
+												<c:if test="${menu.seller_id eq store.seller_id}">
+												
+													<li class="P_Yxm">
+													<a href="#" role="button" class="qpNnn">
+													<div class="r8zp9">
+																<div class="place_thumb vMMzE">
+																	<div class="K0PDV"
+																		style="width: 100px; height: 100px; background-image: url(${contextPath}/image/menu/${menu.seller_id }/${menu.pro_img });">
+																		<span class="place_blind">${menu.pro_name }</span>
+																	</div>
+																</div>
+															</div>
+															<div class="LZ3Zm">
+																<div class="pr1Qk">
+																	<div class="MR0bc">
+																		<span class="Sqg65">${menu.pro_name }</span>
+																		<!-- <span class="GPETv">
+																			<svg
+																				xmlns="http://www.w3.org/2000/svg"
+																				viewBox="0 0 29 16" class="Udax8" aria-hidden="true">
+																				<path fill="#ffaf3b"
+																					d="M8 0h13c4.4 0 8 3.6 8 8s-3.6 8-8 8H8c-4.4 0-8-3.6-8-8s3.6-8 8-8z"></path>
+																				<path fill="#fff"
+																					d="M13.7 12.9h-1.2V8h-.9v4.5h-1.2V3.2h1.2v3.7h.9V3.1h1.2v9.8zM6.9 9.5c1 0 2.2-.1 2.8-.2l.1 1c-.7.2-2.2.3-3.3.3h-.9V4.2h3.7v1H6.9v4.3zm16.5 2.1h-8.9v-1h2.2V8.7H18v1.9h1.9V8.7h1.3v1.9h2.2v1zm-.9-3.3h-7.2v-1h1.4l-.2-1.8 1.3-.1.1 2H20l.3-2 1.2.2-.3 1.8h1.3v.9zm.1-3.5h-7.2v-1h7.2v1z"></path></svg><span
+																			class="place_blind">대표</span></span> -->
+																	</div>
+																</div>
+																<div class="TvLl7">
+																	<div class="eCaG_"></div>
+																</div>
+																<div class="SSaNE"><%-- <fmt:formatNumber value="${menu.pro_price }" pattern="#,###"/> --%>${menu.pro_price } 원</div>
+															</div></a></li>
+													</c:if>
+													</c:forEach>
+												</ul>
+												<div class="KPQDP">메뉴 항목과 가격은 각 매장의 사정에 따라 기재된 내용과 다를
+													수 있습니다.</div>
+											</div>
+										</div>
+										
+										<!--풋터  -->
+										<footer class="wzfnR" role="contentinfo" data-nclicks-area-code="fot">
+											<div class="TRQjy">
+												<a href="https://policy.naver.com/policy/service.html"
+													target="_blank" role="button" class="X9K3K">이용약관</a><a
+													href="https://help.naver.com/alias/NSP_M/NSPM_1.naver"
+													target="_blank" role="button" class="X9K3K">고객센터</a><a
+													href="https://m.place.naver.com/my/policy/visitorReview"
+													target="_blank" role="button" class="X9K3K">리뷰운영정책</a><a
+													href="https://help.naver.com/alias/myplace/myplace_70.naver"
+													target="_blank" role="button" class="X9K3K">신고센터</a>
+											</div>
+											<div class="zIIzj">
+												<a href="${contextPath }/main.do" target="_blank" role="button"><span
+													class="place_blind">먹고보자</span>
+													<img src="image/mainlogo2.png" width=50>
+												</a>
+											</div>
+										</footer>
+									</div>
+							
+						<!-- footer:end -->
+						<!-- price:end -->
+						</c:if>
 						
 						
 						
@@ -3656,13 +3947,13 @@ geocoder.addressSearch(addr,function(result, status){
 											</h2> --%>
 											</c:if>
 											</c:forEach>
-											<div class="place_section_content">
+											<div class="place_section_content cls-js-load" id="js-load${storeNum.index}">
 												<div id="_tag_filters"></div>
 												<ul class="eCPGL" style="padding:0; margin-bottom: 0">
-												<c:forEach var="review" items="${reviewList }" varStatus="reviewNum" end="6">
+												<c:forEach var="review" items="${reviewList }" varStatus="reviewNum">
 												<c:if test="${review.seller_id eq store.seller_id}">
 													<div style="border-bottom: 1px solid #ecf0f2">
-													<li class="YeINN"><div class="Lia3P">
+													<li class="YeINN js-load"><div class="Lia3P">
 															<a
 																href="#"
 																target="_blank" role="button" class="DqSJm"><div
@@ -3736,12 +4027,15 @@ geocoder.addressSearch(addr,function(result, status){
 														</c:forEach>
 												</ul>
 											</div>
-											<div class="lfH3O">
-												<a href="#" target="_self" role="button" class="fvwqf">더보기<svg
-														xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7"
-														class="E4qxG" aria-hidden="true">
-														<path d="M6 5.59L11.35 0l.65.7L6 7 0 .7.65 0z"></path></svg></a>
+											<div class="lfH3O" id="js-btn-wrap${storeNum.index}">
+												<a href="javascript:void(0)" target="_self" role="button" class="fvwqf" onClick="reviewloadabc('js-load${storeNum.index}','js-btn-wrap${storeNum.index}');">더보기
+												<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7" class="E4qxG" aria-hidden="true">
+												<path d="M6 5.59L11.35 0l.65.7L6 7 0 .7.65 0z">
+												</path>
+												</svg>
+												</a>
 											</div>
+											<!--  onClick="reviewload(js-load${storeNum.index},js-btn-wrap${storeNum.index});" -->
 										</div>
 
 
@@ -3838,7 +4132,7 @@ geocoder.addressSearch(addr,function(result, status){
  <!--리뷰 모달  -->
 
 <!-- Modal -->
-<form class="mb-3" name="myform" id="myform" method="post" action="${contextPath }/addreview.do?">
+<form class="mb-3" name="myform" id="myform" method="post" action="${contextPath }/addreview.do">
 <input type="hidden" name="seller_id" id="reviewsellerid" value="">
 <input type="hidden" name="reviewstorenic" id="reviewstorenic" value="">
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

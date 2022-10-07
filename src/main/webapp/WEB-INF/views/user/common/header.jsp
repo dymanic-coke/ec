@@ -133,11 +133,8 @@ ul {
 	height: 36px;
 	scale: 1.1;
 }
-#offcanvasNavbarLabel{
-	height: 50px;
-	margin-left: 30px;
-}
 
+}
 </style>
 
 	<script>
@@ -227,8 +224,6 @@ ul {
   </symbol>
 
 </svg>
-
-
        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
       	<h5 class="offcanvas-title" id="offcanvasNavbarLabel">
@@ -240,13 +235,13 @@ ul {
           로그아웃
         </a>
         </c:when>
-       	<c:otherwise>
+       <%-- 	<c:otherwise>
        	<a href="${contextPath}/user/loginForm.do " class="nav-link nav-hover">
        		<img src="${contextPath }/image/menu_05.png" width=100px height=36px>
        		<!-- <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
           로그인 -->
        	</a>
-       	</c:otherwise>
+       	</c:otherwise> --%>
        	</c:choose> <br></h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
@@ -350,22 +345,28 @@ ul {
     </ul>
     </div>
   <div class="rr">
-    	<nav class="navbar navbar-light"style="position: fixed;right: 50px;top: 30px;">
-    	<c:choose>
-    		<c:when test="${isLogOn == true && member !=null}">
-    		<svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-    		<p id="gg">${member.user_nick }님!</p>
-    		</c:when>
-    		<c:otherwise>
-    		</c:otherwise>
-    	</c:choose>
+    	<nav class="navbar navbar-light">
+    	<svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+    	<p id="gg">${member.user_nick }님!</p>
     	 <button class="navbar-toggler togglebtn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-      	<span class="navbar-toggler-icon"></span>
-    	</button>
+      <span class="navbar-toggler-icon"></span>
+    </button>
     </div>
-    	
-    
+    	<c:choose>
+      	<c:when test="${isLogOn == true && member !=null }">
+      		<h4>환영합니다 <br>${member.user_nick }님!</h4>
+        <a href="${contextPath }/user/logout.do" class="nav-link nav-hover">
+          <!-- <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          로그아웃 -->
+        </a>
+        </c:when>
+       	<c:otherwise>
+       	<a href="${contextPath}/user/loginForm.do " class="nav-link nav-hover">
+       		<!-- <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          로그인 -->
+          </a>
+       	</c:otherwise>
+       	</c:choose>
  </div>
-  
 </body>
 </html>

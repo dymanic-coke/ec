@@ -1,6 +1,7 @@
 package com.spring.ec.user.controller;
 
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.ec.seller.vo.StoreVO;
@@ -41,6 +43,7 @@ public class CateControllerImpl implements CateController {
 	@Autowired
 	ReviewVO reviewVO;
 	
+	// 카테고리
 	@Override
 	@RequestMapping(value = "/category.do", method = RequestMethod.GET)
 	public ModelAndView category(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -91,20 +94,40 @@ public class CateControllerImpl implements CateController {
 		System.out.println("listMap::::" + listMap);
 		System.out.println("Type is: " + listMap.getClass());
 
-		if (area == null || area.equals("null")) {
-			mav.setViewName("redirect:/category.do");
+		if (area == null || area.equals("null") || area.equals("지역")) {
+			listMap.put("area", "null");
 		} else {
 			listMap.put("area", area);
 		}
-
-		if (area.equals("null") && kind.equals("null") && search == null) {
-			mav.setViewName("redirect:/category.do");
+		
+		if (kind == null || kind.equals("null")|| kind.equals("업종")) {
+			listMap.put("kind", "null");
+		} else if (kind.equals("먹거리")) {
+			listMap.put("kind", "10");
+		} else if (kind.equals("볼거리")) {
+			listMap.put("kind", "20");
+		} else {
+			listMap.put("kind", kind);
 		}
 
+		/*
+		 * if (area.equals("null") && kind.equals("null") && search == null) {
+		 * mav.setViewName("redirect:/category.do"); }
+		 */
 		List StoreList = cateService.selectSearchStores(listMap);
 		List MenuList = cateService.selectMenu();
 		List ReviewList = cateService.selectReview();
 		List Reviewavgsum = cateService.selectReviewavgsum();
+		List prosumList = cateService.selectprosum();
+		List wishList = null;
+		HttpSession session = request.getSession();
+
+		if (session.getAttribute("member") != null) {
+			MemberVO mm = (MemberVO) session.getAttribute("member");
+			wishList = cateService.selectwish(mm.getUser_id());
+		}
+
+		List wishsum = cateService.selectwishsum();
 
 		
 		// ModelAndView mav = new ModelAndView("redirect:/category.do");
@@ -113,6 +136,9 @@ public class CateControllerImpl implements CateController {
 		mav.addObject("menuList", MenuList);
 		mav.addObject("reviewList", ReviewList);
 		mav.addObject("reviewavgsum", Reviewavgsum);
+		mav.addObject("wishList", wishList);
+		mav.addObject("wishsum", wishsum);
+		mav.addObject("prosumList", prosumList);
 		return mav;
 	}
 
@@ -193,6 +219,63 @@ public class CateControllerImpl implements CateController {
 		return wishsellsum;
 	}
 
+	// 다중 이미지 글 추가하기
+	/*
+	 * @Override
+	 * 
+	 * @RequestMapping(value="/addreview.do", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public ResponseEntity addreview(@RequestParam(value =
+	 * "seller_id") String seller_id, MultipartHttpServletRequest multipartRequest,
+	 * HttpServletResponse response) throws Exception {
+	 * multipartRequest.setCharacterEncoding("utf-8"); String imageFileName = null;
+	 * 
+	 * Map reviewMap = new HashMap(); Enumeration enu =
+	 * multipartRequest.getParameterNames(); while(enu.hasMoreElements()) { String
+	 * name = (String)enu.nextElement(); String value =
+	 * multipartRequest.getParameter(name); reviewMap.put(name, value); }
+	 * 
+	 * //로그인 시 세션에 저장된 회원 정보에서 글쓴이 아이디를 얻어와서 Map에 저장합니다. HttpSession session =
+	 * multipartRequest.getSession(); MemberVO memberVO =
+	 * (MemberVO)session.getAttribute("member"); String id = memberVO.getUser_id();
+	 * reviewMap.put("user_id", id); reviewMap.put("seller_id", seller_id);
+	 * 
+	 * List<String> fileList = upload(multipartRequest); List<ImageVO> imageFileList
+	 * = new ArrayList<ImageVO>(); if(fileList != null && fileList.size() !=0) {
+	 * for(String fileName : fileList){ ImageVO imageVO = new ImageVO();
+	 * imageVO.setImage_fileName(fileName); imageFileList.add(imageVO); }
+	 * reviewMap.put("imageFileList",imageFileList ); } String message;
+	 * ResponseEntity resEnt = null; HttpHeaders responseHeaders = new
+	 * HttpHeaders();
+	 * responseHeaders.add("Content-Type","text/html; charset=utf-8"); try { int
+	 * review_num = cateService.addReview(reviewMap); if(imageFileList != null &&
+	 * imageFileList.size() != 0) { for(ImageVO imageVO:imageFileList) {
+	 * imageFileName = imageVO.getImage_fileName(); File srcFile = new
+	 * File(REVIEW_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName); File destDir
+	 * = new File(REVIEW_IMAGE_REPO + "\\" + review_num); //destDir.mkdirs();
+	 * FileUtils.moveFileToDirectory(srcFile, destDir, true); } }
+	 * 
+	 * message = "<script>"; message += " alert('리뷰를 추가했습니다.');";
+	 * 
+	 * message += " location.href='" + multipartRequest.getContextPath() +
+	 * "/board/listArticles.do'; ";
+	 * 
+	 * message += " </script>"; resEnt = new ResponseEntity(message,
+	 * responseHeaders,HttpStatus.CREATED); } catch(Exception e) { if(imageFileList
+	 * != null && imageFileList.size() != 0) { for(ImageVO imageVO:imageFileList) {
+	 * imageFileName = imageVO.getImage_fileName(); File srcFile = new
+	 * File(REVIEW_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
+	 * srcFile.delete(); } }
+	 * 
+	 * message = "<script>"; message += " alert('오류가 발생했습니다. 다시 시도해 주세요');"; message
+	 * += " location.href='" + multipartRequest.getContextPath() +
+	 * "/board/articleForm.do'; "; message += " </script>"; resEnt = new
+	 * ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+	 * e.printStackTrace(); } return resEnt; }
+	 */
+	
+	
+	
 	//리뷰 등록
 	@Override
 	@RequestMapping(value="/addreview.do", method = RequestMethod.POST)
@@ -202,6 +285,7 @@ public class CateControllerImpl implements CateController {
 		
 		MemberVO mm = (MemberVO) session.getAttribute("member");
 		review.setUser_id(mm.getUser_id());
+		review.setUser_nick(mm.getUser_nick());
 		int result = cateService.addreview(review);
 		//result = cateService.addreview(review);
 		ModelAndView mav = new ModelAndView("redirect:/category.do");
@@ -210,10 +294,11 @@ public class CateControllerImpl implements CateController {
 	
 	@Override
 	@RequestMapping(value = "/reservation.do", method = { RequestMethod.POST, RequestMethod.GET })
-	public ModelAndView reservation(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView reservation(@RequestParam(value = "seller_id") String seller_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		String seller_id = "stest002";
 		ReservVO reservInfo = cateService.selectStoreInfo(seller_id);
+		HttpSession session = request.getSession();
+		session.setAttribute("reservInfo", reservInfo);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 		mav.addObject("reservInfo", reservInfo);
@@ -221,10 +306,62 @@ public class CateControllerImpl implements CateController {
 	}
 
 	@Override
-	@RequestMapping(value = "/reservCheck", method = { RequestMethod.POST, RequestMethod.GET })
-	public ModelAndView reservCheck(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/reservCheck/nonpay", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView reservCheck(@RequestParam(value = "seller_id") String seller_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
+		HttpSession session = request.getSession();
+		MemberVO memberVO = (MemberVO) session.getAttribute("member");
+		String user_name = request.getParameter("user_name");
+		int user_tel = Integer.parseInt(request.getParameter("user_tel"));
+		String user_email = request.getParameter("user_email");
+		String user_id = memberVO.getUser_id();
+		ReservVO reservInfo = cateService.selectStoreInfo(seller_id);
 		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value = "/reservCheck", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView unreservCheck(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		Map booking = new HashMap();
+		HttpSession session = request.getSession();
+		ReservVO reservInfo = (ReservVO)session.getAttribute("reservInfo");
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String user_id = null;
+		if(member != null) {
+			user_id = member.getUser_id();
+			booking.put("user_id", user_id);
+		}
+		String user_name = request.getParameter("user_name");
+		String user_tel = request.getParameter("user_tel");
+		String user_email = request.getParameter("user_email");
+		String user_hope = request.getParameter("user_hope");
+		String reserv_date = request.getParameter("reserv_date");
+		String reserv_time2 = request.getParameter("reserv_time");
+		String reserv_time = reserv_time2.trim();
+		String count_pp = request.getParameter("count_pp");
+		String order_id = request.getParameter("order_id");
+		String seller_id = request.getParameter("seller_id");
+		int reserv_pay = reservInfo.getReserv_pay();
+		booking.put("user_name", user_name);
+		booking.put("user_tel", user_tel);
+		booking.put("user_email", user_email);
+		booking.put("user_hope", user_hope);
+		booking.put("reserv_date", reserv_date);
+		booking.put("reserv_time", reserv_time);
+		booking.put("count_pp", count_pp);
+		booking.put("order_id", order_id);
+		booking.put("seller_id", seller_id);
+		booking.put("reserv_pay", reserv_pay);
+		if(member != null) {
+		cateService.addBooking(booking);
+		}else {
+		cateService.addNoUserBooking(booking);	
+		}
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("booking", booking);
 		mav.setViewName(viewName);
 		return mav;
 	}

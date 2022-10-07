@@ -48,4 +48,8 @@ public interface CateDAO {
 
 	// ¿¹¾à
 	public ReservVO selectStoreInfo2(String seller_id) throws DataAccessException;
+	
+	public int insertBooking(Map reserv) throws DataAccessException;
+	
+	public int insertNoUserBooking(Map reserv) throws DataAccessException;
 }
