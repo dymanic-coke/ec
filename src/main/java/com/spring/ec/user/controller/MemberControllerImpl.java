@@ -27,9 +27,6 @@ import com.spring.ec.user.vo.MemberVO;
 @Controller("memberController")
 public class MemberControllerImpl implements MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberControllerImpl.class);
-	private static final String U_IMAGE_REPO = "C:\\board\\u_board_imagefile";
-	public static final int pagePerList = 10;
-	public static final int pagingCount = 10;
 	@Autowired
 	private MemberService memService;
 	@Autowired
@@ -48,27 +45,6 @@ public class MemberControllerImpl implements MemberController {
 		 * tiles_user.xml의 definition name과 동일해져서 template main_layout.jsp로 이동하고
 		 * <tiles:inserAttribute name="body"에 main.jsp를 열어준다.
 		 */
-	}
-	
-	
-
-	private String upload(MultipartHttpServletRequest multipartRequest) throws Exception {
-		String image_fileName = null;
-		Iterator<String> fileNames = multipartRequest.getFileNames();
-		while (fileNames.hasNext()) {
-			String fileName = fileNames.next();
-			MultipartFile mFile = multipartRequest.getFile(fileName);
-			image_fileName = mFile.getOriginalFilename();
-			System.out.println("upload=" + image_fileName);
-			File file = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + fileName);
-			if (mFile.getSize() != 0) {
-				if (!file.exists()) {
-					file.getParentFile().mkdirs();
-					mFile.transferTo(new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + image_fileName));
-				}
-			}
-		}
-		return image_fileName;
 	}
 
 	// 로그인
@@ -238,13 +214,17 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView find_id_Result(@ModelAttribute("member") MemberVO member, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-
-		String user_id = memService.find_id_Result(member);
-
 		ModelAndView mav = new ModelAndView();
+		String user_id = memService.find_id_Result(member);
+		if(user_id == null) {
+			mav.addObject("check",1);
+			mav.setViewName(viewName);
+		}else {
+		mav.addObject("check",0);
 		mav.addObject("user_id", user_id);
 		mav.setViewName(viewName);
-		return mav;
+	}
+	return mav;
 	}
 
 	@Override
