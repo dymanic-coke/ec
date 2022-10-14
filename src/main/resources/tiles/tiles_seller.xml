@@ -11,7 +11,11 @@
 	</definition>
 	<!-- 메인페이지 -->
 	<definition name="/sellerMain" extends="baseLayout">
-		<put-attribute name="title" value="먹고보고-셀러들의 메인"/>
+		<put-attribute name="title" value="먹고보자-셀러들의 메인"/>
 		<put-attribute name="body" value="/WEB-INF/views/seller/seller_main.jsp"/>
+	</definition>
+	<definition name="/seller/bookingStatus" extends="baseLayout">
+		<put-attribute name="title" value="먹고보자-예약 현황"/>
+		<put-attribute name="body" value="/WEB-INF/views/seller/booking/booking_Status.jsp"/>
 	</definition>
 </tiles-definitions>

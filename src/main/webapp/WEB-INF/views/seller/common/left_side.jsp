@@ -11,6 +11,9 @@ request.setCharacterEncoding("utf-8");
 <html>
 <head>
 <style type="text/css">
+	.main-sidebar{
+		position: fixed !important;
+	}
 	.nav-sidebar>.nav-item{
  		margin-bottom: 10px;
  	}
@@ -32,8 +35,8 @@ request.setCharacterEncoding("utf-8");
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="${contextPath}/sellerMain" class="brand-link">
-      <img src="${contextPath}/image/logo_coral.png" alt="" class="brand-image elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">먹고보고</span>
+      <img src="${contextPath}/image/logo_8681_2.png" alt="" class="brand-image elevation-3" style="opacity: .8; width:180px; height: 50px; justify-content: center;">
+      <span class="brand-text font-weight-light"></span>
     </a>
 
     <!-- Sidebar -->
@@ -101,13 +104,13 @@ request.setCharacterEncoding("utf-8");
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#l" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="fas fa-thumbs-up nav-icon"></i>
                   <p>승인/취소</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                <a href="${contextPath}/seller/bookingStatus" class="nav-link">
                   <i class="far fa-calendar-check nav-icon"></i>
                   <p>예약 현황</p>
                 </a>

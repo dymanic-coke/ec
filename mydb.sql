@@ -14,10 +14,12 @@
 
 
 -- mydb 데이터베이스 구조 내보내기
+DROP DATABASE IF EXISTS `mydb`;
 CREATE DATABASE IF NOT EXISTS `mydb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `mydb`;
 
 -- 테이블 mydb.admin_tbl 구조 내보내기
+DROP TABLE IF EXISTS `admin_tbl`;
 CREATE TABLE IF NOT EXISTS `admin_tbl` (
   `admin_num` int(11) NOT NULL COMMENT '관리자 번호',
   `admin_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '관리자 아이디',
@@ -39,6 +41,7 @@ INSERT INTO `admin_tbl` (`admin_num`, `admin_id`, `admin_pw`, `admin_name`, `adm
 /*!40000 ALTER TABLE `admin_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.book_tbl 구조 내보내기
+DROP TABLE IF EXISTS `book_tbl`;
 CREATE TABLE IF NOT EXISTS `book_tbl` (
   `book_num` int(11) NOT NULL COMMENT '예약번호',
   `seller_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'FK(seller_tbl) 가게명',
@@ -51,7 +54,8 @@ CREATE TABLE IF NOT EXISTS `book_tbl` (
   `user_email` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '이메일',
   `reserv_pay` int(11) DEFAULT 0 COMMENT '예약선금',
   `reg_date` date NOT NULL COMMENT '예약을 진행한 날짜',
-  `order_id` varchar(30) NOT NULL,
+  `order_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reserv_status` int(11) NOT NULL,
   PRIMARY KEY (`book_num`),
   KEY `seller_id` (`seller_id`),
   KEY `user_id` (`user_id`),
@@ -59,13 +63,17 @@ CREATE TABLE IF NOT EXISTS `book_tbl` (
   CONSTRAINT `FK_book_tbl_user_tbl` FOREIGN KEY (`user_id`) REFERENCES `user_tbl` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 mydb.book_tbl:~0 rows (대략적) 내보내기
+-- 테이블 데이터 mydb.book_tbl:~4 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `book_tbl` DISABLE KEYS */;
-INSERT INTO `book_tbl` (`book_num`, `seller_id`, `user_id`, `user_name`, `reserv_date`, `reserv_time`, `user_tel`, `count_pp`, `user_email`, `reserv_pay`, `reg_date`, `order_id`) VALUES
-	(1, 'stest001', 'test1', '김희재', '2022-10-22', '13:00:00', '010-1234-5678', 2, NULL, 10000, '2022-10-06', 'asdfghjko');
+INSERT INTO `book_tbl` (`book_num`, `seller_id`, `user_id`, `user_name`, `reserv_date`, `reserv_time`, `user_tel`, `count_pp`, `user_email`, `reserv_pay`, `reg_date`, `order_id`, `reserv_status`) VALUES
+	(1, 'stest001', 'test1', '김희재', '2022-10-22', '13:00:00', '010-1234-5678', 2, NULL, 10000, '2022-10-06', 'asdfghjko', 1),
+	(2, 'stest002', 'test1', '테스트1', '2022-10-26', '17:00:00', '010-0000-0000', 3, 'test1@test.com', 10000, '2022-10-07', 'BpMmEFJDXA', 2),
+	(3, 'stest001', 'test1', '테스트1', '2022-10-17', '13:30:00', '010-0000-0000', 3, 'test1@test.com', 10000, '2022-10-07', 'Eg9zPi8Jdn', 1),
+	(4, 'stest001', 'test1', '테스트1', '2022-10-20', '17:00:00', '010-0000-0000', 5, 'test1@test.com', 10000, '2022-10-07', 'U1OT8SzGfR', 1);
 /*!40000 ALTER TABLE `book_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.category_tbl 구조 내보내기
+DROP TABLE IF EXISTS `category_tbl`;
 CREATE TABLE IF NOT EXISTS `category_tbl` (
   `category_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '코드',
   `category_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '이름(설명)',
@@ -86,6 +94,7 @@ INSERT INTO `category_tbl` (`category_code`, `category_name`, `parent_code`) VAL
 /*!40000 ALTER TABLE `category_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.custmanage_tbl 구조 내보내기
+DROP TABLE IF EXISTS `custmanage_tbl`;
 CREATE TABLE IF NOT EXISTS `custmanage_tbl` (
   `custState_num` int(11) NOT NULL COMMENT '고객관리 번호\\n',
   `category_code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '카테고리코드(제재/혜택)',
@@ -110,6 +119,7 @@ CREATE TABLE IF NOT EXISTS `custmanage_tbl` (
 /*!40000 ALTER TABLE `custmanage_tbl` ENABLE KEYS */;
 
 -- 프로시저 mydb.dummy_board 구조 내보내기
+DROP PROCEDURE IF EXISTS `dummy_board`;
 DELIMITER //
 CREATE PROCEDURE `dummy_board`()
 begin
@@ -127,6 +137,7 @@ END//
 DELIMITER ;
 
 -- 함수 mydb.FUNCTION_hierarchical_comment 구조 내보내기
+DROP FUNCTION IF EXISTS `FUNCTION_hierarchical_comment`;
 DELIMITER //
 CREATE FUNCTION `FUNCTION_hierarchical_comment`() RETURNS int(11)
     READS SQL DATA
@@ -157,7 +168,27 @@ BEGIN
 END//
 DELIMITER ;
 
+-- 테이블 mydb.kakao_tbl 구조 내보내기
+DROP TABLE IF EXISTS `kakao_tbl`;
+CREATE TABLE IF NOT EXISTS `kakao_tbl` (
+  `k_number` int(11) NOT NULL,
+  `k_name` varchar(20) NOT NULL DEFAULT '',
+  `k_email` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`k_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+-- 테이블 데이터 mydb.kakao_tbl:~4 rows (대략적) 내보내기
+/*!40000 ALTER TABLE `kakao_tbl` DISABLE KEYS */;
+INSERT INTO `kakao_tbl` (`k_number`, `k_name`, `k_email`) VALUES
+	(1, '성웅', 'sungwoong414@naver.com'),
+	(2, '승현', 'rlatmd98@nate.com'),
+	(3, '�꽦�썒', 'sungwoong414@naver.com'),
+	(4, 'woongs', 'sungwoong414@naver.com'),
+	(5, '�넚誘쇨꼍', 'tar1998@naver.com');
+/*!40000 ALTER TABLE `kakao_tbl` ENABLE KEYS */;
+
 -- 테이블 mydb.notice_image_tbl 구조 내보내기
+DROP TABLE IF EXISTS `notice_image_tbl`;
 CREATE TABLE IF NOT EXISTS `notice_image_tbl` (
   `image_num` int(11) NOT NULL COMMENT '이미지번호',
   `list_num` int(11) NOT NULL COMMENT '글번호',
@@ -174,6 +205,7 @@ CREATE TABLE IF NOT EXISTS `notice_image_tbl` (
 /*!40000 ALTER TABLE `notice_image_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.notice_tbl 구조 내보내기
+DROP TABLE IF EXISTS `notice_tbl`;
 CREATE TABLE IF NOT EXISTS `notice_tbl` (
   `list_num` int(11) NOT NULL COMMENT '글 번호',
   `category_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '카테고리 코드\\n',
@@ -203,20 +235,21 @@ INSERT INTO `notice_tbl` (`list_num`, `category_code`, `admin_id`, `no_title`, `
 	(7, '9-1', 'admin', '공지사항 테스트7', '공지사항 내용7', '', '2022-10-04', NULL, 0),
 	(8, '9-1', 'admin', '공지사항 테스트8', '공지사항 내용8', '', '2022-10-04', NULL, 0),
 	(9, '9-1', 'admin', '공지사항 테스트9', '공지사항 내용9', '', '2022-10-04', NULL, 0),
-	(10, '9-1', 'admin', '공지사항 테스트10', '공지사항 내용10', '', '2022-10-04', NULL, 3),
+	(10, '9-1', 'admin', '공지사항 테스트10', '공지사항 내용10', '', '2022-10-04', NULL, 5),
 	(11, '9-2', 'admin', '이벤트 테스트11', '이벤트 내용11', 'event.png', '2022-10-04', NULL, 0),
 	(12, '9-2', 'admin', '이벤트 테스트12', '이벤트 내용12', 'event.png', '2022-10-04', NULL, 0),
 	(13, '9-2', 'admin', '이벤트 테스트13', '이벤트 내용13', 'event.png', '2022-10-04', NULL, 0),
-	(14, '9-2', 'admin', '이벤트 테스트14', '이벤트 내용14', 'event.png', '2022-10-04', NULL, 0),
+	(14, '9-2', 'admin', '이벤트 테스트14', '이벤트 내용14', 'event.png', '2022-10-04', NULL, 1),
 	(15, '9-2', 'admin', '이벤트 테스트15', '이벤트 내용15', 'event.png', '2022-10-04', NULL, 0),
 	(16, '9-2', 'admin', '이벤트 테스트16', '이벤트 내용16', 'event.png', '2022-10-04', NULL, 0),
-	(17, '9-2', 'admin', '이벤트 테스트17', '이벤트 내용17', 'event.png', '2022-10-04', NULL, 0),
+	(17, '9-2', 'admin', '이벤트 테스트17', '이벤트 내용17', 'event.png', '2022-10-04', NULL, 1),
 	(18, '9-2', 'admin', '이벤트 테스트18', '이벤트 내용18', 'event.png', '2022-10-04', NULL, 0),
 	(19, '9-2', 'admin', '이벤트 테스트19', '이벤트 내용19', 'event.png', '2022-10-04', NULL, 1),
-	(20, '9-2', 'admin', '이벤트 테스트20', '이벤트 내용20', 'event.png', '2022-10-04', NULL, 23);
+	(20, '9-2', 'admin', '이벤트 테스트20', '이벤트 내용20', 'event.png', '2022-10-04', NULL, 25);
 /*!40000 ALTER TABLE `notice_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.nouser_book_tbl 구조 내보내기
+DROP TABLE IF EXISTS `nouser_book_tbl`;
 CREATE TABLE IF NOT EXISTS `nouser_book_tbl` (
   `book_num` int(11) NOT NULL COMMENT '예약번호',
   `seller_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'FK(seller_tbl) 가게명',
@@ -228,25 +261,28 @@ CREATE TABLE IF NOT EXISTS `nouser_book_tbl` (
   `user_email` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '이메일',
   `reserv_pay` int(11) DEFAULT 0 COMMENT '예약선금',
   `reg_date` date NOT NULL COMMENT '예약을 진행한 날짜',
-  `order_id` varchar(30) NOT NULL COMMENT '예약번호',
+  `order_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '예약번호',
+  `reserv_status` int(11) NOT NULL COMMENT '예약 상태',
   PRIMARY KEY (`book_num`) USING BTREE,
   KEY `seller_id` (`seller_id`) USING BTREE,
   CONSTRAINT `nouser_book_tbl_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `seller_tbl` (`seller_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
--- 테이블 데이터 mydb.nouser_book_tbl:~6 rows (대략적) 내보내기
+-- 테이블 데이터 mydb.nouser_book_tbl:~8 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `nouser_book_tbl` DISABLE KEYS */;
-INSERT INTO `nouser_book_tbl` (`book_num`, `seller_id`, `user_name`, `reserv_date`, `reserv_time`, `user_tel`, `count_pp`, `user_email`, `reserv_pay`, `reg_date`, `order_id`) VALUES
-	(1, 'stest001', '김희재', '2022-11-03', '12:30:00', '010-2222-2222', 2, NULL, 10000, '2022-10-06', 'asdfghjklp'),
-	(2, 'stest002', '김희재', '2022-10-17', '14:00:00', '010-2222-2222', 2, 'dddd@test.com', 0, '2022-10-06', 'wUZOcWxaWP'),
-	(3, 'stest002', '김희재', '2022-10-17', '14:00:00', '010-2222-2222', 2, 'dddd@test.com', 0, '2022-10-06', 'wUZOcWxaWP'),
-	(4, 'stest002', '김희재', '2022-10-17', '14:00:00', '010-2222-2222', 2, 'dddd@test.com', 0, '2022-10-06', 'wUZOcWxaWP'),
-	(5, 'stest002', '김희재', '2022-10-17', '14:00:00', '010-2222-2222', 2, 'dddd@test.com', 0, '2022-10-06', 'wUZOcWxaWP'),
-	(6, 'stest002', '김희재', '2022-10-18', '16:30:00', '010-2222-2222', 2, 'dddd@test.com', 10000, '2022-10-06', 'EnDqEKGXV0'),
-	(7, 'stest002', '김희재', '2022-10-18', '16:30:00', '010-2222-2222', 2, 'dddd@test.com', 10000, '2022-10-06', 'EnDqEKGXV0');
+INSERT INTO `nouser_book_tbl` (`book_num`, `seller_id`, `user_name`, `reserv_date`, `reserv_time`, `user_tel`, `count_pp`, `user_email`, `reserv_pay`, `reg_date`, `order_id`, `reserv_status`) VALUES
+	(1, 'stest001', '김희재', '2022-11-03', '12:30:00', '010-2222-2222', 2, NULL, 10000, '2022-10-06', 'asdfghjklp', 1),
+	(2, 'stest002', '김희재', '2022-10-17', '14:00:00', '010-2222-2222', 2, 'dddd@test.com', 0, '2022-10-06', 'wUZOcWxaWP', 1),
+	(3, 'stest002', '김희재', '2022-10-17', '14:00:00', '010-2222-2222', 2, 'dddd@test.com', 0, '2022-10-06', 'wUZOcWxaWP', 1),
+	(4, 'stest002', '김희재', '2022-10-17', '14:00:00', '010-2222-2222', 2, 'dddd@test.com', 0, '2022-10-06', 'wUZOcWxaWP', 2),
+	(5, 'stest002', '김희재', '2022-10-17', '14:00:00', '010-2222-2222', 2, 'dddd@test.com', 0, '2022-10-06', 'wUZOcWxaWP', 1),
+	(6, 'stest002', '김희재', '2022-10-18', '16:30:00', '010-2222-2222', 2, 'dddd@test.com', 10000, '2022-10-06', 'EnDqEKGXV0', 2),
+	(7, 'stest002', '김희재', '2022-10-18', '16:30:00', '010-2222-2222', 2, 'dddd@test.com', 10000, '2022-10-06', 'EnDqEKGXV0', 1),
+	(8, 'stest002', '김희재', '2022-10-26', '20:00:00', '010-2222-2222', 2, '', 10000, '2022-10-07', 'KenGzsFTho', 2);
 /*!40000 ALTER TABLE `nouser_book_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.product_tbl 구조 내보내기
+DROP TABLE IF EXISTS `product_tbl`;
 CREATE TABLE IF NOT EXISTS `product_tbl` (
   `pro_num` int(11) NOT NULL COMMENT '상품번호',
   `category_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'FK(category_tbl)코드',
@@ -342,6 +378,7 @@ INSERT INTO `product_tbl` (`pro_num`, `category_code`, `seller_id`, `pro_name`, 
 /*!40000 ALTER TABLE `product_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.review_ans_tbl 구조 내보내기
+DROP TABLE IF EXISTS `review_ans_tbl`;
 CREATE TABLE IF NOT EXISTS `review_ans_tbl` (
   `re_ans_num` int(11) NOT NULL COMMENT '답글 번호',
   `review_num` int(11) NOT NULL COMMENT '리뷰 번호',
@@ -361,6 +398,7 @@ CREATE TABLE IF NOT EXISTS `review_ans_tbl` (
 /*!40000 ALTER TABLE `review_ans_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.review_image_tbl 구조 내보내기
+DROP TABLE IF EXISTS `review_image_tbl`;
 CREATE TABLE IF NOT EXISTS `review_image_tbl` (
   `image_num` int(11) NOT NULL COMMENT '이미지번호',
   `origin_filename` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '원본파일이름',
@@ -377,33 +415,44 @@ CREATE TABLE IF NOT EXISTS `review_image_tbl` (
 /*!40000 ALTER TABLE `review_image_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.review_tbl 구조 내보내기
+DROP TABLE IF EXISTS `review_tbl`;
 CREATE TABLE IF NOT EXISTS `review_tbl` (
   `review_num` int(11) NOT NULL COMMENT '리뷰번호',
   `user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '사용자 아이디',
-  `pro_num` int(11) NOT NULL,
+  `pro_num` int(11) DEFAULT NULL,
   `seller_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_fileName` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '이미지 파일명',
   `content` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '내용',
   `reg_date` date NOT NULL COMMENT '등록일자',
   `mod_date` date NOT NULL COMMENT '수정일자',
   `rating` int(11) NOT NULL COMMENT '별점',
-  `liked` int(11) DEFAULT NULL COMMENT '좋아요',
+  `liked` int(11) DEFAULT 0 COMMENT '좋아요',
   `user_nick` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`review_num`) USING BTREE,
-  UNIQUE KEY `user_nick` (`user_nick`),
   KEY `fk_review_tbl_user_tbl1_idx` (`user_id`) USING BTREE,
-  KEY `pro_num` (`pro_num`),
   KEY `FK_review_tbl_seller_tbl` (`seller_id`),
-  CONSTRAINT `FK_review_tbl_product_tbl` FOREIGN KEY (`pro_num`) REFERENCES `product_tbl` (`pro_num`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_review_tbl_seller_tbl` FOREIGN KEY (`seller_id`) REFERENCES `seller_tbl` (`seller_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_review_tbl_user_tbl` FOREIGN KEY (`user_id`) REFERENCES `user_tbl` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 mydb.review_tbl:~0 rows (대략적) 내보내기
+-- 테이블 데이터 mydb.review_tbl:~11 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `review_tbl` DISABLE KEYS */;
+INSERT INTO `review_tbl` (`review_num`, `user_id`, `pro_num`, `seller_id`, `image_fileName`, `content`, `reg_date`, `mod_date`, `rating`, `liked`, `user_nick`) VALUES
+	(1, 'test1', NULL, 'stest002', NULL, 'ddddd', '2022-10-07', '2022-10-07', 0, 13, '테스트1'),
+	(2, 'test1', NULL, 'stest002', NULL, 'ddddd', '2022-10-07', '2022-10-07', 3, 5, '테스트1'),
+	(3, 'test1', NULL, 'stest002', NULL, '하기 싫어요', '2022-10-07', '2022-10-07', 5, 5, '테스트1'),
+	(4, 'test1', NULL, 'stest002', NULL, '123', '2022-10-07', '2022-10-07', 5, 0, '테스트1'),
+	(5, 'test1', NULL, 'stest002', NULL, 'ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ', '2022-10-07', '2022-10-07', 5, 0, '테스트1'),
+	(6, 'test1', NULL, 'stest001', NULL, '32333', '2022-10-07', '2022-10-07', 4, 0, '테스트1'),
+	(7, 'test1', NULL, 'stest001', NULL, 'dddddddddd', '2022-10-07', '2022-10-07', 4, 52, '테스트1'),
+	(8, 'test1', NULL, 'stest001', NULL, 'ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ', '2022-10-07', '2022-10-07', 0, 6, '테스트1'),
+	(9, 'test1', NULL, 'stest001', NULL, '음식맛이 별로 였어요', '2022-10-07', '2022-10-07', 3, 0, '테스트1'),
+	(10, 'test1', NULL, 'stest001', NULL, '지섭이가 바보같아요', '2022-10-07', '2022-10-07', 2, 0, '테스트1'),
+	(11, 'test1', NULL, 'stest001', NULL, '성웅이바보', '2022-10-07', '2022-10-07', 5, 0, '테스트1');
 /*!40000 ALTER TABLE `review_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.sellerreg_image_tbl 구조 내보내기
+DROP TABLE IF EXISTS `sellerreg_image_tbl`;
 CREATE TABLE IF NOT EXISTS `sellerreg_image_tbl` (
   `image_num` int(11) NOT NULL COMMENT '사업자등록증 이미지 번호',
   `orgin_fileName` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '원본 이미지 명',
@@ -420,6 +469,7 @@ CREATE TABLE IF NOT EXISTS `sellerreg_image_tbl` (
 /*!40000 ALTER TABLE `sellerreg_image_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.seller_tbl 구조 내보내기
+DROP TABLE IF EXISTS `seller_tbl`;
 CREATE TABLE IF NOT EXISTS `seller_tbl` (
   `seller_num` int(11) NOT NULL AUTO_INCREMENT,
   `category_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '카테고리 코드(업종)\n',
@@ -468,6 +518,7 @@ INSERT INTO `seller_tbl` (`seller_num`, `category_code`, `seller_id`, `seller_pw
 /*!40000 ALTER TABLE `seller_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.storeinfo_image_tbl 구조 내보내기
+DROP TABLE IF EXISTS `storeinfo_image_tbl`;
 CREATE TABLE IF NOT EXISTS `storeinfo_image_tbl` (
   `image_num` int(11) NOT NULL COMMENT '이미지번호',
   `storeInfo_num` int(11) NOT NULL COMMENT '글번호',
@@ -484,6 +535,7 @@ CREATE TABLE IF NOT EXISTS `storeinfo_image_tbl` (
 /*!40000 ALTER TABLE `storeinfo_image_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.storeinfo_tbl 구조 내보내기
+DROP TABLE IF EXISTS `storeinfo_tbl`;
 CREATE TABLE IF NOT EXISTS `storeinfo_tbl` (
   `storeInfo_num` int(11) NOT NULL COMMENT '가게소개 번호',
   `seller_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '판매자 아이디',
@@ -531,6 +583,7 @@ INSERT INTO `storeinfo_tbl` (`storeInfo_num`, `seller_id`, `image_fileName`, `st
 /*!40000 ALTER TABLE `storeinfo_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.s_board_tbl 구조 내보내기
+DROP TABLE IF EXISTS `s_board_tbl`;
 CREATE TABLE IF NOT EXISTS `s_board_tbl` (
   `list_num` int(11) NOT NULL COMMENT '글 번호',
   `parent_num` int(11) DEFAULT 0 COMMENT '부모번호',
@@ -554,6 +607,7 @@ CREATE TABLE IF NOT EXISTS `s_board_tbl` (
 /*!40000 ALTER TABLE `s_board_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.s_image_tbl 구조 내보내기
+DROP TABLE IF EXISTS `s_image_tbl`;
 CREATE TABLE IF NOT EXISTS `s_image_tbl` (
   `image_num` int(11) NOT NULL COMMENT '이미지번호',
   `list_num` int(11) NOT NULL,
@@ -570,6 +624,7 @@ CREATE TABLE IF NOT EXISTS `s_image_tbl` (
 /*!40000 ALTER TABLE `s_image_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.user_tbl 구조 내보내기
+DROP TABLE IF EXISTS `user_tbl`;
 CREATE TABLE IF NOT EXISTS `user_tbl` (
   `user_no` int(11) NOT NULL COMMENT '사용자 번호',
   `user_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '사용자 아이디',
@@ -586,19 +641,22 @@ CREATE TABLE IF NOT EXISTS `user_tbl` (
   UNIQUE KEY `user_id_UNIQUE` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 mydb.user_tbl:~7 rows (대략적) 내보내기
+-- 테이블 데이터 mydb.user_tbl:~9 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user_tbl` DISABLE KEYS */;
 INSERT INTO `user_tbl` (`user_no`, `user_id`, `user_pwd`, `tel`, `user_nick`, `user_name`, `user_email`, `birth_yy`, `birth_mm`, `birth_dd`, `gender`) VALUES
 	(1, 'test1', '1234', '010-0000-0000', '테스트1', '테스트1', 'test1@test.com', '1988', '11', '10', '1'),
-	(2, 'testuser', '1234', '01012345678', '구구구', '홍길동', 'test@naver.com', '1988', '05', '05', '1'),
+	(2, 'testuser', '1234', '01012345678', '구구구', '홍길동', 'ec_test@naver.com', '1988', '05', '05', '1'),
 	(3, 'qwer1', '1234', '01012345678', '최초의가입자', '홍길동', 'hong@naver.com', '1995', '11', '14', '1'),
 	(4, 'asdf', '1234', '01012345555', 'b', '차범근', 'char@naver.com', '1990', '10', '10', '1'),
 	(5, 'qwer123', '1234', '01012341234', 'c', 'yang', 'yang@123.com', '1995', '11', '14', '1'),
 	(6, 'Woong414', '12341234', '010123445444', 'd', '김씨', 'asdf@asdf.com', '1998', '04', '11', '1'),
-	(7, 'song1234', '12341234', '01045677654', 'song', '송', 'vvvvv@123.cc', '1998', '06', '14', '2');
+	(7, 'song1234', '12341234', '01045677654', 'song', '송', 'vvvvv@123.cc', '1998', '06', '14', '2'),
+	(8, 'test1234', '12341234', '01012344444', '밤하늘의퍼얼', '김흐재123', 'ccccc@cccc.com', '1998', '02', '22', 'M'),
+	(9, 'test22', '1234card', '01022226666', '테스트22', '김희재', 'test22@test.com', '1988', '03', '3', 'M');
 /*!40000 ALTER TABLE `user_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.u_ask_tbl 구조 내보내기
+DROP TABLE IF EXISTS `u_ask_tbl`;
 CREATE TABLE IF NOT EXISTS `u_ask_tbl` (
   `ask_num` int(11) NOT NULL COMMENT '문의번호',
   `category_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -620,6 +678,7 @@ CREATE TABLE IF NOT EXISTS `u_ask_tbl` (
 /*!40000 ALTER TABLE `u_ask_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.u_board_bad_tbl 구조 내보내기
+DROP TABLE IF EXISTS `u_board_bad_tbl`;
 CREATE TABLE IF NOT EXISTS `u_board_bad_tbl` (
   `bad_num` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -630,7 +689,7 @@ CREATE TABLE IF NOT EXISTS `u_board_bad_tbl` (
   KEY `FK_u_board_bad_tbl_u_board_tbl` (`list_num`),
   CONSTRAINT `FK_u_board_bad_tbl_u_board_tbl` FOREIGN KEY (`list_num`) REFERENCES `u_board_tbl` (`list_num`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_u_board_bad_tbl_user_tbl` FOREIGN KEY (`user_id`) REFERENCES `user_tbl` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 테이블 데이터 mydb.u_board_bad_tbl:~1 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `u_board_bad_tbl` DISABLE KEYS */;
@@ -640,6 +699,7 @@ INSERT INTO `u_board_bad_tbl` (`bad_num`, `user_id`, `list_num`, `bad`) VALUES
 /*!40000 ALTER TABLE `u_board_bad_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.u_board_liked_tbl 구조 내보내기
+DROP TABLE IF EXISTS `u_board_liked_tbl`;
 CREATE TABLE IF NOT EXISTS `u_board_liked_tbl` (
   `liked_num` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -660,6 +720,7 @@ INSERT INTO `u_board_liked_tbl` (`liked_num`, `user_id`, `list_num`, `liked`) VA
 /*!40000 ALTER TABLE `u_board_liked_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.u_board_tbl 구조 내보내기
+DROP TABLE IF EXISTS `u_board_tbl`;
 CREATE TABLE IF NOT EXISTS `u_board_tbl` (
   `list_num` int(11) NOT NULL COMMENT '글번호',
   `parent_num` int(11) DEFAULT NULL COMMENT '자식번호',
@@ -813,7 +874,7 @@ INSERT INTO `u_board_tbl` (`list_num`, `parent_num`, `category_code`, `user_id`,
 	(128, 0, '2', 'test1', NULL, '게시판테스트128', '게시판테스트 내용128', 0, 0, 0, '2022-09-29', NULL),
 	(129, 0, '2', 'test1', NULL, '게시판테스트129', '게시판테스트 내용129', 0, 0, 0, '2022-09-29', NULL),
 	(130, 0, '2', 'test1', NULL, '게시판테스트130', '게시판테스트 내용130', 0, 0, 0, '2022-09-29', NULL),
-	(131, 0, '2', 'test1', NULL, '게시판테스트131', '게시판테스트 내용131', 0, 0, 0, '2022-09-29', NULL),
+	(131, 0, '2', 'test1', NULL, '게시판테스트131', '게시판테스트 내용131', 1, 0, 0, '2022-09-29', NULL),
 	(132, 0, '2', 'test1', NULL, '게시판테스트132', '게시판테스트 내용132', 0, 0, 0, '2022-09-29', NULL),
 	(133, 0, '2', 'test1', NULL, '게시판테스트133', '게시판테스트 내용133', 0, 0, 0, '2022-09-29', NULL),
 	(134, 0, '2', 'test1', NULL, '게시판테스트134', '게시판테스트 내용134', 0, 0, 0, '2022-09-29', NULL),
@@ -891,17 +952,19 @@ INSERT INTO `u_board_tbl` (`list_num`, `parent_num`, `category_code`, `user_id`,
 	(206, 0, '2', 'test1', NULL, 'ㄴㄴㄴㄴㄴ', 'ㄴㄴㄴㄴㄴㄴㄴㄴ', 0, 0, 0, '2022-09-30', '2022-09-30'),
 	(207, 0, '2', 'test1', NULL, 'ㅇㅇㅇㅇㅇㅇㅇ', 'ㅇㅇㅇㅇㅇㅇㅇ', 1, 0, 0, '2022-09-30', '2022-09-30'),
 	(208, 0, '2', 'test1', NULL, 'sdfsdfsdㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ', 'ㅇㅇㅇㅇㅇㅇㅇㅇㅇ', 0, 0, 0, '2022-09-30', '2022-09-30'),
-	(209, 0, '1', 'test1', NULL, 'ㅈㅈㅈㅈㅈㅈㅈㅈㅈ', 'ㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈ', 0, 0, 0, '2022-09-30', '2022-09-30'),
-	(210, 0, '1', 'test1', NULL, 'ㄴㄴㄴㄴㄴ', 'ㄴㄴㄴㄴㄴ', 185, 1, 1, '2022-09-30', '2022-09-30'),
+	(209, 0, '1', 'test1', NULL, 'ㅈㅈㅈㅈㅈㅈㅈㅈㅈ', 'ㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈ', 2, 0, 0, '2022-09-30', '2022-09-30'),
+	(210, 0, '1', 'test1', NULL, 'ㄴㄴㄴㄴㄴ', 'ㄴㄴㄴㄴㄴ', 192, 2, 2, '2022-09-30', '2022-09-30'),
 	(211, 0, '2', 'test1', NULL, 'tttttttttttttttt', 'ㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅㅅ', 0, 0, 0, '2022-09-30', '2022-09-30'),
 	(212, 0, '2', 'test1', NULL, 'sdfsdfsd', 'ㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈ', 0, 0, 0, '2022-09-30', '2022-09-30'),
 	(213, 0, '2', 'test1', NULL, 'sdfsdfsdfs', 'ssssssssssss', 0, 0, 0, '2022-09-30', '2022-09-30'),
 	(214, 0, '2', 'test1', NULL, 'sssssssssssssssssss', 'sssssssssssssssssssssssssssss', 0, 0, 0, '2022-09-30', '2022-09-30'),
 	(215, 0, '2', 'test1', NULL, 'ㄴㄴㄴㄴㄴ', 'ssssssssssss', 2, 0, 0, '2022-09-30', '2022-09-30'),
-	(216, 0, '2', 'test1', 'hero_1.jpg', 'ddddddddddddddd', 'dddddddddddddddddddd', 264, 9, 0, '2022-09-30', '2022-09-30');
+	(216, 0, '2', 'test1', 'hero_1.jpg', 'ddddddddddddddd', 'dddddddddddddddddddd', 274, 9, 0, '2022-09-30', '2022-09-30'),
+	(217, 0, '2', 'test1', '', 'ㄴㄴㄴㄴㄴ', '', 4, 0, 0, '2022-10-07', '2022-10-07');
 /*!40000 ALTER TABLE `u_board_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.u_comments_tbl 구조 내보내기
+DROP TABLE IF EXISTS `u_comments_tbl`;
 CREATE TABLE IF NOT EXISTS `u_comments_tbl` (
   `comment_num` int(11) NOT NULL AUTO_INCREMENT,
   `list_num` int(11) NOT NULL,
@@ -915,7 +978,7 @@ CREATE TABLE IF NOT EXISTS `u_comments_tbl` (
   KEY `comment_id` (`comment_id`),
   CONSTRAINT `FK_u_comments_tbl_u_board_tbl` FOREIGN KEY (`list_num`) REFERENCES `u_board_tbl` (`list_num`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_u_comments_tbl_user_tbl` FOREIGN KEY (`comment_id`) REFERENCES `user_tbl` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 mydb.u_comments_tbl:~9 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `u_comments_tbl` DISABLE KEYS */;
@@ -929,10 +992,13 @@ INSERT INTO `u_comments_tbl` (`comment_num`, `list_num`, `comments`, `comment_id
 	(7, 97, 'cccccc', 'test1', '2022-09-29 18:43:33', '2022-09-29 18:43:33', 0),
 	(8, 210, 'dfdfdf', 'test1', '2022-10-05 19:19:17', '2022-10-05 19:19:17', 0),
 	(9, 210, 'sssss', 'test1', '2022-10-05 20:49:23', '2022-10-05 20:49:23', 0),
-	(10, 210, 'ddddd', 'test1', '2022-10-05 20:49:26', '2022-10-05 20:49:26', 0);
+	(10, 210, 'ddddd', 'test1', '2022-10-05 20:49:26', '2022-10-05 20:49:26', 0),
+	(11, 216, '성웅이 바보', 'test1', '2022-10-07 15:16:29', '2022-10-07 15:16:29', 0),
+	(12, 217, '22222', 'test1', '2022-10-07 15:24:12', '2022-10-07 15:24:12', 0);
 /*!40000 ALTER TABLE `u_comments_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.u_image_tbl 구조 내보내기
+DROP TABLE IF EXISTS `u_image_tbl`;
 CREATE TABLE IF NOT EXISTS `u_image_tbl` (
   `image_num` int(11) NOT NULL COMMENT '이미지번호',
   `list_num` int(11) NOT NULL COMMENT '글번호',
@@ -948,10 +1014,12 @@ CREATE TABLE IF NOT EXISTS `u_image_tbl` (
 /*!40000 ALTER TABLE `u_image_tbl` DISABLE KEYS */;
 INSERT INTO `u_image_tbl` (`image_num`, `list_num`, `origin_filename`, `image_fileName`) VALUES
 	(1, 1, 'rain.png', 'rain.png'),
-	(2, 216, 'hero_1.jpg', 'hero_1.jpg');
+	(2, 216, 'hero_1.jpg', 'hero_1.jpg'),
+	(3, 217, '', '');
 /*!40000 ALTER TABLE `u_image_tbl` ENABLE KEYS */;
 
 -- 테이블 mydb.wish_tbl 구조 내보내기
+DROP TABLE IF EXISTS `wish_tbl`;
 CREATE TABLE IF NOT EXISTS `wish_tbl` (
   `wish_num` int(11) NOT NULL COMMENT '찜 번호',
   `category_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '카테고리 코드',

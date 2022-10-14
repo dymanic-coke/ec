@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.booking">	
+	<resultMap type="bookingVO" id="bookingResult">
+		<result property="seller_id" column="seller_id" />
+		<result property="user_id" column="user_id" />
+		<result property="user_name" column="user_name" />
+		<result property="reserv_date" column="reserv_date" />
+		<result property="reserv_time" column="reserv_time" />
+		<result property="user_tel" column="user_tel" />
+		<result property="count_pp" column="count_pp" />
+		<result property="user_email" column="user_email" />
+		<result property="reserv_pay" column="reserv_pay" />
+		<result property="reg_date" column="reg_date" />
+		<result property="order_id" column="order_id" />
+		<result property="reserv_status" column="reserv_status" />
+	</resultMap>
+	<select id="selectAllBookingList" resultMap="bookingResult" parameterType="String">
+		<![CDATA[ 
+			SELECT seller_id,user_name,user_tel,user_email,reserv_date,reserv_time,order_id,reg_date,count_pp,
+			reg_date,reserv_status FROM book_tbl WHERE seller_id= #{seller_id} AND reserv_status = 2
+			UNION all
+			SELECT seller_id,user_name,user_tel,user_email,reserv_date,reserv_time,order_id,reg_date,count_pp,
+			reg_date,reserv_status FROM nouser_book_tbl WHERE seller_id= #{seller_id} AND reserv_status = 2 
+		]]>
+	</select>
+</mapper>
