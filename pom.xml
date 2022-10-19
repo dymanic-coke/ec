@@ -212,7 +212,7 @@
 			<version>0.4.8</version>
 		</dependency>
 
-				<!-- 이메일 인증 -->
+		<!-- 이메일 인증 -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -229,8 +229,8 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
-	 		<!-- email SMTP 관련 -->
-		<exclusions>
+			<!-- email SMTP 관련 -->
+			<exclusions>
 				<exclusion>
 					<groupId>javax.jms</groupId>
 					<artifactId>jms</artifactId>
@@ -269,9 +269,17 @@
 		</dependency>
 		<!-- Thanks for using https://jar-download.com -->
 		<dependency>
-		<groupId>com.google.code.gson</groupId>
-		<artifactId>gson</artifactId>
-		<version>2.8.2</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.2</version>
+		</dependency>
+		<!-- JSON 라이브러리 -->
+		<!-- jackson -->
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
 		</dependency>
 	</dependencies>
 	<build>

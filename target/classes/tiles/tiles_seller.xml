@@ -2,7 +2,7 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Configuration 2.0//EN" 
 "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-	<definition name="baseLayout" template="/WEB-INF/views/seller/common/main_layout.jsp">
+	<definition name="MainLayout" template="/WEB-INF/views/seller/common/main_layout.jsp">
 		<put-attribute name="title" value=""/>
 		<put-attribute name="header" value="/WEB-INF/views/seller/common/header.jsp"/>
 		<put-attribute name="side" value="/WEB-INF/views/seller/common/left_side.jsp"/>
@@ -10,12 +10,54 @@
 		<put-attribute name="footer" value="/WEB-INF/views/seller/common/footer.jsp"/>
 	</definition>
 	<!-- 메인페이지 -->
-	<definition name="/sellerMain" extends="baseLayout">
-		<put-attribute name="title" value="먹고보자-셀러들의 메인"/>
+	<definition name="/sellerMain" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 셀러들의 메인"/>
 		<put-attribute name="body" value="/WEB-INF/views/seller/seller_main.jsp"/>
 	</definition>
-	<definition name="/seller/bookingStatus" extends="baseLayout">
-		<put-attribute name="title" value="먹고보자-예약 현황"/>
+	<!-- 예약 현황페이지 -->
+	<definition name="/seller/bookingStatus" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 예약 현황"/>
 		<put-attribute name="body" value="/WEB-INF/views/seller/booking/booking_Status.jsp"/>
 	</definition>
-</tiles-definitions>
+	
+	<!-- 예약 승인페이지 -->
+	<definition name="/seller/bookingSign" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 예약 현황"/>
+		<put-attribute name="body" value="/WEB-INF/views/seller/booking/booking_sign.jsp"/>
+	</definition>
+	
+	<!-- 에러페이지 -->
+	<definition name="/error" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 에러"/>
+		<put-attribute name="body" value="/WEB-INF/views/seller/infomgt/error.jsp"/>
+	</definition>
+	<!-- 메뉴 관리 -->
+	<definition name="/menumanage" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 메뉴 관리"/>
+		<put-attribute name="body" value="/WEB-INF/views/seller/infomgt/menu.jsp"/>
+	</definition>
+	
+	<!-- 메뉴 관리 - 검색 -->
+	<definition name="/searchmenu" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 메뉴 관리"/>
+		<put-attribute name="body" value="/WEB-INF/views/seller/infomgt/menu.jsp"/>
+	</definition>
+	
+	<!-- 메뉴 관리 - 상세 -->
+	<definition name="/menudetail" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 메뉴 상세"/>
+		<put-attribute name="body" value="/WEB-INF/views/seller/infomgt/menu.jsp"/>
+	</definition>
+	
+	<!-- 공지사항 게시판 -->
+	<definition name="/seller/notice" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 공지사항"/>
+		<put-attribute name="body" value="/WEB-INF/views/seller/notice/notice_board.jsp"/>
+	</definition>
+	
+	<!-- 공지사항 게시물 -->
+	<definition name="/seller/notice/view" extends="MainLayout">
+		<put-attribute name="title" value="먹고보자 :: 공지사항"/>
+		<put-attribute name="body" value="/WEB-INF/views/seller/notice/notice_view.jsp"/>
+	</definition>
+</tiles-definitions>                                                                                           

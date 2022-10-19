@@ -74,7 +74,7 @@ request.setCharacterEncoding("utf-8");
         <span class="dropdown-item dropdown-header">금일 현황</span>
           <div class="dropdown-divider"></div>
 	        <a href="#" class="dropdown-item">
-		        <i class="fas fa-users mr-2"></i> 예약:<!-- 금일 예약신청수 --><span class="today_text">건</span>
+		        <i class="fas fa-users mr-2"></i> 예약:<!-- 금일 예약신청수 --><span class="today_text">${todayBook}&nbsp;건</span>
 	        </a>
 	        <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">

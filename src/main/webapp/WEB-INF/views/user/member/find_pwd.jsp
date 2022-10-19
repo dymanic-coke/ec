@@ -12,6 +12,7 @@ request.setCharacterEncoding("utf-8");
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 #mail_check_input_box_false {
 	background-color: #ebebe4;
@@ -66,18 +67,18 @@ request.setCharacterEncoding("utf-8");
 							<td><input type="button" class="prove"  value="인증번호 보내기">
 						</tr>
 						<tr>
-							<td>인증번호 확인</td>
-							<td><input type="text" id="mail_check_input_box" disabled="disabled" maxlength="6"
-								class="prove_ck"></td>
-							
+							<td>인증번호 입력</td>
+							<td><input type="text" id="mail_check_input_box" oninput="checkauth()" maxlength="6" disabled="disabled" class="prove_ck" ></td>
+							 
 						</tr>
 					</table>
-				<!-- 	<div>
-					<span id="mail-check-warn">가나다라마바사</span>
-					</div> -->
+				 	<div>
+					<span id="mail-check-warn2"></span>
+					</div>
+					 
 				</div>
 				<div style="text-align: center" class="ok">
-					<input type="button" id="ok2" name="ok"
+					<br><input type="button" id="ok2" name="ok"
 						onclick="pwd_search(this.form)" value="확인">
 				</div>
 
@@ -93,7 +94,6 @@ request.setCharacterEncoding("utf-8");
   	var email = $("#user_email").val();
   	console.log("완성된 이메일 : " + email);
   	var checkNum = $('#mail_check_input_box');
-	console.log("checkNum:"+checkNum);
   	$.ajax({
   		type:"GET",
   		url:'<c:url value ="/user/mailCheck.do?email="/>' + email,
@@ -101,6 +101,7 @@ request.setCharacterEncoding("utf-8");
   			console.log("data : " + data);
   			checkNum.attr('disabled', false);
   			code = data;
+  			console.log("code:"+code);
   			alert("인증번호가 전송되었습니다.");
   		},
   		error:function(){
@@ -110,24 +111,27 @@ request.setCharacterEncoding("utf-8");
    
    })
 	</script>
-<!-- 	<script>
+ 	<script>
 	//인증번호 비교
-	${'#mail_check_input_box'}.blur(function(){
-		var inputCode = $(this).val();
-		var $resultMsg = $('#mail-check-warn');
+		var $resultMsg = $('#mail-check-warn2');
 		
+	function checkauth(){
+		var inputCode = document.getElementById('mail_check_input_box').value;
+		console.log("inputCode"+inputCode);
+		console.log(code);
 		if(inputCode == code){
 			$resultMsg.html('인증번호가 일치합니다.');
 			$resultMsg.css('color','green');
 			$('.prove').attr('disabled',true);
 			$('#user_email').attr('readonly',true);
-			
+			$('.prove_ck').attr('readonly',true);
 		}else{
 			$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요');
 			$resultMsg.css('color','red');
 		}
-	});
-    </script> -->
+	}
+
+    </script>
 
 	<script>
    function pwd_search(f) {
@@ -142,10 +146,10 @@ request.setCharacterEncoding("utf-8");
     }else if(f.user_email.value.length < 1){
     			alert("이메일을 입력해주세요");
     			
-    }/* else if(f.prove_ck.value.length < 1){
-    			alert("인증번호를 입력해주세요");
+    } else if(f.mail_check_input_box.value.length != 6){
+    			alert("인증번호 6자리를 입력해주세요");
     			
-    } */
+    } 
     	else {
     	f.action="${contextPath}/user/find_pwd_Result.do"
     	f.submit();
