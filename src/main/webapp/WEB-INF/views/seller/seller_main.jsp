@@ -123,9 +123,7 @@ String viewName = (String)request.getAttribute("viewName");
 												},
 												{
 													type : 'line',
-													data : [ 44, 42, 24, 34,
-															43, 83, 84, 46, 64,
-															9, 10, 20 ],
+													data : [ ],
 													backgroundColor : 'tansparent',
 													borderColor : 'blue',
 													pointBorderColor : 'blue',
