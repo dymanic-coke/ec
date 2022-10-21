@@ -208,4 +208,28 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.update("mapper.board.badDown", list_num);
 		return sqlSession.selectOne("mapper.board.selectBoardBad", list_num);
 	}
+	
+	@Override
+	public int deleteBoard(int list_num) throws DataAccessException{
+		return sqlSession.delete("mapper.board.deleteBoard", list_num);
+	}
+	
+	@Override
+	public int updateBoard(Map boardMap) throws Exception {
+		return sqlSession.insert("mapper.board.updateBoard", boardMap);
+	}
+
+	@Override
+	public void updateImage(Map boardMap) throws DataAccessException {
+		String image_fileName = (String) boardMap.get("image_fileName");
+		int list_num = (Integer) boardMap.get("list_num");
+		int image_num = selectNewImage_num();
+		ImageVO imageVO = new ImageVO();
+		imageVO.setImage_num(image_num);
+		imageVO.setList_num(list_num);
+		imageVO.setOrigin_fileName(image_fileName);
+		imageVO.setImage_fileName(image_fileName);
+
+		sqlSession.insert("mapper.board.updateImage", imageVO);
+	}
 }

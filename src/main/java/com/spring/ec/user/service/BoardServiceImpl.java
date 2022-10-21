@@ -120,4 +120,16 @@ public class BoardServiceImpl implements BoardService {
 			boardDAO.updateBad(badMap);
 			return bad;
 		}
+		
+		// 게시글 삭제
+		@Override
+		public int removeBoard(int list_num)throws Exception{
+			return boardDAO.deleteBoard(list_num);
+		}
+		
+		// 게시글 수정
+		public int modBoard(Map boardMap)throws Exception{
+			boardDAO.updateImage(boardMap);
+			return boardDAO.updateBoard(boardMap);
+		}
 }

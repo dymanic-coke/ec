@@ -29,15 +29,26 @@ public interface BoardController {
 		
 		public ModelAndView addComment(HttpServletRequest Request, HttpServletResponse response)throws Exception;
 		
-		public int boardLikeUp(@RequestParam(value = "list_num") int list_num,@RequestParam(value = "user_id") String user_id,
-				HttpServletRequest request, HttpServletResponse response) throws Exception;
+//		public int boardLikeUp(@RequestParam(value = "list_num") int list_num,@RequestParam(value = "user_id") String user_id,
+//				HttpServletRequest request, HttpServletResponse response) throws Exception;
+//		
+//		public int boardLikeDown(@RequestParam(value = "list_num") int list_num,@RequestParam(value = "user_id") String user_id,
+//				HttpServletRequest request, HttpServletResponse response) throws Exception;
+//		
+//		public int boardBadUp(@RequestParam(value = "list_num") int list_num,@RequestParam(value = "user_id") String user_id,
+//				HttpServletRequest request, HttpServletResponse response) throws Exception;
+//		
+//		public int boardBadDown(@RequestParam(value = "list_num") int list_num,@RequestParam(value = "user_id") String user_id,
+//				HttpServletRequest request, HttpServletResponse response) throws Exception;
 		
-		public int boardLikeDown(@RequestParam(value = "list_num") int list_num,@RequestParam(value = "user_id") String user_id,
-				HttpServletRequest request, HttpServletResponse response) throws Exception;
+		public ModelAndView removeBoard(@RequestParam("list_num") int list_num, HttpServletRequest request,
+				HttpServletResponse response) throws Exception;
 		
-		public int boardBadUp(@RequestParam(value = "list_num") int list_num,@RequestParam(value = "user_id") String user_id,
-				HttpServletRequest request, HttpServletResponse response) throws Exception;
+		public ModelAndView modBoardForm(@RequestParam("list_num") int list_num, HttpServletRequest request,
+				HttpServletResponse response) throws Exception;
 		
-		public int boardBadDown(@RequestParam(value = "list_num") int list_num,@RequestParam(value = "user_id") String user_id,
-				HttpServletRequest request, HttpServletResponse response) throws Exception;
+		public ResponseEntity modBoardcompletion(MultipartHttpServletRequest multipartRequest, HttpServletResponse response)
+				throws Exception;
+		
+		
 }

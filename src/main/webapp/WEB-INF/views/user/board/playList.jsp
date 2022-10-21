@@ -76,8 +76,8 @@ String viewName = (String)request.getAttribute("viewName");
 			location.href = boardForm;
 		} else {
 			$('#writeBoard').attr("disabled", true);
-			alert("로그인 후 글쓰기가 가능합니다.(임시 작업중)")
-			location.href = boardForm;
+			alert("로그인 후 글쓰기가 가능합니다.")
+			location.href = loginForm;
 		}
 	}
 </script>
@@ -190,7 +190,7 @@ String viewName = (String)request.getAttribute("viewName");
     		</c:if>
   			</ul>
 		</nav>
-		<button type="button" class="btn btn-light" id="writeBoard" onClick="fn_boardForm('${isLogOn}', '${contextPath}/user/u_board/boardForm', '${contextPath}/member/loginForm.do')">글쓰기</button>
+		<button type="button" class="btn btn-light" id="writeBoard" onClick="fn_boardForm('${isLogOn}', '${contextPath}/user/u_board/boardForm', '${contextPath}/user/loginForm.do')">글쓰기</button>
 	</section>
 </body>
 </html>

@@ -26,7 +26,23 @@ var mobile = document.querySelector('#mobile');
 
 var error = document.querySelectorAll('.error_next_box');
 
-
+     idSignal = false;
+	 nickSignal = false;
+	 pswd1Signal = false;
+	 pswd2Signal = false;
+	 nameSignal = false;
+	 birth_yySignal = false;
+	 birth_mmSignal = false;
+	 birth_ddSignal = false;
+	 genderSignal = false;
+	 emailSignal = false;
+	 mobileSignal = false;
+	 
+	 idSignal2 = false;
+	 nickSignal2 = false;
+	 emailSignal2 = false;
+	 mobileSignal2 = false;
+	
 
 /*이벤트 핸들러 연결*/
 
@@ -37,13 +53,15 @@ pw1.addEventListener("focusout", checkPw);
 pw2.addEventListener("focusout", comparePw);
 userName.addEventListener("focusout", checkName);
 yy.addEventListener("focusout", isBirthCompleted);
-mm.addEventListener("focusout", isBirthCompleted);
-dd.addEventListener("focusout", isBirthCompleted);
+mm.addEventListener("focusout", isMonthSelected);
+dd.addEventListener("focusout", isDateCompleted);
 gender.addEventListener("focusout", function() {
     if(gender.value === "성별") {
         error[6].style.display = "block";
+         genderSignal = false;
     } else {
         error[6].style.display = "none";
+         genderSignal = true;
     }
 })
 email.addEventListener("focusout", isEmailCorrect);
@@ -57,52 +75,60 @@ mobile.addEventListener("focusout", checkPhoneNum);
 
 
 function checkId() {
-    var idPattern = /[a-zA-Z0-9_-]{5,20}/;
+    var idPattern = /^[a-z]+[a-z0-9]{4,20}$/g;
     if(id.value === "") {
         error[0].innerHTML = "필수 정보입니다.";
         error[0].style.display = "block";
+        idSignal = false;
+        
     } else if(!idPattern.test(id.value)) {
-        error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
+        error[0].innerHTML = "5~20자의 영문 소문자, 숫자만 사용 가능합니다.";
         error[0].style.display = "block";
+        idSignal = false;
     } else {
-        error[0].innerHTML = "멋진 아이디네요!";
-        error[0].style.color = "#08A600";
-        error[0].style.display = "block";
+        error[0].style.display = "none";
+        idSignal = true;
     }
 }
 
 function checkNick() {
-    var nickPattern = /[a-zA-Z0-9가-힣]{1,20}/;
+    var nickPattern = /^[a-zA-Z0-9가-힣][a-zA-Z0-9가-힣 ]{2,16}$/;
     if(nick.value === "") {
         error[1].innerHTML = "필수 정보입니다.";
         error[1].style.display = "block";
-    } else if(!nickPattern.test(nick.value) || nick.value.indexOf(" ") > -1) {
-        error[1].innerHTML = "한글과 영문 대 소문자, 숫자를 사용하세요. (특수기호, 공백 사용 불가)";
+        nickSignal = false;
+    } else if(!nickPattern.test(nick.value)) {
+        error[1].innerHTML = "한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용 불가)";
         error[1].style.display = "block";
+        nickSignal = false;
     } else {
         error[1].style.display = "none";
+        nickSignal = true;
     }
 }
 
 function checkPw() {
-    var pwPattern = /[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,16}/;
+    var pwPattern = /^(?=.*[a-z])(?=.*[0-9])(?=.*[~!@#$%^&*])[a-z0-9~!@#$%^&*]{4,20}$/; /*/[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,16}/;*/
     if(pw1.value === "") {
         error[2].innerHTML = "필수 정보입니다.";
         error[2].style.display = "block";
+        pswd1Signal = false;
     } else if(!pwPattern.test(pw1.value)) {
-        error[2].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.";
+        error[2].innerHTML = "8~16자 영문 소문자, 숫자, 특수문자를 사용하세요.";
         pwMsg.innerHTML = "사용불가";
         pwMsgArea.style.paddingRight = "93px";
        
         pwMsg.style.display = "block";
         pwImg1.src = "../image/m_icon_not_use.png";
          error[2].style.display = "block";
+        pswd1Signal = false;
     } else {
         error[2].style.display = "none";
         pwMsg.innerHTML = "안전";
         pwMsg.style.display = "block";
         pwMsg.style.color = "#03c75a";
         pwImg1.src = "../image/m_icon_safe.png";
+         pswd1Signal = true;
     }
 }
 
@@ -110,95 +136,123 @@ function comparePw() {
     if(pw2.value === pw1.value && pw2.value != "") {
         pwImg2.src = "../image/m_icon_check_enable.png";
         error[3].style.display = "none";
+         pswd2Signal = true;
     } else if(pw2.value !== pw1.value) {
         pwImg2.src = "../image/m_icon_check_disable.png";
         error[3].innerHTML = "비밀번호가 일치하지 않습니다.";
         error[3].style.display = "block";
+         pswd2Signal = false;
     } 
 
     if(pw2.value === "") {
         error[3].innerHTML = "필수 정보입니다.";
         error[3].style.display = "block";
+         pswd2Signal = false;
     }
 }
 
 function checkName() {
-    var namePattern = /[a-zA-Z가-힣]/;
+    var namePattern = /^[a-zA-Z가-힣][a-zA-Z가-힣 ]*$/;
     if(userName.value === "") {
         error[4].innerHTML = "필수 정보입니다.";
         error[4].style.display = "block";
-    } else if(!namePattern.test(userName.value) || userName.value.indexOf(" ") > -1) {
+         nameSignal = false;
+    } else if(!namePattern.test(userName.value)) {
         error[4].innerHTML = "한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용 불가)";
         error[4].style.display = "block";
+         nameSignal = false;
     } else {
         error[4].style.display = "none";
+         nameSignal = true;
     }
 }
 
 
 function isBirthCompleted() {
-    var yearPattern = /[0-9]{4}/;
+    var yearPattern =  /^(19|20)\d{2}$/;
 
     if(!yearPattern.test(yy.value)) {
+  
         error[5].innerHTML = "태어난 년도 4자리를 정확하게 입력하세요.";
         error[5].style.display = "block";
+         birth_yySignal = false;
     } else {
-        isMonthSelected();
+    
+    error[5].style.display ="none";
+    birth_yySignal = true;
+    
+         
+    }
     }
 
 
     function isMonthSelected() {
-        if(mm.value === "월") {
+    
+        if(mm.value == "월") {
             error[5].innerHTML = "태어난 월을 선택하세요.";
+             error[5].style.display ="block";
+            	 birth_mmSignal = false;
+            	 
         } else {
-            isDateCompleted();
+       
+        error[5].style.display ="none";
+         birth_mmSignal = true;
+       
+            	
         }
     }
 
     function isDateCompleted() {
-        if(dd.value === "") {
+    var ddPattern = /^(0[1-9]|[12][0-9]|3[01])$/;
+        if(!ddPattern.test(dd.value)) {
+       
             error[5].innerHTML = "태어난 일(날짜) 2자리를 정확하게 입력하세요.";
+            error[5].style.display ="block";
+            birth_ddSignal = false;
         } else {
-            isBirthRight();
+        
+        error[5].style.display ="none";
+        birth_ddSignal = true;
+        
+            
         }
     }
-}
 
 
-
+/*
 function isBirthRight() {
-    var datePattern = /\d{1,2}/;
-    if(!datePattern.test(dd.value) || Number(dd.value)<1 || Number(dd.value)>31) {
+    if(Number(dd.value)<1||Number(dd.value)>=32) {
+    	console.log("Number(dd.value)::"+Number(dd.value));
         error[5].innerHTML = "생년월일을 다시 확인해주세요.";
+         error[5].style.display ="block";
+        birth_ddSignal = false;
     } else {
-        checkAge();
-    }
-}
+    console.log("Number(dd.value)::"+Number(dd.value));
+    birth_ddSignal = true;
+    error[5].style.display ="none";
+       
+    	}
+	}
 
-function checkAge() {
-    if(Number(yy.value) < 1920) {
-        error[5].innerHTML = "정말이세요?";
-        error[5].style.display = "block";
-    } else if(Number(yy.value) > 2023) {
-        error[5].innerHTML = "미래에서 오셨군요. ^^";
-        error[5].style.display = "block";
-    } else if(Number(yy.value) > 2008) {
-        error[5].innerHTML = "만 14세 미만의 어린이는 보호자 동의가 필요합니다.";
-        error[5].style.display = "block";
-    } else {
-        error[5].style.display = "none";
-    }
-}
+*/
 
 
 function isEmailCorrect() {
-    var emailPattern = /[a-z0-9]{2,}@[a-z0-9-]{2,}\.[a-z0-9]{2,}/;
+    var emailPattern = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
-    if(email.value === ""){ 
-        error[7].style.display = "이메일을 확인해주세요"; 
+    if(email.value == ""){ 
+    console.log("7");
+    	error[7].innerHTML = "필수 정보입니다.";
+        error[7].style.display = "block"; 
+        emailSignal = false;
     } else if(!emailPattern.test(email.value)) {
+     console.log("8");
+     	error[7].innerHTML = "이메일 형식을 확인해주세요.";
         error[7].style.display = "block";
+        emailSignal = false;
     } else {
+     console.log("9");
+    emailSignal = true;
         error[7].style.display = "none"; 
     }
 
@@ -206,17 +260,20 @@ function isEmailCorrect() {
     
 
 function checkPhoneNum() {
-    var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
+    var isPhoneNum = /^01(?:0|1|[6-9])(?:\d{4})\d{4}$/;
 	/*[01] = 둘중하나만있어도 true , {2} = [01]문자중 하나가 2번 반복되었는지 
 	{3,4} = [0-9]사이가 3~4회 반복되었는지*/
 	
     if(mobile.value === "") {
         error[8].innerHTML = "필수 정보입니다.";
         error[8].style.display = "block";
+        mobileSignal = false;
     } else if(!isPhoneNum.test(mobile.value)) {
         error[8].innerHTML = "형식에 맞지 않는 번호입니다.";
         error[8].style.display = "block";
+        mobileSignal = false;
     } else {
+    mobileSignal = true;
         error[8].style.display = "none";
     }
 
@@ -224,100 +281,3 @@ function checkPhoneNum() {
 }
 
 
-
-/*
-2월 : 윤년에는 29일까지, 평년에는 28일까지.
-1,3,5,7, 8,10,12 -> 31일
-2,4,6, 9,11 -> 30일
-
-    var days31 = [1, 3, 5, 7, 8, 10, 12];
-    var days30 = [4, 6, 9, 11];
-
-    if(mm.value )
-
-var sel = document.getElementById("sel");
-var val = sel.options[sel.selectedIndex].value;
-
-var id = document.querySelector('#id');
-var pw1 = document.querySelector('#pswd1');
-var pw2 = document.querySelector('#pswd2');
-var yourName = document.querySelector('#name');
-var yy = document.querySelector('#yy');
-var mm = document.querySelector('#mm');
-var dd = document.querySelector('#dd');
-var email = document.querySelector('#email');
-var mobile = document.querySelector('#mobile');
-var error = document.querySelectorAll('.error_next_box');
-
-var pattern_num = /[0-9]/;
-var pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
-
-
-id.onchange = checkId;
-pw1.onchange = checkPw;
-pw2.onchange = comparePw;
-yourName.onchange = checkName;
-yy.onchange = checkYear;
-
-
-function checkId() {
-    if(id.value === "") {
-        error[0].style.display = "block";
-    } else if(id.value.length < 5 || id.value.length > 20){
-        error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
-        error[0].style.display = "block";
-    }
-}
-
-function checkPw() {
-    if(pw1.value === "") {
-        error[1].style.display = "block";
-    } else if (pw1.value.length < 8 || pw1.value.length > 16) {
-        error[1].innerHTML = "8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.";
-        error[1].style.display = "block";
-    }
-}
-
-function comparePw() {
-    if(pw2.value === "") {
-        error[2].style.display = "block";
-    } else if (pw2.value !== pw1.value) {
-        error[2].innerHTML = "비밀번호가 일치하지 않습니다.";
-        error[2].style.display = "block";
-    }
-}
-
-function checkName() {
-    if( yourName.value.indexOf(" ") >= 0 || pattern_spc.test(yourName.value) || pattern_num.test(yourName.value) ) {
-        error[3].innerHTML = "한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용 불가)";
-        error[3].style.display = "block";
-    } else if(yourName.value.length === 0) {
-        error[3].style.display = "block";
-    } else {
-        error[3].style.display = "none";
-    }
-}
-
-function checkYear() {
-    isBirthEntered();
-    if(yy.value.length !== 4 || !pattern_num.test(yy.value)) {
-        error[4].innerHTML = "태어난 년도 4자리를 정확하게 입력하세요.";
-    } else if (parseInt(yy.value) < 1920) {
-        error[4].innerHTML = "정말이세요?";
-        error[4].style.display = "block";
-    }
-
-}
-
-function isBirthEntered() {
-    
-}
-
-function checkEmail() {
-    
-}
-
-function checkNumber() {
-    
-}
-*/

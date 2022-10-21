@@ -14,11 +14,13 @@ request.setCharacterEncoding("utf-8");
 <head>
 <script>
 	function id_search(f) {
-
-		if (f.user_name.value.length < 1) {
+		var isName = /^[a-zA-Zㄱ-힣][a-zA-Zㄱ-힣 ]*$/;
+		var isNum = /^01(?:0|1|[6-9])(?:\d{4})\d{4}$/;
+		
+		if (!isName.test(user_name.value)) {
 			alert("이름을 입력해주세요");
 
-		} else if (f.tel.value.length != 11) {
+		} else if (!isNum.test(tel.value)) {
 			alert("핸드폰 번호를 정확하게 입력해주세요");
 
 		} else {

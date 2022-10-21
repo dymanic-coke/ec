@@ -225,4 +225,29 @@
 			select bad from u_board_tbl where list_num = #{list_num} 			
 		 ]]>
 	</select>
+	
+	<delete id="deleteBoard" parameterType="int">
+		<![CDATA[
+			DELETE FROM u_board_tbl WHERE list_num = #{list_num}
+		]]>
+	</delete>
+	
+	<update id="updateBoard" parameterType="java.util.Map" >
+		update u_board_tbl
+		set u_title = #{u_title},
+		u_content = #{u_content},
+		mod_date = now()
+		<if test="image_fileName != '' and image_fileName != null">
+		, image_fileName = #{image_fileName} 
+		</if>
+		where list_num=#{list_num}
+	</update>
+	
+	<update id="updateImage" parameterType="ImageVO" >
+		update u_image_tbl
+		set
+		image_fileName  = #{image_fileName}
+		,origin_fileName = #{origin_fileName}
+		where list_num=#{list_num}
+	</update>
 </mapper>

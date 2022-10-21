@@ -43,5 +43,9 @@ public interface BoardService {
 	
 	public int badDown(Map badMap)throws Exception;
 	
+	public int removeBoard(int list_num)throws Exception;
+	
+	public int modBoard(Map boardMap)throws Exception;
+	
 	
 }

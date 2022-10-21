@@ -45,6 +45,8 @@ public interface MemberController {
 
 	public String nickCheck(HttpServletRequest request) throws Exception;
 	
+	 public String emailCheck(HttpServletRequest request) throws Exception;
+	
 	 public String mobileCheck(HttpServletRequest request) throws Exception;
 
 	public ModelAndView find_id(HttpServletRequest request, HttpServletResponse response) throws Exception;

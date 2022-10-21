@@ -11,20 +11,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- <script>
-$(document).ready(function() {
-	$('button').click(function() {
-		var value = $("input[type=raid][name=select]:checked").val();
-	if(value){
-		alert(value);
-	}
-	else{
-		alert('아무것도 선택되지 않았습니다.');
-	}
-	})
-});
-
-</script> -->
 <style>
 
 #wrapper{
@@ -51,12 +37,12 @@ height:200px;
 border: 1px solid #ccc;
 }
 .at1{
-float:left;
 width:400px;
 height:200px;
 margin:0px;
 padding:15px;
 margin-top:50px;
+text-align:center;
 }
 .at2{
 float:right;
@@ -100,6 +86,7 @@ border:1px solid #ccc;
 	height:150px;
 	padding-top:50px;
 	background-color:#98B4EA;
+	
 }
 .dddd {
 text-decoration: none;
@@ -139,11 +126,6 @@ color:white;
  <a class="dddd" href="${contextPath}/user/u_regadmin.do"><div id="box"><h1 align="center">개 인</h1></div></a>
 		
 </article>
-
-<article class="at2">
-    <a class="dddd" href="${contextPath}/seller/s_regadmin.do" ><div id="box"><h1 align="center">기 업</h1></div></a>
-		
-      </article>
 </section>
 </div>
 </body>

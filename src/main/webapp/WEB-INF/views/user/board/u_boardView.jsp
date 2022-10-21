@@ -100,6 +100,9 @@ request.setCharacterEncoding("utf-8");
 	width: 330px;
 	margin: 20px auto;
 }
+.modBoard_btn{
+	float: left;
+}
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script
@@ -122,9 +125,23 @@ request.setCharacterEncoding("utf-8");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", url);
 		var list_numInput = document.createElement("input");
-		articleNoInput.setAttribute("type", "hidden");
-		articleNoInput.setAttribute("name", "list_num");
-		articleNoInput.setAttribute("value", list_Num);
+		list_numInput.setAttribute("type", "hidden");
+		list_numInput.setAttribute("name", "list_num");
+		list_numInput.setAttribute("value", list_num);
+		
+		form.appendChild(list_numInput);
+		document.body.appendChild(form);
+		form.submit();
+	}
+	
+	function fn_mod_article(url,list_num){
+		var form = document.createElement("form");
+		form.setAttribute("method", "GET");
+		form.setAttribute("action", url);
+		var list_numInput = document.createElement("input");
+		list_numInput.setAttribute("type", "hidden");
+		list_numInput.setAttribute("name", "list_num");
+		list_numInput.setAttribute("value", list_num);
 		
 		form.appendChild(list_numInput);
 		document.body.appendChild(form);
@@ -287,7 +304,7 @@ request.setCharacterEncoding("utf-8");
 				</td>
 			</tr>	
 		</table>
-		<div class="likeNbad">
+		<%-- <div class="likeNbad">
 			<div class = "lNb">
 				<button type="button" class="likebtn" onclick="likeValidation(${board.list_num},'${member.user_id}')" >
 					<img src="${contextPath}/image/liked.png">
@@ -300,11 +317,16 @@ request.setCharacterEncoding("utf-8");
 					싫어요 : ${board.bad}
 				</button>
 			</div>
-		</div>
-		<c:if test="${member.user_id==board.user_id}">			
-			<input class="writebtn" type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/user/removeBoard', ${board.list_num})" />
+		</div> --%>
+		<div>
+		<c:if test="${member.user_id==board.user_id}">
+			<div class="modBoard_btn">
+			<input class="writebtn btn btn-primary btn-sm" type="button" value="수정하기" onClick="fn_mod_article('${contextPath}/user/modBoard', ${board.list_num})" />			
+			<input class="writebtn btn btn-primary btn-sm" type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/user/removeBoard', ${board.list_num})" />
+			</div>
 		</c:if>
-		<input class="writebtn" type="button" value="리스트로 돌아가기" onClick="backToList(this.form)" />
+		<input class="writebtn btn btn-primary btn-sm" type="button" value="리스트로 돌아가기" onClick="backToList(this.form)" />
+		</div>
 	</form>
 	<form action="${contextPath}/u_board/addcomment" method="post">
 		<div class="col-lg-12" id="comments-div">
@@ -321,10 +343,10 @@ request.setCharacterEncoding("utf-8");
 	            <input type="hidden" name="list_num" value="${board.list_num}">
 				</div>
 	            <div class="form-group col-sm-8">
-	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력...">
+	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력..."  >
 	            </div>
 				<div class="form-group col-sm-2">
-				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn">
+				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn" >
 				<i class="fa fa-save"></i> 댓글쓰기
 				</button>
 				</div>
@@ -338,10 +360,10 @@ request.setCharacterEncoding("utf-8");
 	            <input type="hidden" name="list_num" value="${board.list_num}">
 				</div>
 	            <div class="form-group col-sm-8">
-	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력...">
+	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력..." disabled>
 	            </div>
 				<div class="form-group col-sm-2">
-				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn">
+				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn" disabled>
 				<i class="fa fa-save"></i> 댓글쓰기
 				</button>
 				</div>

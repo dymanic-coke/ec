@@ -140,15 +140,15 @@ public class MemberControllerImpl implements MemberController {
 		//RequestMapping을 통해 .do를 호출하고 호출한 곳에서 a키가 있을 경우
 		//그 값은 자동으로 String user_id에 담기게 된다.
 		String user_id= request.getParameter("id");
-		System.out.println("user_id"+user_id);
+	
 		JSONObject obj = new JSONObject();
 		  int cnt = memService.idCheck(user_id);
 		  if(cnt == 0) {
-			  obj.put("result", "YES");
+			  obj.put("result", "YES"); //DB에 아이디 미존재
 		  }else {
-			  obj.put("result", "NO");
+			  obj.put("result", "NO"); //DB에 id존재
 		  }
-		  System.out.println("cnt =" + cnt);
+		
 		  return obj.toJSONString();
 	}
 		  
@@ -161,7 +161,7 @@ public class MemberControllerImpl implements MemberController {
 				//그 값은 자동으로 String user_id에 담기게 된다.
 			
 				String user_nick= request.getParameter("nick");
-				System.out.println("user_nick"+user_nick);
+			
 				JSONObject obj = new JSONObject();
 				  int cnt = memService.nickCheck(user_nick);
 				  if(cnt == 0) {
@@ -169,10 +169,31 @@ public class MemberControllerImpl implements MemberController {
 				  }else {
 					  obj.put("result", "NO");
 				  }
-				  System.out.println("cnt =" + cnt);
+				  
 				  return obj.toJSONString();
 
 	}
+			 @Override
+			 @RequestMapping(value="user/emailCheck.do", method = RequestMethod.POST)
+			 @ResponseBody
+			  public String emailCheck(HttpServletRequest request) throws Exception {
+					//param은 request.getParameter와 동일하고 jsp에 있는 매개변수를 받기위해 사용
+					//RequestMapping을 통해 .do를 호출하고 호출한 곳에서 a키가 있을 경우
+					//그 값은 자동으로 String user_id에 담기게 된다.
+				 		//ajax에서 getParameter는 키값을 기준으로 받아온다.
+					String user_email= request.getParameter("user_email");
+					
+					JSONObject obj = new JSONObject();
+					  int cnt = memService.emailCheck(user_email);
+					  if(cnt == 0) {
+						  obj.put("result", "YES");
+					  }else {
+						  obj.put("result", "NO");
+					  }
+				
+					  return obj.toJSONString();
+
+		}
 		  
 		 @Override
 		 @RequestMapping(value="user/mobileCheck.do", method = RequestMethod.POST)
@@ -181,9 +202,8 @@ public class MemberControllerImpl implements MemberController {
 				//param은 request.getParameter와 동일하고 jsp에 있는 매개변수를 받기위해 사용
 				//RequestMapping을 통해 .do를 호출하고 호출한 곳에서 a키가 있을 경우
 				//그 값은 자동으로 String user_id에 담기게 된다.
-			 System.out.println("모바일");
 				String mobile= request.getParameter("mobile");
-				System.out.println("mobile"+ mobile);
+		
 				JSONObject obj = new JSONObject();
 				  int cnt = memService.mobileCheck(mobile);
 				  if(cnt == 0) {
@@ -191,7 +211,7 @@ public class MemberControllerImpl implements MemberController {
 				  }else {
 					  obj.put("result", "NO");
 				  }
-				  System.out.println("cnt =" + cnt);
+				 
 				  return obj.toJSONString();
 
 	}
@@ -262,5 +282,4 @@ public class MemberControllerImpl implements MemberController {
 		
 		return mav;
 	}
-
 }

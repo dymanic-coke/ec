@@ -65,7 +65,7 @@ request.setCharacterEncoding("utf-8");
               </p>
             </a>
           </li>
-                    <li class="nav-item">
+         <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
@@ -75,32 +75,16 @@ request.setCharacterEncoding("utf-8");
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#l" class="nav-link">
+                <a href="${contextPath}/checkuserpage.do?code=info" class="nav-link">
                   <i class="far fa-user nav-icon"></i>
-                  <p>정보 수정</p>                
+                  <p>마이페이지</p>                
                 </a>
               </li>
+              
               <li class="nav-item">
-                <a href="${contextPath}/checkuserpage.do" class="nav-link">
-                  <i class="fas fa-store-alt nav-icon"></i>
+                <a href="${contextPath}/checkuserpage.do?code=pwd" class="nav-link">
+                  <i class="nav-icon fas fa-copy"></i>
                   <p>비밀번호 변경</p>
-                </a>
-              </li>
-              </ul>
-             </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                정보 관리
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                  <i class="fas fa-store-alt nav-icon"></i>
-                  <p>업체 정보</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -109,8 +93,8 @@ request.setCharacterEncoding("utf-8");
                   <p>메뉴 관리</p>
                 </a>
               </li>
-            </ul>
-          </li>
+              </ul>
+             </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-calendar-alt"></i>
@@ -144,7 +128,7 @@ request.setCharacterEncoding("utf-8");
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#l" class="nav-link">
+                <a href="${contextPath}/seller/reviewManage" class="nav-link">
                   <i class="far fa-comment-dots nav-icon"></i>
                   <p>리뷰 관리</p>
                 </a>

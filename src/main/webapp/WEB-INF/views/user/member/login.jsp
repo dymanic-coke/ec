@@ -15,12 +15,6 @@
 	
 	<script>
 	<!-- controller login.do참고 -->
-/* 	$(document).ready(function() {
-		if(${isLogOn} == false){
-			alert("로그인 실패");
-		}
-	});	 */
-	
 	$(document).ready(function() {
 		if(${result =="loginFailed"}){
 			alert("아이디와 비밀번호를 확인해주세요.");
@@ -47,22 +41,12 @@
 	
 
 
- <script>
-function select_ck(f){
-	if($("input[name='select']:checked").val()=='사용자'){
-		alert('사용자로 로그인합니다.');
-		
-	}else if($("input[name='select']:chekced").val()=='판매자'){
-		alert('판매자로 로그인합니다.');
-		
-	}else{
-		alert('사용자와 판매자중 선택해주세요');
-		
-		}
-}
-</script> 
+
 
 <style>
+#container{
+height:1000px;
+}
 #wrapper{
 	width:1000px;
 	margin: 100px auto;
@@ -161,7 +145,7 @@ color:black;
 text-decoration:none;
 color:black;
 }
-#container{ height:1000px; }
+
 </style>
 
 <meta charset="UTF-8">
@@ -179,13 +163,13 @@ color:black;
 </div>
 
 <article class="at1">
-<form method="post" action="${contextPath}/user/login.do" onsubmit = "return select_ck(this);">
+<form method="post" action="${contextPath}/user/login.do">
  <h1 align="center">회원</h1>
 		<table>
 		<tr>
-		<td align="left"><label><input type="radio" id="user" name="select"  value="사용자" />사용자</label></td>
+		<td><br></td>
 		<td></td>
-		<td align="right"><label><input type="radio" id="seller" name="select" value="판매자"/>판매자</label></td>
+		<td></td>
 		</tr>
 		
 		<tr height="2">
@@ -221,7 +205,7 @@ color:black;
           </span>
             <td align="left" id="left"><a href="${contextPath }/user/find_id.do" id=find_id>아이디찾기</a></td>
           
-            <td align="right"><a href="${contextPath}/user/memberForm_main.do" id="signup1">회원가입</a></td>
+            <td align="right"><a href="${contextPath}/user/u_regadmin.do" id="signup1">회원가입</a></td>
         
         	</tr>
       </table>
@@ -262,7 +246,7 @@ color:black;
         
 
             <tr>
-            <td style=text-align:center><br><a href="${contextPath}/user/memberForm_main.do" id="signup2">회원가입</a></td>
+            <td style=text-align:center><br><a href="${contextPath}/user/u_regadmin.do" id="signup2">회원가입</a></td>
         	</tr>
       </table>
       
