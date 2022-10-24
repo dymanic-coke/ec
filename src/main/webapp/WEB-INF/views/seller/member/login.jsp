@@ -14,7 +14,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in</title>
+  <title></title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
@@ -24,8 +24,17 @@
   <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <!-- 메시지 띄우기  -->
+ <c:choose>
+   <c:when test="${result=='pwdchagesuccess' }">
+      <script>
+         window.onload=function() {
+            alert("비밀번호 변경이 완료되었습니다. 재로그인 해주세요.");
+         }
+      </script>
+   </c:when>
+</c:choose>
 </head>
-
 <body class="login-page" style="min-height: 496.781px;">
 <div class="login-box" style="width:500px;">
   <div class="login-logo">
@@ -72,7 +81,7 @@
 
       <div class="social-auth-links text-center mb-3">
         <p></p>
-        <a href="${contextPath }/seller/member/s_regadmin.do" class="btn btn-block btn-primary" style="background-color:#A67F78; border:none;">
+        <a href="${contextPath }/seller/member/s_regadmin.do" class="btn btn-block btn-primary" style="background-color:#8F8681; border:none;">
           회원가입
         </a>
       </div>

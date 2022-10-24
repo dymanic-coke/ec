@@ -44,11 +44,11 @@ request.setCharacterEncoding("utf-8");
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-        <c:if test="${sellisLogOn == true && sellMember !=null }">
-        	<a href="#" class="d-block">판매자 이름</a>
+        <c:if test="${isLogOn == true && sellerMember !=null }">
+        	<a href="${contextPath}/checkuserpage.do?code=info" class="d-block">${sellerMember.seller_id} 님 환영합니다.</a>
         </c:if>
-        <c:if test="${sellMember == null }">
-        	<a href="${contextPath}/user/loginForm.do" class="d-block">로그인을 해주세요</a>
+        <c:if test="${sellerMember == null }">
+        	<a href="${contextPath}/seller/member/loginForm.do" class="d-block">로그인을 해주세요</a>
  		</c:if>
         </div>
       </div>

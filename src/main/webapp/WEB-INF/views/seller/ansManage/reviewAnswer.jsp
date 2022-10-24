@@ -2,126 +2,147 @@
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="URL" value="${pageContext.request.requestURL}" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
 request.setCharacterEncoding("utf-8");
-String viewName = (String)request.getAttribute("viewName");
+String viewName = (String) request.getAttribute("viewName");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <style>
-.content-wrapper>.content{
-		padding: 0.5em;
-	}
-.pagination{
+.content-wrapper>.content {
+	padding: 0.5em;
+}
+
+.pagination {
 	float: right;
 	padding-right: 30px;
 }
-.col-md-9{
+
+.col-md-9 {
 	flex: 0 0 100%;
-    max-width: 100%;
+	max-width: 100%;
 }
-.search-btn{
+
+.days {
 	float: right;
+}
+
+.user-block .description, .user-block .username {
+	margin-left: 0;
+}
+.review_card{
+	border-bottom: 1px solid rgba(0,0,0,.125);
+	border-top: 1px solid rgba(0,0,0,.125);
+}
+.deleteLink{
+	color: red;
 }
 </style>
 <script type="text/javascript">
+	
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-        <div class="col-sm-6">
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">메인</a></li>
-              <li class="breadcrumb-item active">문의/리뷰관리</li>
-              <li class="breadcrumb-item active">리뷰 관리</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-9">
-            <div class="card card-primary">
-              <div class="card-body p-0">
-				<div class="btn-group search-btn">
-                        <button type="button" class="btn btn-success" onClick="location.href='${contextPath}/seller/reviewManage?period=today'">오늘</button>
-                        <button type="button" class="btn btn-success" onClick="location.href='${contextPath}/seller/reviewManage?period=yesterday'">어제</button>
-                        <button type="button" class="btn btn-success" onClick="location.href='${contextPath}/seller/reviewManage?period=all'">전체</button>
-                      </div>
-              <div class="table-responsive mailbox-messages">
-                <table class="table table-hover table-striped">
-                <thead height="10" align="center" id="non-hover">
-                <td>작성일</td>
-				<td>작성자</td>
-				<td>리뷰 내용</td>
-				<td>별점</td>
-				<td>리뷰 좋아요</td>
-				<td>답글</td>
-			</thead>
-                  <c:choose>
-				<c:when test="${empty reAnsList}">
-					<tr height="10" class="table-primary">
-						<td colspan="6">
-							<p align="center">
-								<b><span style="font-size: 9pt;">등록된 리뷰가 없습니다.</span></b>
-							</p>
-						</td>
-					</tr>
-				</c:when>
-				<c:when test="${!empty reAnsList}">
-					<c:forEach var="reAns" items="${reAnsList}" varStatus="reAnsNum">	
-						<tr align="center">
-							<td><fmt:formatDate value="${reAns.reg_date}" pattern="yyyy-MM-dd" /></td>
-							<td>${reAns.user_nick}(${reAns.user_id})</td>
-							<td>${reAns.content}</td>
-							<td>
-								<div style="CLEAR: both;	PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	
-									BACKGROUND: url(image/icon_star2.gif) 0px 0px;	FLOAT: left;	PADDING-BOTTOM: 0px;
-									MARGIN: 0px;	WIDTH: 90px;	PADDING-TOP: 0px;	HEIGHT: 18px;">
-									<p style="WIDTH: ${reAns.rating_percent}%; PADDING-RIGHT:0px;	PADDING-LEFT:0px;
-										BACKGROUND: url(image/icon_star.gif) 0px 0px;	PADDING-BOTTOM: 0px;
-										MARGIN: 0px;	PADDING-TOP: 0px;	HEIGHT: 18px;"></p>
-								</div>
-								<div>
-									<b style="margin-left:5px;font-size:small; color:#8f8f8f;">${reAns.rating}</b>
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<div class="container-fluid">
+				<div class="row mb-2">
+					<div class="col-sm-6"></div>
+					<div class="col-sm-6">
+						<ol class="breadcrumb float-sm-right">
+							<li class="breadcrumb-item"><a href="#">메인</a></li>
+							<li class="breadcrumb-item active">문의/리뷰관리</li>
+							<li class="breadcrumb-item active">리뷰 관리</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+			<!-- /.container-fluid -->
+		</section>
+		<!-- Main content -->
+		<section class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="card">
+							<div class="card-header p-2">
+								<ul class="nav nav-pills days">
+									<li class="nav-item">
+										<a class="nav-link active" href="#activity" data-toggle="tab">오늘</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#activity" data-toggle="tab">전체</a>
+									</li>
+								</ul>
 							</div>
-							</td>
-							<td>${reAns.liked}</td>
-							<td>
-								<p>
-									<a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-								    	답글
-									</a>
-									</p>
-								<div class="collapse" id="collapseExample">
-									<div class="card card-body">
-								    	Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+							<!-- /.card-header -->
+							<c:forEach var="reAns" items="${reAnsList}" varStatus="reAnsNum">
+							<div class="card-body review_card">
+								<div class="tab-content">
+									<div class="active tab-pane">
+										<!-- Post -->
+										<div class="post">
+											<div class="user-block">
+												<span class="username"> 
+												<a href="#">${reAns.user_nick}(${reAns.user_id})</a>
+												</span> 
+												<span class="description">
+													${reAns.reg_date}
+												</span>
+												<div style="CLEAR: both; PADDING-RIGHT: 0px;	PADDING-LEFT: 0px;	
+													BACKGROUND: url(${contextPath}/image/icon_star2.gif) 0px 0px;
+													FLOAT: left;	PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: 90px;	
+													PADDING-TOP: 0px;	HEIGHT: 18px;">
+													<p style="WIDTH: ${reAns.rating_percent}%; PADDING-RIGHT:0px;
+														PADDING-LEFT:0px; BACKGROUND: url(${contextPath}/image/icon_star.gif) 0px 0px;
+														PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px;	HEIGHT: 18px;"></p>
+												</div>
+											</div>
+											<!-- /.user-block -->
+											<p>
+												${reAns.content}
+											</p>
+											<c:if test="${reAns.re_ans_content != null}">
+											<div>
+												
+												<div class="card card-body">
+													${reAns.re_ans_content}
+													<span class="float-right">
+							                        <a href="${contextPath}/seller/review/removeAnswer?review_num=${reAns.review_num}" class="link-black text-sm deleteLink">
+							                        <i class="fas fa-trash"></i> 삭제
+							                        </a>
+							                        </span>
+												</div>
+											</div>
+											</c:if>
+											<form class="form-horizontal" method="post" action="${contextPath}/seller/review/addAnswer">
+												<div class="input-group input-group-sm mb-0">
+													<input class="form-control form-control-sm" placeholder="리뷰에 답변을 적어주세요"
+													type="text" name="re_ans" >
+													<input type="hidden" name="review_num" value="${reAns.review_num}">
+													<div class="input-group-append">
+														<button type="submit" class="btn btn-danger">작성</button>
+													</div>
+												</div>
+											</form>
+										</div>
+										<!-- /.post -->
 									</div>
-							  	</div>
-							</td>
-						</tr>
-					</c:forEach>
-				</c:when>
-			</c:choose>                 
-                </table>
-                <!-- /.table -->
-                <br>
+									<!-- /.tab-pane -->
+								</div>
+								<!-- /.tab-content -->
+							</div>
+							<!-- /.card-body -->
+							</c:forEach>
+							<br>
 		<nav class="paging">
   			<ul class="pagination pg-darkgrey">
   			<c:if test="${paging.prev == 'false'}">
@@ -163,20 +184,17 @@ String viewName = (String)request.getAttribute("viewName");
     		</c:if>
   			</ul>
 		</nav>
-              </div>
-              <!-- /.mail-box-messages -->
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+						</div>
+						<!-- /.card -->
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.ec.seller.dao.ReviewAnsDAO;
+import com.spring.ec.seller.vo.GraphVO;
 import com.spring.ec.seller.vo.ReviewAnsVO;
 
 @Service("reviewAnsService")
@@ -23,5 +24,25 @@ public class ReviewAnsServiceImpl implements ReviewAnsService {
 	@Override
 	public int reAnsListCount(Map reAns) throws Exception{
 		return reAnsDAO.selectReAnsListCount(reAns);
+	}
+	
+	@Override
+	public int addNewAnswer(Map answer) throws Exception{
+		return reAnsDAO.insertAddNewAnswer(answer);
+	}
+	
+	@Override
+	public int removeAnswer(Map answer) throws Exception{
+		return reAnsDAO.deleteAnswer(answer);
+	}
+	
+	@Override
+	public int todayReviewCount(String seller_id) throws Exception{
+		return reAnsDAO.selectTodayReview(seller_id);
+	}
+	
+	@Override
+	public List<GraphVO> monthsReviewCount(String seller_id)throws Exception{
+		return reAnsDAO.selectMonthsReview(seller_id);
 	}
 }

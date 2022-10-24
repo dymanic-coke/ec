@@ -148,7 +148,10 @@
 		<put-attribute name="title" value="내 정보"/>
 		<put-attribute name="body" value="/WEB-INF/views/user/mypage/my_info.jsp"/>	
 	</definition>
-
+	<definition name="/mypage/pwdCheckPage" extends="mypageLayout">
+		<put-attribute name="title" value="회원정보 변경"/>
+		<put-attribute name="body" value="/WEB-INF/views/user/mypage/pwdCheck.jsp"/>
+	</definition>
 	<!-- 공지사항/이벤트 -->
 	<definition name="/user/notice" extends="baseLayout">
 		<put-attribute name="title" value="공지사항"/>

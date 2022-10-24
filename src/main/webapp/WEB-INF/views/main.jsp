@@ -291,7 +291,7 @@ img {
 					<!-- 사용자 로그인시 -->
 					<c:if test="${isLogOn == true && member !=null }">
 						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
-							환영합니다<br>${member.user_nick }님!</h4>
+							<!--  환영합니다<br>${member.user_nick }님!</h4>-->
 						<button type="button" class="btn-close"
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>

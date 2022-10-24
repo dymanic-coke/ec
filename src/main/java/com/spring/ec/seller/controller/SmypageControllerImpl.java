@@ -68,10 +68,11 @@ public class SmypageControllerImpl implements SmypageController  {
 		Map<String, Object> listMap = new HashMap<String, Object>();
 		ModelAndView mav = new ModelAndView();
 		//session에 남아있는 sellerid를 가져와야함
-		//MemberVO mm = (MemberVO) session.getAttribute("member");
-		//String seller_id = mm.getSeller_id());
+		HttpSession session = request.getSession();
+		SellerVO sellerVO = (SellerVO) session.getAttribute("sellerMember");
+		String seller_id = sellerVO.getSeller_id();
 		
-		String seller_id = "stest001";
+		//String seller_id = "stest001";
 		listMap.put("seller_id", seller_id);
 		listMap.put("seller_pw", seller_pw);
 		
@@ -104,10 +105,11 @@ public class SmypageControllerImpl implements SmypageController  {
 		ModelAndView mav = new ModelAndView();
 		
 		//session에 남아있는 sellerid를 가져와야함
-		//MemberVO mm = (MemberVO) session.getAttribute("member");
-		//String seller_id = mm.getSeller_id());
+		HttpSession session = request.getSession();
+		SellerVO sellerVO = (SellerVO) session.getAttribute("sellerMember");
+		String seller_id = sellerVO.getSeller_id();
 		
-		String seller_id = "stest001";
+		//String seller_id = "stest001";
 		
 		//해당 가게의 찜,리뷰,예약 조회
 		StoreinfosumVO infosum = infoService.selectinfosum(seller_id);
@@ -160,15 +162,15 @@ public class SmypageControllerImpl implements SmypageController  {
 	@Override 
 	@RequestMapping(value = "/changepwd.do", method = RequestMethod.POST)
 	public ModelAndView changepwd(@RequestParam("seller_pw") String seller_pw,RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session = request.getSession();
 		
 		Map<String, Object> listMap = new HashMap<String, Object>();
 		ModelAndView mav = new ModelAndView();
 		//session에 남아있는 sellerid를 가져와야함
-		//MemberVO mm = (MemberVO) session.getAttribute("member");
-		//String seller_id = mm.getSeller_id());
+		HttpSession session = request.getSession();
+		SellerVO sellerVO = (SellerVO) session.getAttribute("sellerMember");
+		String seller_id = sellerVO.getSeller_id();
 		
-		String seller_id = "stest001";
+		//String seller_id = "stest001";
 		listMap.put("seller_id", seller_id);
 		listMap.put("seller_pw", seller_pw);
 		
@@ -198,8 +200,9 @@ public class SmypageControllerImpl implements SmypageController  {
 		
 		ModelAndView mav = new ModelAndView();
 		//session에 남아있는 sellerid를 가져와야함
-		//MemberVO mm = (MemberVO) session.getAttribute("member");
-		//String seller_id = mm.getSeller_id());
+		HttpSession session = request.getSession();
+		SellerVO sellerVO = (SellerVO) session.getAttribute("sellerMember");
+		String seller_id = sellerVO.getSeller_id();
 		
 		modseller.setSeller_id("stest001");
 		modseller.setKeyword(key01 + ", " + key02 + ", " + key03);
@@ -240,8 +243,8 @@ public class SmypageControllerImpl implements SmypageController  {
 			HttpSession session = multipartRequest.getSession();
 			
 			//session에 남아있는 sellerid를 가져와야함
-			//MemberVO mm = (MemberVO) session.getAttribute("member");
-			//String seller_id = mm.getSeller_id());
+			SellerVO sellerVO = (SellerVO) session.getAttribute("sellerMember");
+			String seller_id = sellerVO.getSeller_id();
 			
 			modinfoMap.put("seller_id","stest001");
 			modinfoMap.put("image_fileName", imageFileName);

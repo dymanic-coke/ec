@@ -123,7 +123,12 @@ String viewName = (String)request.getAttribute("viewName");
 												},
 												{
 													type : 'line',
-													data : [ ],
+													data : [
+														${monthReview.jan},${monthReview.feb},${monthReview.mar},
+														${monthReview.apr},${monthReview.may},${monthReview.jun},
+														${monthReview.jul},${monthReview.aug},${monthReview.sep},
+														${monthReview.oct},${monthReview.nov},${monthReview.dec}
+													],
 													backgroundColor : 'tansparent',
 													borderColor : 'blue',
 													pointBorderColor : 'blue',
@@ -132,9 +137,12 @@ String viewName = (String)request.getAttribute("viewName");
 												},
 												{
 													type : 'line',
-													data : [ 22, 10, 30, 80,
-															130, 20, 10, 40,
-															45, 65, 35, 50 ],
+													data : [ 
+														${monthWish.jan},${monthWish.feb},${monthWish.mar},
+														${monthWish.apr},${monthWish.may},${monthWish.jun},
+														${monthWish.jul},${monthWish.aug},${monthWish.sep},
+														${monthWish.oct},${monthWish.nov},${monthWish.dec}
+													],
 													backgroundColor : 'tansparent',
 													borderColor : 'green',
 													pointBorderColor : 'green',
@@ -212,7 +220,7 @@ String viewName = (String)request.getAttribute("viewName");
 						<!-- small box -->
 						<div class="small-box bg-success">
 							<div class="inner">
-								<h3>53</h3>
+								<h3>${todayWish}</h3>
 
 								<p>금일 찜 수</p>
 							</div>
@@ -228,7 +236,7 @@ String viewName = (String)request.getAttribute("viewName");
 						<!-- small box -->
 						<div class="small-box bg-warning">
 							<div class="inner">
-								<h3>44</h3>
+								<h3>${todayReview}</h3>
 
 								<p>금일 리뷰 수</p>
 							</div>
@@ -255,9 +263,9 @@ String viewName = (String)request.getAttribute("viewName");
 							</div>
 							<div class="card-body">
 								<div class="d-flex flex-row justify-content-end">
-									<span class="mr-2"> <i class="fas fa-square"></i> 예약 수
-									</span> <span class="mr-2"> <i class="fas fa-square"></i> 찜 수
-									</span> <span> <i class="fas fa-square"></i> 리뷰 수
+									<span class="mr-2"> <i class="fas fa-square" style="color:red;" ></i> 예약 수
+									</span> <span class="mr-2"> <i class="fas fa-square" style="color:green;"></i> 찜 수
+									</span> <span> <i class="fas fa-square" style="color:blue;"></i> 리뷰 수
 									</span>
 								</div>
 								<!-- /.d-flex -->
