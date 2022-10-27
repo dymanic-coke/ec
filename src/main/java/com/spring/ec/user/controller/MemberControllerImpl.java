@@ -231,17 +231,21 @@ public class MemberControllerImpl implements MemberController {
 
 	@Override
 	@RequestMapping(value = "/user/find_id_Result.do", method = RequestMethod.POST)
-	public ModelAndView find_id_Result(@ModelAttribute("member") MemberVO member, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ModelAndView find_id_Result( HttpServletRequest request,HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
-		String user_id = memService.find_id_Result(member);
+		String user_name = request.getParameter("user_name");
+		String tel = request.getParameter("tel");
+		memberVO.setUser_name(user_name);
+		memberVO.setTel(tel);
+		String user_id = memService.find_id_Result(memberVO);
 		if(user_id == null) {
 			mav.addObject("check",1);
 			mav.setViewName(viewName);
 		}else {
 		mav.addObject("check",0);
 		mav.addObject("user_id", user_id);
+		request.removeAttribute("member");
 		mav.setViewName(viewName);
 	}
 	return mav;
@@ -262,11 +266,17 @@ public class MemberControllerImpl implements MemberController {
 
 	@Override
 	@RequestMapping(value = "/user/find_pwd_Result.do", method = RequestMethod.POST)
-	public ModelAndView find_pwd_Result(@ModelAttribute("member") MemberVO member, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ModelAndView find_pwd_Result(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
-		String user_pwd = memService.find_pwd_Result(member);
+		
+		String user_name = request.getParameter("user_name");
+		String user_id = request.getParameter("user_id");
+		String user_email = request.getParameter("user_email");
+		memberVO.setUser_name(user_name);
+		memberVO.setTel(user_id);
+		memberVO.setUser_email(user_email);
+		String user_pwd = memService.find_pwd_Result(memberVO);
 		System.out.println("user_pwd : " +user_pwd);
 		if(user_pwd == null) {
 			

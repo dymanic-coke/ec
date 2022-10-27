@@ -179,10 +179,10 @@ public class SmypageControllerImpl implements SmypageController  {
 		
 		if(result == 1) { 
 			//세션 끊어서 다시 로그인하기
-			session.removeAttribute("member");
+			session.removeAttribute("sellerMember");
 			session.removeAttribute("isLogOn");
 			rAttr.addFlashAttribute("result", "pwdchagesuccess");
-			mav.setViewName("redirect:/sellerMain");   //로그인으로 가야됨(임시)
+			mav.setViewName("redirect:/seller/member/loginForm.do");
  
 		} else { 
 			rAttr.addFlashAttribute("result", "pwdchangefail");
@@ -204,7 +204,7 @@ public class SmypageControllerImpl implements SmypageController  {
 		SellerVO sellerVO = (SellerVO) session.getAttribute("sellerMember");
 		String seller_id = sellerVO.getSeller_id();
 		
-		modseller.setSeller_id("stest001");
+		modseller.setSeller_id(seller_id);
 		modseller.setKeyword(key01 + ", " + key02 + ", " + key03);
 		int result = smypageService.modseller(modseller);
 		

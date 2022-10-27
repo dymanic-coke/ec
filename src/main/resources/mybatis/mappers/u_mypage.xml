@@ -9,6 +9,7 @@
 		<result column="user_id" property="user_id" />
 		<result column="seller_id" property="seller_id" />
 		<result column="wish_sum" property="wish_sum" />
+		<result column="reg_date" property="reg_date" />
 	</resultMap>
 	
 	<resultMap id="revResult" type="reviewVO">

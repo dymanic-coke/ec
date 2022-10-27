@@ -4,7 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface MailController {
 
-	public String mailCheckGET(String email, HttpServletRequest request) throws Exception;	
+	public String mailCheckPOST(String email,HttpServletRequest request) throws Exception;
+
+	
 	/*
 	 * public void sendSimpleMail(HttpServletRequest request, HttpServletResponse
 	 * response)throws Exception;

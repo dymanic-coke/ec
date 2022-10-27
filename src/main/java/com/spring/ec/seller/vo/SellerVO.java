@@ -31,17 +31,13 @@ public class SellerVO {
 	private String pro_price;
 	private Date reg_date;
 	private Date mod_date;
-	private String birth_yy;
-	private String birth_mm;
-	private String birth_dd;
-	private String gender;
 	
 	
 	public SellerVO() {
 
 	}
 
-	public SellerVO(int seller_num, String category_code, String seller_id, String seller_pw, String seller_tel, String seller_bizReg, String seller_name,String seller_email,String seller_addr,String bizReg_image_name,String area,String keyword,int storeInfo_num, String image_fileName, String store_introduce, String openTime, String closeDay, String store_nic,String store_benefit,	int pro_num, String pro_name, String pro_price, Date reg_date, Date mod_date, String birth_yy, String birth_mm, String birth_dd,String gender) {
+	public SellerVO(int seller_num, String category_code, String seller_id, String seller_pw, String seller_tel, String seller_bizReg, String seller_name,String seller_email,String seller_addr,String bizReg_image_name,String area,String keyword,int storeInfo_num, String image_fileName, String store_introduce, String openTime, String closeDay, String store_nic,String store_benefit,	int pro_num, String pro_name, String pro_price, Date reg_date, Date mod_date) {
 		this.seller_num = seller_num;
 		this.category_code = category_code;
 		this.seller_id= seller_id;
@@ -65,10 +61,6 @@ public class SellerVO {
 		this.pro_price = pro_price;
 		this.reg_date = reg_date;
 		this.mod_date = mod_date;
-		this.birth_yy = birth_yy;
-		this.birth_mm = birth_mm;
-		this.birth_dd = birth_dd;
-		this.gender = gender;
 	}
 
 	public int getSeller_num() {
@@ -261,38 +253,6 @@ public class SellerVO {
 
 	public void setPro_price(String pro_price) {
 		this.pro_price = pro_price;
-	}
-
-	public String getBirth_yy() {
-		return birth_yy;
-	}
-
-	public void setBirth_yy(String birth_yy) {
-		this.birth_yy = birth_yy;
-	}
-
-	public String getBirth_mm() {
-		return birth_mm;
-	}
-
-	public void setBirth_mm(String birth_mm) {
-		this.birth_mm = birth_mm;
-	}
-
-	public String getBirth_dd() {
-		return birth_dd;
-	}
-
-	public void setBirth_dd(String birth_dd) {
-		this.birth_dd = birth_dd;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
 	}
 
 

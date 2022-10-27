@@ -62,7 +62,9 @@ public class BoardControllerImpl implements BoardController {
 		} else {
 			page = 1;
 		}
-		int endPage = (int) (Math.ceil(page / (double) displayNum) * displayNum);
+		int endPage = (int) (Math.ceil(page / (double) displayNum) * displayNum);  //현재의 페이지 번호를 기준으로 연산
+		
+		//Endpage는 전체 게시글 수 에 영향을 많이 받아 에러가 생길 수 있음
 		int tempEndPage = (int) (Math.ceil(boardCount / (double) displayNum));
 		int startPage = (endPage - displayNum) + 1;
 		if (endPage > tempEndPage) {
@@ -266,6 +268,8 @@ public class BoardControllerImpl implements BoardController {
 		multipartRequest.setCharacterEncoding("utf-8");
 		String image_fileName = null;
 		Map boardMap = new HashMap();
+		
+		//폼에서 전송한 input 타입의 name들을 file속성을 제외하고 enu에 저장
 		Enumeration enu = multipartRequest.getParameterNames();
 		while (enu.hasMoreElements()) {
 			String name = (String) enu.nextElement();
@@ -302,7 +306,7 @@ public class BoardControllerImpl implements BoardController {
 				FileUtils.moveFileToDirectory(srcFile, destDir, true);
 			}
 			message = "<script>";
-			message += " alert('������ �߰��߽��ϴ�.');";
+			message += " alert('새글을 추가하였습니다.');";
 			message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
@@ -311,7 +315,7 @@ public class BoardControllerImpl implements BoardController {
 			srcFile.delete();
 
 			message = "<script>";
-			message += " alert('������ �߻��߽��ϴ�. �ٽ� �õ��� �ּ���');";
+			message += " alert('오류가 발생하였습니다.');";
 			message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
@@ -334,7 +338,7 @@ public class BoardControllerImpl implements BoardController {
 		commentMap.put("comment_id", comment_id);
 		commentMap.put("comments", comments);
 		commentMap.put("list_num", list_num);
-		commentMap.put("parent_num", "0");
+		/* commentMap.put("parent_num", "0"); */
 		boardService.addNewComment(commentMap);
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
@@ -344,22 +348,28 @@ public class BoardControllerImpl implements BoardController {
 
 	private String upload(MultipartHttpServletRequest multipartRequest) throws Exception {
 		String image_fileName = null;
+		
+		//iterator 형태로 추출된 파일들의 이름을 저장
 		Iterator<String> fileNames = multipartRequest.getFileNames();
 		while (fileNames.hasNext()) {
 			String fileName = fileNames.next();
+			
+			//mfile에 해당 이름을 인자로 파일들의 정보를 저장
 			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			//파일들의 확장자를 포함한 이미지파일 명을 저장
 			image_fileName = mFile.getOriginalFilename();
-			File file = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + fileName);
+			File file = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + fileName);  //해당 경로에 대한 파일 객체 생성
 			if (mFile.getSize() != 0) {
-				if (!file.exists()) {
-					file.getParentFile().mkdirs();
-					mFile.transferTo(new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + image_fileName));
+				if (!file.exists()) {  //경로상에 파일이 존재하지 않다면 
+					file.getParentFile().mkdirs();  //디렉토리를 생성
+					mFile.transferTo(new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + image_fileName));  //transferTo 메소드를 사용하여 해당위치에 저장
 				}
 			}
 		}
 		return image_fileName;
 	}
-	//�Խñ� ����
+	//�Խñ� ����
 	@Override
 	@RequestMapping(value = "/user/removeBoard", method = RequestMethod.POST )
 	public ModelAndView removeBoard(@RequestParam("list_num") int list_num, HttpServletRequest request,
@@ -369,7 +379,7 @@ public class BoardControllerImpl implements BoardController {
 		mav.setViewName("redirect:/user/u_board");
 		return mav;
 	}
-	//�Խñ� ���������� �̵�
+	//�Խñ� ���������� �̵�
 	@Override
 	@RequestMapping(value = "/user/modBoard", method = {RequestMethod.POST,RequestMethod.GET })
 	public ModelAndView modBoardForm(@RequestParam("list_num") int list_num, HttpServletRequest request,
@@ -381,7 +391,7 @@ public class BoardControllerImpl implements BoardController {
 		mav.addObject("board", board);
 		return mav;
 	}
-	//�Խñ� ���� �Ϸ�
+	//�Խñ� ���� �Ϸ�
 	@Override
 	@RequestMapping(value = "/board/modBoardCompl", method = RequestMethod.POST)
 	@ResponseBody
@@ -390,6 +400,7 @@ public class BoardControllerImpl implements BoardController {
 		multipartRequest.setCharacterEncoding("utf-8");
 		String image_fileName = null;
 		Map boardMap = new HashMap();
+		
 		Enumeration enu = multipartRequest.getParameterNames();
 		while (enu.hasMoreElements()) {
 			String name = (String) enu.nextElement();
@@ -415,7 +426,7 @@ public class BoardControllerImpl implements BoardController {
 				FileUtils.moveFileToDirectory(srcFile, destDir, true);
 			}
 			message = "<script>";
-			message += " alert('���� �Ϸ��߽��ϴ�.');";
+			message += " alert('수정이 완료되었습니다.');";
 			message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board/u_boardView?list_num=" + list_num+ "';";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
@@ -424,7 +435,7 @@ public class BoardControllerImpl implements BoardController {
 			srcFile.delete();
 
 			message = "<script>";
-			message += " alert('������ �߻��߽��ϴ�. �ٽ� �õ��� �ּ���');";
+			message += " alert('오류가 발생하였습니다.');";
 			message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);

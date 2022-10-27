@@ -24,6 +24,4 @@ public interface BookingService {
 	public int todayBookingCount(String seller_id)throws Exception;
 	
 	public List<GraphVO> monthsBookingCount(String seller_id)throws Exception;
-	
-
 }

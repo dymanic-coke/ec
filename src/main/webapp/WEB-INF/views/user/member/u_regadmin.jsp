@@ -12,11 +12,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-#container{
-height:1000px;
-}
-</style>
 <script type="text/javascript">
 function chk(){
 if(!($('#req').is(':checked'))){
@@ -30,7 +25,9 @@ function nochk(){
  alert("동의하지 않으면 가입하실 수 없습니다");
 location.href="${contextPath}/user/u_regadmin.do";}
 </script>
-
+<style type="text/css">
+#container{ height:1000px; }
+</style>
 
 <meta charset="UTF-8">
 <title>약관동의</title>
@@ -42,7 +39,7 @@ location.href="${contextPath}/user/u_regadmin.do";}
   <tr>
    <td width="100%" height="50%" align="center">
    
-   <p align="center" style="margin-top:100px">
+   <p align="center" style="margin-top:80px">
    <span><a href="${contextPath }/main.do"><img src="${contextPath }/image/logo.png" width="250" height="250" alt="로고사진"></a>
    </span>
    </p>
@@ -72,9 +69,7 @@ location.href="${contextPath}/user/u_regadmin.do";}
 - 생성정보 수집 툴을 통한 수집
    </textarea>
    <br>
-   <label for="req">
-      <input type="checkbox" id ="req"> 개인정보 수집 및 이용에 동의합니다.</label>
-      
+   <input type="checkbox" id ="req"> 개인정보 수집 및 이용에 동의합니다.
    </td>
   </tr>
   <tr>

@@ -20,19 +20,10 @@ var dd = document.querySelector('#dd');
 
 var gender = document.querySelector('#gender');
 
+
 var mobile = document.querySelector('#mobile');
 
-var bizReg = document.querySelector('#bizReg');
-
-var local = document.querySelector('#local');
-
-var business = document.querySelector('#business');
-
 var error = document.querySelectorAll('.error_next_box');
-
-var key1 = document.querySelector('#key1');
-var key2 = document.querySelector('#key2');
-var key3 = document.querySelector('#key3');
 
 
 
@@ -56,20 +47,6 @@ gender.addEventListener("focusout", function() {
 
 mobile.addEventListener("focusout", checkPhoneNum);
 
-bizReg.addEventListener("focusout", checkbizReg);
-
-local.addEventListener("focusout", isLocalSelected);
-business.addEventListener("focusout", isLocalSelected);
-
-key1.addEventListener("focusout", iskeyCompleted);
-key2.addEventListener("focusout", iskeyCompleted);
-key3.addEventListener("focusout", iskeyCompleted);
-
-
-
-
-
-
 
 
 
@@ -87,7 +64,9 @@ function checkId() {
         error[0].innerHTML = "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
         error[0].style.display = "block";
     } else {
-        error[0].style.display = "none";
+        error[0].innerHTML = "멋진 아이디네요!";
+        error[0].style.color = "#08A600";
+        error[0].style.display = "block";
     }
 }
 
@@ -206,84 +185,13 @@ function checkPhoneNum() {
     if(mobile.value === "") {
         error[6].innerHTML = "필수 정보입니다.";
         error[6].style.display = "block";
-    } else if(!isPhoneNum.test(mobile.value )) {
+    } else if(!isPhoneNum.test(mobile.value)) {
         error[6].innerHTML = "형식에 맞지 않는 번호입니다.";
         error[6].style.display = "block";
     } else {
         error[6].style.display = "none";
     }
-}
-
-
-function checkbizReg() {
-	
-	var valueMap =/([0-9]{3})([0-9]{2})([0-9]{5})/;
-
-      if(bizReg.value === "") {
-        error[7].innerHTML = "필수 정보입니다.";
-        error[7].style.display = "block";
-    } else if(!valueMap.test(bizReg.value)) {
-        error[7].innerHTML = "형식에 맞지 않는 번호입니다.";
-        error[7].style.display = "block";
-    } else {
-        error[7].style.display = "none";
-    }
-}
-
-function isLocalSelected() {
-
-    if(local.value === "위치") {
-        error[8].innerHTML = "필수 정보입니다.";
-        error[8].style.display = "block";
-    } else {
-        isbusinessSelected();
-    }
-
-
-    function isbusinessSelected() {
-        if(business.value === "업종") {
-            error[8].innerHTML = "업종을 선택해주세요.";
-        } else {
-            error[8].style.display="none";
-        }
-    }
-}
-
-
-function iskeyCompleted() {
-		
-	 var keyPattern = /[a-zA-Z가-힣]/;
-    if(key1.value === "") {
-    error[9].style.color = "red";
-        error[9].innerHTML = "필수 정보입니다.";
-        error[9].style.display = "block";
-    } else if(!keyPattern.test(key1.value) || key1.value.indexOf(" ") > -1) {
-    	error[9].style.color = "red";
-        error[9].innerHTML = "한글과 영문 대 소문자를 사용하세요(특수기호, 공백 사용불가)";
-    } else {
-        iskey2Completed();
-    }
-    
-    function iskey2Completed() {
-        if(key2.value === "") {
-        	error[9].style.color = "green";
-            error[9].innerHTML = "키워드가 많을수록 검색에 유리해집니다(선택)";
-        } else {
-            iskey3Completed();
-        }
-    }
-
-    function iskey3Completed() {
-        if(key3.value === "") {
-        error[9].style.color = "green";
-            error[9].innerHTML = "키워드가 많을수록 검색에 유리해집니다(선택)";
-        } else {
-            error[9].style.display ="none";
-        }
-    }
-}
-
-
+ }
 
 
 /*

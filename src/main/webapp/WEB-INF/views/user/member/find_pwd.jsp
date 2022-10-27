@@ -89,10 +89,6 @@ request.setCharacterEncoding("utf-8");
 	</form>
 
 	<script>
-	idSignal = false;
-	 nameSignal = false;
-	 emailSignal = false;
-	inputcode =""
 	//인증번호 이메일 전송
  	$('.prove').click(function ()  {
   	var email = $("#user_email").val();
@@ -107,7 +103,6 @@ request.setCharacterEncoding("utf-8");
   			code = data;
   			console.log("code:"+code);
   			alert("인증번호가 전송되었습니다.");
-  			
   		},
   		error:function(){
   			alert("에러입니다");
@@ -116,14 +111,12 @@ request.setCharacterEncoding("utf-8");
    
    })
 	</script>
-	
  	<script>
 	//인증번호 비교
-		
 		var $resultMsg = $('#mail-check-warn2');
 		
 	function checkauth(){
-		 inputCode = document.getElementById('mail_check_input_box').value;
+		var inputCode = document.getElementById('mail_check_input_box').value;
 		console.log("inputCode"+inputCode);
 		console.log(code);
 		if(inputCode == code){
@@ -156,14 +149,11 @@ request.setCharacterEncoding("utf-8");
     } else if(f.mail_check_input_box.value.length != 6){
     			alert("인증번호 6자리를 입력해주세요");
     			
-    } else if(inputCode == code){
+    } 
+    	else {
     	f.action="${contextPath}/user/find_pwd_Result.do"
     	f.submit();
-    	}else{
-    		alert("인증번호를 확인해주세요.");
-    	}
-    
-  
+    }
   
     }
     </script>

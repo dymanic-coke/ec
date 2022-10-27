@@ -3,6 +3,7 @@ encoding//src/main/java/com/spring/ec/kakao/controller/KakaoControllerImpl.java=
 encoding//src/main/java/com/spring/ec/seller/controller/BookingControllerImpl.java=UTF-8
 encoding//src/main/java/com/spring/ec/seller/controller/InfoControllerImpl.java=UTF-8
 encoding//src/main/java/com/spring/ec/seller/controller/MemberControllerImpl.java=UTF-8
+encoding//src/main/java/com/spring/ec/user/controller/MemberController.java=UTF-8
 encoding//src/main/java/com/spring/ec/user/controller/MemberControllerImpl.java=UTF-8
 encoding//src/main/java/com/spring/ec/user/dao/CateDAOImpl.java=UTF-8
 encoding//src/main/java/com/spring/ec/user/dao/MemberDAOImpl.java=UTF-8
