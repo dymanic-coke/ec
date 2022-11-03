@@ -27,8 +27,6 @@
 - back-end : java 15 , spring Tool 3 , maven 
 - DB : mysql , mariaDB , Mybatis 
 
-### 📌 기술 선택 이유 [ - 상세보기]()
-
 
 ### 📌 주요 기능 [ - 상세보기]()
  
