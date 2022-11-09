@@ -11,10 +11,6 @@ String viewName = (String) request.getAttribute("viewName");
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet"
-	href="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.css" />
-<script
-	src="https://uicdn.toast.com/calendar/latest/toastui-calendar.min.js"></script>
 <style type="text/css">
 .content-wrapper>.content {
 	padding: 1em 0.5em;
@@ -50,51 +46,46 @@ String viewName = (String) request.getAttribute("viewName");
 		!important;
 	color: #fff;
 }
+.line-red{
+	color: red;
+}
+.line-blue{
+	color: blue;
+}
+.line-green{
+	color: green;
+}
+.line-orange{
+	color: orange;
+}
 </style>
 <script type="text/javascript">
-	$(document).ready(
-			
-		function periodUserChart(period){
-			var labelList = [];
-			var visitList = [];
-			var userList = [];
-			var reservList =[];
-			var reviewList = [];
-			var signUpList = [];
-			
-			$.ajax({
-				url:"${contextPath}/userChart",
-				type:"get",
-				data:{
-					period: period
-				},
-				dataType:"json",
-				success: function (data){
-					for(var i = 0; i<data.length; i++){
-						labelList.push(data[i].period);
-						visitList.push(data[i].visitor);
-						userList.push(data[i].user);
-						reservList.push(data[i].reserv);
-						reviewList.push(data[i].review);
-						signUpList.push(data[i].signUp);
+	$(document).ready(function() {
+		var ticksStyle = { 
+			fontColor : '#495057', 
+			fontStyle : 'bold'
+			}
 						
-					}
-					console.log(labelList);
-					var ticksStyle = { 
-							fontColor : '#495057', 
-							fontStyle : 'bold'}
-						
-					var mode = 'index';
-					var intersect = true;
-					var $userChart = $('#user-chart')
-					var userChart = new Chart($userChart,
+		var mode = 'index';
+		var intersect = true;
+		var $userChart = $('#user-chart')
+		var $sellerChart = $('#seller-chart')
+		var $commuChart = $('#community-chart')
+		var userChart = new Chart($userChart,
 			{
 				data : {
-					labels : labelList,
+					labels : [ '1월', '2월', '3월', '4월',
+						'5월', '6월', '7월', '8월', '9월',
+						'10월', '11월', '12월' ],
 					datasets : [
 						{
 							type : 'line',
-							data : visitList,
+							data : [
+								${visit.jan},${visit.feb},${visit.mar},
+								${visit.apr},${visit.may},${visit.jun},
+								${visit.jul},${visit.aug},${visit.sep},
+								${visit.oct},${visit.nov},${visit.dec}
+							],
 							backgroundColor : 'transparent',
 							borderColor : 'red',
 							pointBorderColor : 'red',
@@ -104,44 +95,49 @@ String viewName = (String) request.getAttribute("viewName");
 						},
 						{
 							type : 'line',
-							data : userList,
+							data : [
+								${reserv.jan},${reserv.feb},${reserv.mar},
+								${reserv.apr},${reserv.may},${reserv.jun},
+								${reserv.jul},${reserv.aug},${reserv.sep},
+								${reserv.oct},${reserv.nov},${reserv.dec}
+							],
 							backgroundColor : 'transparent',
-							borderColor : 'red',
-							pointBorderColor : 'red',
-							pointBackgroundColor : 'red',
-							fill : false,
-							label: "회원로그인"
-						},
-						{
-							type : 'line',
-							data : reservList,
-							backgroundColor : 'transparent',
-							borderColor : 'red',
-							pointBorderColor : 'red',
-							pointBackgroundColor : 'red',
+							borderColor : 'blue',
+							pointBorderColor : 'blue',
+							pointBackgroundColor : 'blue',
 							fill : false,
 							label: "예약"
 						},
 						{
 							type : 'line',
-							data : reviewList,
+							data : [
+								${review.jan},${review.feb},${review.mar},
+								${review.apr},${review.may},${review.jun},
+								${review.jul},${review.aug},${review.sep},
+								${review.oct},${review.nov},${review.dec}
+							],
 							backgroundColor : 'transparent',
-							borderColor : 'red',
-							pointBorderColor : 'red',
-							pointBackgroundColor : 'red',
+							borderColor : 'green',
+							pointBorderColor : 'green',
+							pointBackgroundColor : 'green',
 							fill : false,
 							label: "리뷰"
 						},
 						{
 							type : 'line',
-							data : signUpList,
+							data : [
+								${signUp.jan},${signUp.feb},${signUp.mar},
+								${signUp.apr},${signUp.may},${signUp.jun},
+								${signUp.jul},${signUp.aug},${signUp.sep},
+								${signUp.oct},${signUp.nov},${signUp.dec}
+							],
 							backgroundColor : 'transparent',
-							borderColor : 'red',
-							pointBorderColor : 'red',
-							pointBackgroundColor : 'red',
+							borderColor : 'orange',
+							pointBorderColor : 'orange',
+							pointBackgroundColor : 'orange',
 							fill : false,
 							label: "회원가입"
-						},
+						}
 						]
 				},
 				options : {
@@ -177,11 +173,211 @@ String viewName = (String) request.getAttribute("viewName");
 					}
 				}
 			})
-				}
-				
-			})
-		}
-		);
+		var sellerChart = new Chart($sellerChart,
+				{
+					data : {
+						labels : [ '1월', '2월', '3월', '4월',
+							'5월', '6월', '7월', '8월', '9월',
+							'10월', '11월', '12월' ],
+						datasets : [
+							{
+								type : 'line',
+								data : [
+									${s_visit.jan},${s_visit.feb},${s_visit.mar},
+									${s_visit.apr},${s_visit.may},${s_visit.jun},
+									${s_visit.jul},${s_visit.aug},${s_visit.sep},
+									${s_visit.oct},${s_visit.nov},${s_visit.dec}
+								],
+								backgroundColor : 'transparent',
+								borderColor : 'red',
+								pointBorderColor : 'red',
+								pointBackgroundColor : 'red',
+								fill : false,
+								label: "방문자"
+							},
+							{
+								type : 'line',
+								data : [
+									${black.jan},${black.feb},${black.mar},
+									${black.apr},${black.may},${black.jun},
+									${black.jul},${black.aug},${black.sep},
+									${black.oct},${black.nov},${black.dec}
+								],
+								backgroundColor : 'transparent',
+								borderColor : 'blue',
+								pointBorderColor : 'blue',
+								pointBackgroundColor : 'blue',
+								fill : false,
+								label: "블랙리스트"
+							},
+							{
+								type : 'line',
+								data : [
+									${white.jan},${white.feb},${white.mar},
+									${white.apr},${white.may},${white.jun},
+									${white.jul},${white.aug},${white.sep},
+									${white.oct},${white.nov},${white.dec}
+								],
+								backgroundColor : 'transparent',
+								borderColor : 'green',
+								pointBorderColor : 'green',
+								pointBackgroundColor : 'green',
+								fill : false,
+								label: "화이트리스트"
+							},
+							{
+								type : 'line',
+								data : [
+									${s_signUp.jan},${s_signUp.feb},${s_signUp.mar},
+									${s_signUp.apr},${s_signUp.may},${s_signUp.jun},
+									${s_signUp.jul},${s_signUp.aug},${s_signUp.sep},
+									${s_signUp.oct},${s_signUp.nov},${s_signUp.dec}
+								],
+								backgroundColor : 'transparent',
+								borderColor : 'orange',
+								pointBorderColor : 'orange',
+								pointBackgroundColor : 'orange',
+								fill : false,
+								label: "회원가입"
+							}
+							]
+					},
+					options : {
+					maintainAspectRatio : false,
+						tooltips : {
+							mode : mode,
+							intersect : intersect
+						},
+						hover : {
+							mode : mode,
+							intersect : intersect
+						},
+						legend : {
+							display : false
+						},
+						scales : {
+							yAxes : [{
+								gridLines : {
+									display : true,
+									lineWidth : '4px',
+									color : 'rgba(0, 0, 0, .2)',
+									zeroLineColor : 'transparent'
+								},
+								ticks : $.extend({beginAtZero : true}, ticksStyle)
+							}],
+							xAxes : [{
+								display : true,
+								gridLines : {
+									display : false
+								},
+								ticks : ticksStyle
+							}]
+						}
+					}
+				})
+		var commuChart = new Chart($commuChart,
+				{
+					data : {
+						labels : [ '1월', '2월', '3월', '4월',
+							'5월', '6월', '7월', '8월', '9월',
+							'10월', '11월', '12월' ],
+						datasets : [
+							{
+								type : 'line',
+								data : [
+									${u_commu.jan},${u_commu.feb},${u_commu.mar},
+									${u_commu.apr},${u_commu.may},${u_commu.jun},
+									${u_commu.jul},${u_commu.aug},${u_commu.sep},
+									${u_commu.oct},${u_commu.nov},${u_commu.dec}
+								],
+								backgroundColor : 'transparent',
+								borderColor : 'red',
+								pointBorderColor : 'red',
+								pointBackgroundColor : 'red',
+								fill : false,
+								label: "사용자 글수"
+							},
+							{
+								type : 'line',
+								data : [
+									${s_commu.jan},${s_commu.feb},${s_commu.mar},
+									${s_commu.apr},${s_commu.may},${s_commu.jun},
+									${s_commu.jul},${s_commu.aug},${s_commu.sep},
+									${s_commu.oct},${s_commu.nov},${s_commu.dec}
+								],
+								backgroundColor : 'transparent',
+								borderColor : 'blue',
+								pointBorderColor : 'blue',
+								pointBackgroundColor : 'blue',
+								fill : false,
+								label: "판매자 글수"
+							},
+							{
+								type : 'line',
+								data : [
+									${u_comment.jan},${u_comment.feb},${u_comment.mar},
+									${u_comment.apr},${u_comment.may},${u_comment.jun},
+									${u_comment.jul},${u_comment.aug},${u_comment.sep},
+									${u_comment.oct},${u_comment.nov},${u_comment.dec}
+								],
+								backgroundColor : 'transparent',
+								borderColor : 'green',
+								pointBorderColor : 'green',
+								pointBackgroundColor : 'green',
+								fill : false,
+								label: "사용자 댓글수"
+							},
+							{
+								type : 'line',
+								data : [
+									${s_comment.jan},${s_comment.feb},${s_comment.mar},
+									${s_comment.apr},${s_comment.may},${s_comment.jun},
+									${s_comment.jul},${s_comment.aug},${s_comment.sep},
+									${s_comment.oct},${s_comment.nov},${s_comment.dec}
+								],
+								backgroundColor : 'transparent',
+								borderColor : 'orange',
+								pointBorderColor : 'orange',
+								pointBackgroundColor : 'orange',
+								fill : false,
+								label: "판매자 댓글수"
+							}
+							]
+					},
+					options : {
+					maintainAspectRatio : false,
+						tooltips : {
+							mode : mode,
+							intersect : intersect
+						},
+						hover : {
+							mode : mode,
+							intersect : intersect
+						},
+						legend : {
+							display : false
+						},
+						scales : {
+							yAxes : [{
+								gridLines : {
+									display : true,
+									lineWidth : '4px',
+									color : 'rgba(0, 0, 0, .2)',
+									zeroLineColor : 'transparent'
+								},
+								ticks : $.extend({beginAtZero : true}, ticksStyle)
+							}],
+							xAxes : [{
+								display : true,
+								gridLines : {
+									display : false
+								},
+								ticks : ticksStyle
+							}]
+						}
+					}
+				})
+	});
 </script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -202,44 +398,24 @@ String viewName = (String) request.getAttribute("viewName");
 								</div>
 							</div>
 							<div class="card-body">
-								<div class="d-flex">
-									<p class="ml-auto d-flex flex-column text-right">
-										<ul class="nav nav-pills">
-						                <li class="nav-item"><a class="nav-link active" onClick="periodUserChart('daily')" data-toggle="tab">일별</a></li>
-						                <li class="nav-item"><a class="nav-link" onClick="periodUserChart('monthly')" data-toggle="tab">월별</a></li>
-						                <li class="nav-item"><a class="nav-link" onClick="periodUserChart('yearly')" data-toggle="tab">년별</a></li>
-						                </ul>
-									</p>
-								</div>
-								<!-- /.d-flex -->
-								<div class="position-relative mb-4" id= "daily">
-									<canvas id="user-chart-daily" height="200"></canvas>
-								</div>
-								<div class="position-relative mb-4" id= "monthly">
-									<canvas id="user-chart-monthly" height="200"></canvas>
-								</div>
-								<div class="position-relative mb-4" id= "yearly">
-									<canvas id="user-chart-yearly" height="200"></canvas>
+								<div class="position-relative mb-4">
+									<canvas id="user-chart" height="200"></canvas>
 								</div>
 								<div class="d-flex flex-row justify-content-end">
 									<span class="mr-2"> 
-										<i class="fas fa-square text-primary"></i> 
+										<i class="fas fa-square line-red"></i> 
 										방문자
 									</span> 
 									<span class="mr-2"> 
-										<i class="fas fa-square text-gray"></i> 
-										회원접속
-									</span>
-									<span class="mr-2"> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-blue"></i> 
 										예약
 									</span>
 									<span class="mr-2"> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-green"></i> 
 										리뷰
 									</span>
 									<span> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-orange"></i> 
 										회원가입
 									</span>
 								</div>
@@ -254,34 +430,26 @@ String viewName = (String) request.getAttribute("viewName");
 								</div>
 							</div>
 							<div class="card-body">
-								<div class="d-flex">
-									<p class="ml-auto d-flex flex-column text-right">
-										<span class="text-success"> 
-											<i class="fas fa-arrow-up"></i>
-											기간별 버튼 넣을거임
-										</span>
-									</p>
-								</div>
-								<!-- /.d-flex -->
+
 								<div class="position-relative mb-4">
 									<canvas id="community-chart" height="200"></canvas>
 								</div>
 
 								<div class="d-flex flex-row justify-content-end">
 									<span class="mr-2"> 
-										<i class="fas fa-square text-primary"></i> 
+										<i class="fas fa-square line-red"></i> 
 										사용자 글
 									</span> 
 									<span class="mr-2"> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-blue"></i> 
 										판매자 글
 									</span>
 									<span class="mr-2"> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-green"></i> 
 										사용자 댓글
 									</span>
 									<span> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-orange"></i> 
 										판매자 댓글
 									</span>
 								</div>
@@ -299,14 +467,6 @@ String viewName = (String) request.getAttribute("viewName");
 								</div>
 							</div>
 							<div class="card-body">
-								<div class="d-flex">
-									<p class="ml-auto d-flex flex-column text-right">
-										<span class="text-success"> 
-											<i class="fas fa-arrow-up"></i>
-											기간별 버튼 넣을거임
-										</span>
-									</p>
-								</div>
 								<!-- /.d-flex -->
 
 								<div class="position-relative mb-4">
@@ -315,19 +475,19 @@ String viewName = (String) request.getAttribute("viewName");
 
 								<div class="d-flex flex-row justify-content-end">
 									<span class="mr-2"> 
-										<i class="fas fa-square text-primary"></i> 
-										회원접속
+										<i class="fas fa-square line-red"></i> 
+										방문자
 									</span> 
 									<span class="mr-2"> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-blue"></i> 
 										블랙리스트
 									</span>
 									<span class="mr-2"> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-green"></i> 
 										화이트리스트
 									</span>
 									<span> 
-										<i class="fas fa-square text-gray"></i> 
+										<i class="fas fa-square line-orange"></i> 
 										회원가입
 									</span>
 								</div>

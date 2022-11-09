@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.seller.vo.StoreVO;
 import com.spring.ec.user.service.CateService;
 import com.spring.ec.user.vo.MemberVO;
@@ -43,7 +44,7 @@ public class CateControllerImpl implements CateController {
 	@Autowired
 	ReviewVO reviewVO;
 	
-	// ī�װ�
+	// 가게 search 
 	@Override
 	@RequestMapping(value = "/category.do", method = RequestMethod.GET)
 	public ModelAndView category(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -73,10 +74,15 @@ public class CateControllerImpl implements CateController {
 		mav.addObject("wishList", wishList);
 		mav.addObject("wishsum", wishsum);
 		mav.addObject("prosumList", prosumList);
+		
+		VisitVO vo = new VisitVO();
+		vo.setVisit_ip(request.getRemoteAddr());
+		vo.setVisit_kind("user");
+		int visit_success = cateService.visitor(vo);
+		
 		return mav;
 	}
 
-	/* �˻� */
 	@Override
 	@RequestMapping(value = "/searchcategory.do", method = RequestMethod.GET)
 	public ModelAndView searchcategory(@RequestParam(value = "search") String search,
@@ -139,6 +145,12 @@ public class CateControllerImpl implements CateController {
 		mav.addObject("wishList", wishList);
 		mav.addObject("wishsum", wishsum);
 		mav.addObject("prosumList", prosumList);
+		
+		VisitVO vo = new VisitVO();
+		vo.setVisit_ip(request.getRemoteAddr());
+		vo.setVisit_kind("user");
+		int visit_success = cateService.visitor(vo);
+		
 		return mav;
 	}
 

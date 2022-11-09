@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.seller.vo.ProductVO;
 import com.spring.ec.seller.vo.SellerVO;
 import com.spring.ec.seller.vo.StoreVO;
@@ -120,5 +121,10 @@ public class CateServiceImpl implements CateService {
 	@Override
 	public int addNoUserBooking(Map booking) throws Exception{
 		return cateDAO.insertNoUserBooking(booking);
+	}
+	
+	@Override
+	public int visitor(VisitVO vo)throws Exception{
+		return cateDAO.insertVisitor(vo);
 	}
 }

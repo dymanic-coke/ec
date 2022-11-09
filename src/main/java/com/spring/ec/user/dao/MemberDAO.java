@@ -2,6 +2,7 @@ package com.spring.ec.user.dao;
 
 import org.springframework.dao.DataAccessException;
 
+import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.vo.MemberVO;
 
 public interface MemberDAO {
@@ -26,5 +27,5 @@ public interface MemberDAO {
 	// ���̵� ã��
 	public String find_id_Result(MemberVO memberVO) throws DataAccessException;
 	// ��������/�̺�Ʈ
-
+	public void insertVisitor(VisitVO vo) throws DataAccessException;
 }

@@ -3,6 +3,7 @@ package com.spring.ec.user.service;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
 import com.spring.ec.user.vo.LikedVO;
@@ -47,5 +48,5 @@ public interface BoardService {
 	
 	public int modBoard(Map boardMap)throws Exception;
 	
-	
+	public void visitor(VisitVO vo)throws Exception;
 }

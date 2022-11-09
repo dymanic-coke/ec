@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.vo.MemberVO;
 
 @Repository("memberDAO")
@@ -61,5 +62,9 @@ public class MemberDAOImpl implements MemberDAO {
 		String vo = sqlSession.selectOne("mapper.member.find_id_Result", memberVO);
 		return vo;
 	}
-
+	//방문자 등록
+	@Override
+	public void insertVisitor(VisitVO vo) throws DataAccessException{
+		sqlSession.insert("mapper.visit.insertVisitor", vo);
+	}
 }
