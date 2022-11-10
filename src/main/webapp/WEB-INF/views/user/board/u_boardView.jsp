@@ -122,122 +122,15 @@ request.setCharacterEncoding("utf-8");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", url);
 		var list_numInput = document.createElement("input");
-		articleNoInput.setAttribute("type", "hidden");
-		articleNoInput.setAttribute("name", "list_num");
-		articleNoInput.setAttribute("value", list_Num);
+		list_numInput.setAttribute("type", "hidden");
+		list_numInput.setAttribute("name", "list_num");
+		list_numInput.setAttribute("value", list_num);
 		
 		form.appendChild(list_numInput);
 		document.body.appendChild(form);
 		form.submit();
 	}
-	function likeValidation(list_num,user_id){
-		var list_num = list_num;
-		var user_id = user_id;
-		console.log(user_id);
-		var liked = ${liked};
-			if(liked == 1){
-			likeDown(list_num,user_id);
-			}else{
-			likeUp(list_num,user_id);
-			}
-		}
-
-	function likeUp(list_num,user_id) {
-		var user_id = user_id;
-		$.ajax({
-			url:"${contextPath}/user/u_board/likeUp",
-			type : 'POST',
-			dataType:"text",
-			data : {
-				list_num : list_num,
-				user_id : user_id
-			},
-		    success: function (data) {
-		    	console.log("성공");
-	        },
-	        error: function(request, status, error, data) {
-	        	console.log("error: " + error);
-	        	console.log("message: " + request.responseText);
-	        	console.log("Data::::: " + data);
-	        	
-	        }
-		});
-	}
-	function likeDown(list_num,user_id) {
-		var user_id = user_id;
-		$.ajax({
-			url:"${contextPath}/user/u_board/likeDown",
-			type : 'POST',
-			dataType:"text",
-			data : {
-				list_num : list_num,
-				user_id : user_id
-			},
-		    success: function (data) {
-		    	console.log("성공");
-	        },
-	        error: function(request, status, error, data) {
-	        	console.log("error: " + error);
-	        	console.log("message: " + request.responseText);
-	        	console.log("Data::::: " + data);
-	        	
-	        }
-		});
-	}
 	
-	function badValidation(list_num,user_id){
-		var list_num = list_num;
-		var user_id = user_id;
-		var bad = ${bad};
-			if(bad == 1){
-			badDown(list_num,user_id);
-			}else{
-			badUp(list_num,user_id);
-			}
-		}
-
-	function badUp(list_num,user_id) {
-		var user_id = user_id;
-		$.ajax({
-			url:"${contextPath}/user/u_board/badUp",
-			type : 'POST',
-			dataType:"text",
-			data : {
-				list_num : list_num,
-				user_id : user_id
-			},
-		    success: function (data) {
-		    	console.log("성공");
-	        },
-	        error: function(request, status, error, data) {
-	        	console.log("error: " + error);
-	        	console.log("message: " + request.responseText);
-	        	console.log("Data::::: " + data);
-	        	
-	        }
-		});
-	}
-	function badDown(list_num,user_id) {
-		var user_id = user_id;
-		$.ajax({
-			url:"${contextPath}/user/u_board/badDown",
-			type : 'POST',
-			dataType:"text",
-			data : {
-				list_num : list_num,
-				user_id : user_id
-			},
-		    success: function (data) {
-		    	console.log("성공");
-	        },
-	        error: function(request, status, error, data) {
-	        	console.log("error: " + error);
-	        	console.log("message: " + request.responseText);
-	        	console.log("Data::::: " + data);
-	        	
-	        }
-		});
-	}
 </script>
 </head>
 <body>

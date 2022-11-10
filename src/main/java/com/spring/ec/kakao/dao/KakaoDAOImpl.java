@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.spring.ec.kakao.vo.KakaoVO;
+import com.spring.ec.user.vo.MemberVO;
 
 @Repository("kakaoDAO")
 public class KakaoDAOImpl implements KakaoDAO {
@@ -23,9 +24,15 @@ public class KakaoDAOImpl implements KakaoDAO {
 	}
 	//정보 확인
 	@Override
-	public KakaoVO findkakao(HashMap<String, Object> userInfo) throws DataAccessException {
-		System.out.println("RN: " + userInfo.get("nickname"));
-		System.out.println("RE: " + userInfo.get("email"));
+	public MemberVO findkakao(HashMap<String, Object> userInfo) throws DataAccessException {
+		
+		System.out.println("ID: " + userInfo.get("user_id"));
+		System.out.println("RN: " + userInfo.get("user_name"));
+		System.out.println("RE: " + userInfo.get("user_email"));
+//		System.out.println("mm: " + userInfo.get("birth_mm"));
+//		System.out.println("dd: " + userInfo.get("birth_dd"));
+//		System.out.println("RG: " + userInfo.get("gender"));
+//		
 		
 		return sqlSession.selectOne("mapper.member.findKakao", userInfo);
 	}

@@ -21,12 +21,13 @@ public class MailControllerImpl implements MailController {
 	@Override
 	@RequestMapping(value = "/user/mailCheck.do", method = RequestMethod.GET)
 	@ResponseBody
-	public String mailCheckPOST(String email, HttpServletRequest request) throws Exception {
+	public String mailCheckGET(String email, HttpServletRequest request) throws Exception {
 		System.out.println("이메일 인증 요청이 들어옴!");
 		String user_email = request.getParameter("email");
 		System.out.println("이메일 인증 이메일 : " + user_email);
+		
 		return mailService.joinEmail(user_email);
-
+		
 	}
 	
 }

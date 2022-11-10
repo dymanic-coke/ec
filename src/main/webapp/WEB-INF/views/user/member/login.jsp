@@ -36,13 +36,13 @@
 	<script>
 	$(document).ready(function(){
     $('.main i').on('click',function(){
-        $('input').toggleClass('active');
-        if($('input').hasClass('active')){
+        $('#wide').toggleClass('active');
+        if($('#wide').hasClass('active')){
             $(this).attr('class',"fa fa-eye-slash fa-lg")
-            .prev('input').attr('type',"text");
+            .prev('#wide').attr('type',"text");
         }else{
             $(this).attr('class',"fa fa-eye fa-lg")
-            .prev('input').attr('type','password');
+            .prev('#wide').attr('type','password');
         }
     });
 });
@@ -236,7 +236,7 @@ color:black;
 		<td colspan="3"><input type="text" id="wide" name="book_num" size="20" placeholder="예약번호"><br><br></td>
 		</tr>      
         <tr height="2">
-        <td colspan="3"> <input type="password" id="wide" name="book_name" size="20" placeholder="예약자명"><br></td>
+        <td colspan="3"> <input type="password" id="wide" name="user_name" size="20" placeholder="예약자명"><br></td>
         </tr>
         
 

@@ -7,7 +7,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.dao.BoardDAO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
@@ -132,10 +131,5 @@ public class BoardServiceImpl implements BoardService {
 		public int modBoard(Map boardMap)throws Exception{
 			boardDAO.updateImage(boardMap);
 			return boardDAO.updateBoard(boardMap);
-		}
-		
-		@Override
-		public void visitor(VisitVO vo)throws Exception{
-			boardDAO.insertVisitor(vo);
 		}
 }

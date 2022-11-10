@@ -28,39 +28,32 @@ request.setCharacterEncoding("utf-8");
 	height: 30px;
 	margin-bottom: 20px;
 }
-
 /* 손가락 커서활성화 */
 label {
 	cursor: pointer;
 	font-size: 1em;
 }
-
 }
 #fileName {
 	margin-left: 5px;
 }
-
 #bir_wrap {
 	display: table;
 	width: 100%;
 }
-
 #bir_yy {
 	display: table-cell;
 	width: 150px;
 }
-
 #bir_mm {
 	display: table-cell;
 	width: 150px;
 	vertical-align: middle;
 }
-
 #bir_dd {
 	display: table-cell;
 	width: 150px;
 }
-
 #bir_mm, #bir_dd {
 	padding-left: 10px;
 }
@@ -108,10 +101,9 @@ label {
 						</h3>
 						<span class="box int_pass"> <input type="password"
 							id="pswd1" name="seller_pw" class="int" maxlength="20"> <span
-							id="alertTxt">사용불가</span> <img
-							src="${contextPath }/image/m_icon_pass.png" id="pswd1_img1"
-							class="pswdImg">
-						</span> <span class="error_next_box"></span>
+							id="alertTxt">사용불가</span> <img src="${contextPath }/image/m_icon_pass.png" id="pswd1_img1" class="pswdImg">
+						</span> 
+						<span class="error_next_box"></span>
 					</div>
 
 					<!-- PW2 -->
@@ -120,18 +112,26 @@ label {
 							<label for="pswd2">비밀번호 재확인</label>
 						</h3>
 						<span class="box int_pass_check"> <input type="password"
-							id="pswd2" class="int" maxlength="20"> <img
-							src="${contextPath }/image/m_icon_check_disable.png"
-							id="pswd2_img1" class="pswdImg">
-						</span> <span class="error_next_box"></span>
+							id="pswd2" class="int" maxlength="20"> <img src="${contextPath }/image/m_icon_check_disable.png" id="pswd2_img1" class="pswdImg">
+						</span> 
+						<span class="error_next_box"></span>
 					</div>
 
 					<!-- NAME -->
 					<div>
 						<h3 class="join_title">
-							<label for="name">이름</label>
+							<label for="name1">사업자명</label>
 						</h3>
-						<span class="box int_name"> <input type="text" id="name"
+						<span class="box int_name"> <input type="text" id="name1"
+							name="s_name" class="int" maxlength="10">
+						</span> <span class="error_next_box"></span>
+					</div>
+					<!-- NAME2 -->
+					<div>
+						<h3 class="join_title">
+							<label for="name2">상호명</label>
+						</h3>
+						<span class="box int_name"> <input type="text" id="name2"
 							name="seller_name" class="int" maxlength="20">
 						</span> <span class="error_next_box"></span>
 					</div>
@@ -155,7 +155,6 @@ label {
 						<h3 class="join_title">
 							<label for="yy">생년월일</label>
 						</h3>
-
 						<div id="bir_wrap">
 							BIRTH_YY
 							<div id="bir_yy">
@@ -163,7 +162,6 @@ label {
 									name="birth_yy" class="int" maxlength="4" placeholder="년(4자)">
 								</span>
 							</div>
-
 							BIRTH_MM
 							<div id="bir_mm">
 								<span class="box"> <select id="mm" class="sel"
@@ -184,19 +182,17 @@ label {
 								</select>
 								</span>
 							</div>
-
 							BIRTH_DD
 							<div id="bir_dd">
 								<span class="box"> <input type="text" id="dd"
 									name="birth_dd" class="int" maxlength="2" placeholder="일">
 								</span>
 							</div>
-
 						</div>
 						<span class="error_next_box"></span>
 					</div>
  -->
-					<!-- GENDER -->
+					<!-- GENDER 
 					<div>
 						<h3 class="join_title">
 							<label for="gender">성별</label>
@@ -209,7 +205,7 @@ label {
 						</select>
 						</span> <span class="error_next_box">필수 정보입니다.</span>
 					</div>
-
+					-->
 					<!-- MOBILE -->
 					<div>
 						<h3 class="join_title">
@@ -247,7 +243,7 @@ label {
 							<label for="chooseFile"> <br> 👉 파일첨부 👈
 							</label>
 						</div>
-						<input type="file" id="chooseFile" accept="image/*"
+						<input type="file" id="chooseFile" accept="image/*" name="bizReg_image_name"
 							onchange="loadFile(this)">
 
 						<div class="fileContainer">
@@ -314,12 +310,12 @@ label {
 						</h3>
 						<input type="button" style="background-color: #A67F78; color:white; border:none;" onclick="sample6_execDaumPostcode()" value="우편번호 검색"><br>
 						<span class="box int_seller_addr"> 
-						<input type="text" id="sample6_postcode" placeholder="우편번호" class="int">
+						<input type="text" id="sample6_postcode" placeholder="우편번호" class="int" name="addr_num">
 						</span> <br>
 						 
-						<input class="box int_seller_addr" type="text" id="seller_addr" placeholder="주소"><br> 
+						<input class="box int_seller_addr" type="text" id="seller_addr" name="seller_addr" placeholder="주소"><br> 
 				<!-- 		<input type="text" id="sample2_detailAddress" placeholder="상세주소"> -->
-						<input class="box int_seller_addr" type="text" id="sample6_extraAddress" placeholder="참고항목">
+						<input class="box int_seller_addr" type="text" id="sample6_extraAddress" name="seller_detailaddr" placeholder="상세주소">
 						
 						<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
@@ -386,13 +382,11 @@ label {
 
 	<!--    var submit = document.getElementById('submitButton');
     submit.onclick = showImage;     //Submit 버튼 클릭시 이미지 보여주기
-
     function showImage() {
         var newImage = document.getElementById('image-show').lastElementChild;
         newImage.style.visibility = "visible";
         
         document.getElementById('image-upload').style.visibility = 'hidden';
-
         document.getElementById('fileName').textContent = null;     //기존 파일 이름 지우기
     } */ -->
 
@@ -401,62 +395,54 @@ label {
 	<script>
 		function loadFile(input) {
 			var file = input.files[0];
-
 			var name = document.getElementById('fileName');
 			name.textContent = file.name;
-
 			var newImage = document.createElement("img");
 			newImage.setAttribute("class", 'img');
-
 			newImage.src = URL.createObjectURL(file);
-
 			newImage.style.width = "70%";
 			newImage.style.height = "70%";
 			newImage.style.visibility = "hidden"; //버튼을 누르기 전까지는 이미지 숨기기
 			newImage.style.objectFit = "contain";
-
 			var container = document.getElementById('image-show');
 			container.appendChild(newImage);
 		};
 	</script>
 	<script>
-		//사업자번호 인증 API이용
-		isbizreg = false;
-		function businessNumber() {
-			let num = document.getElementById('bizReg').value;
-			const data = {
-				"b_no" : [ num ]
-			//폼 넘버 가져오기
-			};
-			console.log(data);
-			$
-					.ajax({
-						url : "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=gYagmjpAVVE7FG62P1zCKaEe64hZ0W1T%2BhXrMUV%2Ft%2FFsq14xmZXNsJ35qus3wOxtpmOlJ12HRAELQyiSsxbzGg%3D%3D",
-						type : "POST",
-						data : JSON.stringify(data), //json을 string으로 변환하여 전송
-						dataType : "JSON",
-						contentType : "application/json",
-						accept : "application/json",
-						success : function(result) {
-							console.log("data.b_no : " + data.b_no);
-							console.log(result.data[0]['b_stt_cd']); //사업자 01번:계속사업 번호호출
+	//사업자번호인증api
+    function businessNumber(){ //사업자번호 인증 API 이용
+		
+        let num = document.getElementById('bizReg').value; //사업자번호
+        const data = {
+            "b_no": [num] //폼 넘버 가져오기-기본 형식
+        };
+        console.log(data);
+        $.ajax({
+                url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=klYGhm5ky8U6UNTyvpTORmn0Ssc7YzAUTr38BKe9kwAr%2B8sl2kxfARecIwRr%2FfA099KIFEtHJwZHEkpXouux%2BA%3D%3D",  // serviceKey 값을 xxxxxx에 입력
+                type: "POST",
+                data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+                dataType: "JSON",
+                contentType: "application/json",
+                accept: "application/json",
+                success: function(result) {
+                     console.log(result.data[0]['b_stt_cd']); //사업자 01 번 호출
+                    let valid = result.data[0]['b_stt_cd'];
 
-							let valid = result.data[0]['b_stt_cd'];
-							if (valid = '01' && num.length == 10) {
-								alert("사업자 회원가입이 가능합니다.");
-								isbizreg = true;
+                    if (valid=='01'){
+                       alert("사업자번호 인증이 완료되었습니다.");
+                        isbizReg = true;
+                    }else {
+                       alert("사업자번호를 다시 확인해주세요.");
+                       isbizReg = false;
+                    }
 
-							} else {
-								alert("사업자 회원가입을 할 수 없습니다.");
-								isbizreg = false;
-							}
+                },
+                error: function(result) {
+                    console.log(result.responseText); //responseText의 에러메세지 확인
+                }
+            });
 
-						},
-						error : function(result) {
-							console.log(result.responseText);
-						}
-					});
-		}
+    }
 	</script>
 	<!-- 		<script>
 		function emailCheck() {
@@ -477,7 +463,6 @@ label {
 						$('.email_ok').css("display", "none");
 						emailSignal2 = false;
 					}
-
 				},
 				error : function() {
 					alert("에러입니다.");
@@ -491,19 +476,16 @@ label {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
                 // 각 주소의 노출 규칙에 따라 주소를 조합한다.
                 // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                 var addr = ''; // 주소 변수
                 var extraAddr = ''; // 참고항목 변수
-
                 //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     addr = data.roadAddress;
                 } else { // 사용자가 지번 주소를 선택했을 경우(J)
                     addr = data.jibunAddress;
                 }
-
                 // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
                 if(data.userSelectedType === 'R'){
                     // 법정동명이 있을 경우 추가한다. (법정리는 제외)
@@ -525,7 +507,6 @@ label {
                 } else {
                     document.getElementById("sample6_extraAddress").value = '';
                 }
-
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('sample6_postcode').value = data.zonecode;
                 document.getElementById("seller_addr").value = addr;
@@ -536,7 +517,7 @@ label {
     }
 </script>
 	
-	</script>
+	
 	<script>
 		// 전송 버튼 클릭시
 		function checkNull(f) {
@@ -544,57 +525,58 @@ label {
 			// id칸이 비어 있는가?
 			if (f.id.value.length < 1) {
 				alert("아이디를 입력하세요.");
-				f.id.value.focus
+				
 				//커서(포커스)를 아이디 인풋요소로 이동
-
-			} // 비밀번호 비어 있는가?
-			else if (f.pswd1.value.length < 1) {
+			 // 비밀번호 비어 있는가?
+			} else if (f.pswd1.value.length < 1) {
 				alert("비밀번호를 입력하세요.");
-
+				f.pwsd1.value.focus
 			}// 비밀번호 확인 비어 있는가?
 			else if (f.pswd2.value.length < 1) {
 				alert("비밀번호 확인을 입력하세요.");
-
-			}// 이름 비어 있는가?
-			else if (f.name.value.length < 1) {
-				alert("이름을 입력하세요.");
-
-			} /* else if (f.yy.value.length < 1) {
-						alert("년을 입력하세요.");
-
-					} else if (f.mm.value == "월") {
-						alert("월을 입력하세요.");
-					}
-
-					else if (f.dd.value.length < 1) {
-						alert("일을 입력하세요.");
-
-					}  */else if (f.gender.value == "성별") {
-				alert("성별을 골라주세요.");
-				document.form.mobile.focus();
-
+				f.pswd2.value.focus
+			}// 사업자명 비어 있는가?
+			else if (f.name1.value.length < 1) {
+				alert("사업자명을 입력하세요.");
+				f.name.value.focus
+		  	 }// 사업장명 비어 있는가?
+			else if (f.name2.value.length < 1) {
+				alert("사업장명을 입력하세요.");
+				f.name.value.focus
+		  	 } else if (f.email.value.length < 1) {
+				alert("이메일을 입력하세요.");
+				f.mobile.value.focus
 			} else if (f.mobile.value.length < 1) {
 				alert("전화번호를 입력하세요.");
-
+				f.mobile.value.focus
 			} else if (f.bizReg.value.length < 1) {
 				alert("사업자 번호를 입력하세요.");
-
+				f.bizReg.value.focus
 			} else if (f.area.value == "위치") {
 				alert("위치를 선택하세요.");
-
+				f.area.value.focus
+			} else if (f.addr_num.value < 1) {
+				alert("우편번호를 입력하세요.");
+				f.category.value.focus
+			} else if (f.seller_addr.value < 1) {
+				alert("주소를 입력하세요.");
+				f.category.value.focus
 			} else if (f.category_code.value == "업종") {
 				alert("업종을 선택하세요.");
+				f.category.value.focus
 			} else if (f.key1.value.length < 1) {
 				alert("키워드를 입력해주세요.");
-			} else if (isbizreg == false) {
-				alert("사업자번호를 제대로 입력해주세요.");
+				f.key1.value.focus
+			} else if(isbizReg == false){
+				alert("사업자번호 인증을 받아주세요");
 			} else {
+			
 				var keyword = f.key1.value + "," + f.key2.value + ","
 						+ f.key3.value;
 				f.action = "${contextPath}/seller/addMember.do?keyword="
 						+ keyword;
 				f.submit();
-				alert("회원가입을 축하드립니다.");
+			
 			}
 		}
 	</script>

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.dao.MemberDAO;
 import com.spring.ec.user.vo.MemberVO;
 
@@ -54,8 +53,5 @@ public class MemberServiceImpl implements MemberService {
 	public String find_id_Result(MemberVO member) throws DataAccessException {
 		return memberDAO.find_id_Result(member);
 	}
-	@Override
-	public void visitor(VisitVO vo)throws Exception{
-		memberDAO.insertVisitor(vo);
-	}
+
 }

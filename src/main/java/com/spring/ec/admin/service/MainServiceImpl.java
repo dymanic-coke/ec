@@ -28,4 +28,7 @@ public class MainServiceImpl implements MainService {
 	public Map<String, Object> commuChartList()throws Exception{
 		return mainDAO.selectMonthlyCommuChart();
 	}
+	
+	
+	
 }

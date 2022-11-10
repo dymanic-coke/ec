@@ -12,34 +12,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring.ec.user.vo.MemberVO;
 
 public interface MemberController {
-	// 占쏙옙占쏙옙占� 占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쌨소듸옙
+	// ����� ���������� ���� �޼ҵ�
 	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 회占쏙옙占쏙옙占�
-	// 占싸깍옙占쏙옙 창 占쏙옙占쏙옙(占쏙옙占쏙옙/占쏙옙占쏙옙 占쏙옙占쏙옙)
+	// ȸ�����
+	// �α��� â ����(����/���� ����)
 	public ModelAndView loginform(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 占쏙옙占쏙옙 占싸깍옙占쏙옙창
+	// ���� �α���â
 	public ModelAndView memberform_main(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 占쏙옙占쏙옙 회占쏙옙占쏙옙占쏙옙 占쏙옙
+	// ���� ȸ������ ��
 	public ModelAndView memberform_udetail(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 占쏙옙占쏙옙 占싸깍옙占쏙옙
+	// ���� �α���
 	public ModelAndView login(@ModelAttribute("member") MemberVO member, RedirectAttributes rAttr,
 			HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 회占쏙옙占쏙옙占쏙옙 占쏙옙占�
+	// ȸ������ ���
 	public ModelAndView regadmin(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 占싸그아울옙
+	// �α׾ƿ�
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 회占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙
+	// ȸ������ ����
 	public ModelAndView addMember(@ModelAttribute("member") MemberVO member, HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 
-	// 占쏙옙占싱듸옙 찾占쏙옙
+	// ���̵� ã��
 //	public String idCheck(@RequestBody String filterJSON, HttpServletResponse response, ModelMap model) throws Exception;
 	public String idCheck(HttpServletRequest request) throws Exception;
 
@@ -51,13 +51,19 @@ public interface MemberController {
 
 	public ModelAndView find_id(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 占쏙옙占싱듸옙 찾占쏙옙 占쏙옙占시�
+	// ���̵� ã�� ���â
+//	public ModelAndView find_id_Result(@ModelAttribute("member") MemberVO member, HttpServletRequest request,
+//			HttpServletResponse response) throws Exception;
+	
 	public ModelAndView find_id_Result( HttpServletRequest request,HttpServletResponse response) throws Exception;
 
-	// 占쏙옙橘占싫� 찾占쏙옙
+	// ��й�ȣ ã��
 	public ModelAndView find_pwd(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	// 占쏙옙橘占싫� 찾占쏙옙 占쏙옙占� 창
+	// ��й�ȣ ã�� ��� â
+//	public ModelAndView find_pwd_Result(@ModelAttribute("member") MemberVO member, HttpServletRequest request,
+//			HttpServletResponse response) throws Exception;
+	
 	public ModelAndView find_pwd_Result(HttpServletRequest request,HttpServletResponse response) throws Exception;
 
 }

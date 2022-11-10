@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
-import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.LikedVO;
 
@@ -59,6 +58,4 @@ public interface BoardDAO {
 	public int updateBoard(Map boardMap) throws Exception;
 	
 	public void updateImage(Map boardMap) throws DataAccessException;
-	
-	public void insertVisitor(VisitVO vo) throws DataAccessException;
 }

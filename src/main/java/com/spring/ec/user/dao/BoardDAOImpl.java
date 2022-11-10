@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
 import com.spring.ec.user.vo.ImageVO;
@@ -20,14 +19,14 @@ public class BoardDAOImpl implements BoardDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
-	// 게시물 리스트 불러오기
+	// ���ø� ���ø�
 	@Override
 	public List selectAllBoardsList(int page) throws DataAccessException {
 		page = (page - 1) * 10;
 		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectAllBoardsList", page);
 		return boardsList;
 	}
-	//먹플리 리스트 불러오기
+
 	@Override
 	public List selectEatBoardsList(int page) throws DataAccessException {
 		page = (page - 1) * 10;
@@ -35,34 +34,14 @@ public class BoardDAOImpl implements BoardDAO {
 
 		return boardsList;
 	}
-	//볼플리 리스트 불러오기
+
 	@Override
 	public List selectSeeBoardsList(int page) throws DataAccessException {
 		page = (page - 1) * 10;
 		List<BoardVO> boardsList = sqlSession.selectList("mapper.board.selectSeeBoardsList", page);
 		return boardsList;
 	}
-	// 각 필터 별로 게시물수 서칭
-	@Override
-	public int eatBoardPaging() throws DataAccessException {
-		return sqlSession.selectOne("mapper.board.selectEatBoardCount");
-	}
-	// 각 필터 별로 게시물수 서칭
-	@Override
-	public int seeBoardPaging() throws DataAccessException {
-		return sqlSession.selectOne("mapper.board.selectSeeBoardCount");
-	}
-	// 각 필터 별로 게시물수 서칭
-	@Override
-	public int allBoardPaging() throws DataAccessException {
-		return sqlSession.selectOne("mapper.board.selectAllBoardCount");
-	}
-	// 조회수 ++
-	@Override
-	public void addHits(int list_num) throws DataAccessException {
-		sqlSession.update("mapper.board.addHits", list_num);
-	}
-	
+
 	@Override
 	public BoardVO selectBoard(int list_num) throws DataAccessException {
 		return sqlSession.selectOne("mapper.board.selectBoard", list_num);
@@ -76,7 +55,10 @@ public class BoardDAOImpl implements BoardDAO {
 		return imageFileList;
 	}
 
-	
+	@Override
+	public void addHits(int list_num) throws DataAccessException {
+		sqlSession.update("mapper.board.addHits", list_num);
+	}
 
 	@Override
 	public int insertNewBoard(Map boardMap) throws Exception {
@@ -127,6 +109,20 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectOne("mapper.board.selectNewComment_num");
 	}
 
+	@Override
+	public int eatBoardPaging() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectEatBoardCount");
+	}
+
+	@Override
+	public int seeBoardPaging() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectSeeBoardCount");
+	}
+
+	@Override
+	public int allBoardPaging() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectAllBoardCount");
+	}
 	
 	@Override
 	public int selectLiked(Map likedMap) throws DataAccessException{
@@ -235,10 +231,5 @@ public class BoardDAOImpl implements BoardDAO {
 		imageVO.setImage_fileName(image_fileName);
 
 		sqlSession.insert("mapper.board.updateImage", imageVO);
-	}
-	
-	@Override
-	public void insertVisitor(VisitVO vo) throws DataAccessException{
-		sqlSession.insert("mapper.visit.insertVisitor", vo);
 	}
 }

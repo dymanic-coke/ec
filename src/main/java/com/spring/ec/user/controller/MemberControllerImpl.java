@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.service.MemberService;
 import com.spring.ec.user.vo.MemberVO;
 
@@ -32,8 +31,7 @@ public class MemberControllerImpl implements MemberController {
 	private MemberService memService;
 	@Autowired
 	MemberVO memberVO;
-	@Autowired
-	VisitVO visitVO;
+
 	// 메인 페이지
 	@Override
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
@@ -56,10 +54,6 @@ public class MemberControllerImpl implements MemberController {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
-		VisitVO vo = new VisitVO();
-		vo.setVisit_ip(request.getRemoteAddr());
-		vo.setVisit_kind("user");
-		memService.visitor(vo);
 		return mav;
 	}
 
@@ -251,7 +245,7 @@ public class MemberControllerImpl implements MemberController {
 		}else {
 		mav.addObject("check",0);
 		mav.addObject("user_id", user_id);
-		request.removeAttribute("member");
+		/* request.removeAttribute("member"); */
 		mav.setViewName(viewName);
 	}
 	return mav;

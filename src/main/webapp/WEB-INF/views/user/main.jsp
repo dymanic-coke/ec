@@ -111,11 +111,12 @@ img {
 	left: 280px;
 	top: 2080px;
 }
-#sidehr{
-	margin: 3px 0;	
+
+#sidehr {
+	margin: 3px 0;
 }
 
-.mb-auto>li{
+.mb-auto>li {
 	margin-top: 20px;
 }
 </style>
@@ -290,31 +291,32 @@ img {
 					<!-- 사용자 로그인시 -->
 					<c:if test="${isLogOn == true && member !=null }">
 						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
-							환영합니다<br>${member.user_nick }님!</h4>
+							  환영합니다<br>${member.user_nick }님!</h4>
 						<button type="button" class="btn-close"
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
 					<!-- 비로그인시 -->
-					<c:if test="${member == null && k_name == null }">
-						<!-- <h4 class="offcanvas-title" id="offcanvasNavbarLabel">
+					<c:if test="${member == null }">
+						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
 							로그인이 필요합니다<br>
-						</h4> -->
+						</h4>
 						<button type="button" class="btn-close"
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
 					<!-- 카카오 로그인시 -->
-					<c:if test="${k_name !=null }">
+					<c:if test="${member !=null && kakaoLogin == true}">
 						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
-							환영합니다<br>${k_name }님!</h4>
+							환영합니다<br>${member.user_name }님!</h4>
 						<button type="button" class="btn-close"
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
 				</div>
 				<hr id="sidehr">
 				<div class="offcanvas-body">
-					<ul class="nav nav-pills flex-column mb-auto">
+					<ul class="nav nav-pills flex-column mb-auto"">
 						<!-- 사용자 로그인시 -->
 						<c:if test="${isLogOn == true && member !=null }">
+
 							<li><a href="${contextPath }/mypage.do"
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
@@ -329,31 +331,34 @@ img {
 								class="nav-link nav-hover"> <span class="bi pe-none me-2"
 									width="16" height="16">📷</span> Category
 							</a></li>
-							<li><a href="${contextPath}/user/u_board" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">💬</span>
-									Community
+							<li><a href="${contextPath}/user/u_board"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">💬</span> Community
 							</a></li>
-							<li><a href="${contextPath}/user/notice" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">📣</span> 공지사항
+							<li><a href="${contextPath}/user/notice"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">📣</span> 공지사항
 							</a></li>
-							<li><a href="${contextPath}/user/event" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">📣</span> Event
+							<li><a href="${contextPath}/user/event"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">📣</span> Event
 							</a></li>
-							<li><a href="#" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">❤</span> 찜
+							<li><a href="${contextPath}/mypage/uLike.do"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">❤</span> 찜
 							</a></li>
-							<li><a href="#" class="nav-link nav-hover"> <span
+							<li><a href="${contextPath}/mypage/uBook.do" class="nav-link nav-hover"> <span
 									class="bi pe-none me-2" width="16" height="16">📅</span> 예약조회
 							</a></li>
 						</c:if>
 						<!-- 비로그인시 -->
-						<c:if test="${member == null && k_name == null }">
+						<c:if test="${member == null }">
 							<li><a href="${contextPath}/user/loginForm.do "
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
 										<use xlink:href="#people-circle" /></svg> 로그인
 							</a></li>
-							<li><a href="${contextPath}/user/memberForm_main.do "
+							<li><a href="${contextPath}/user/u_regadmin.do"
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
 										<use xlink:href="#people-circle" /></svg> 회원가입
@@ -362,21 +367,25 @@ img {
 								class="nav-link nav-hover"> <span class="bi pe-none me-2"
 									width="16" height="16">📷</span> Category
 							</a></li>
-							<li><a href="${contextPath}/user/u_board" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">💬</span>
-									Community
+							<li><a href="${contextPath}/user/u_board"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">💬</span> Community
 							</a></li>
-							<li><a href="${contextPath}/user/notice" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">📣</span> 공지사항
+							<li><a href="${contextPath}/user/notice"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">📣</span> 공지사항
 							</a></li>
-							<li><a href="${contextPath}/user/event" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">📣</span> Event
+							<li><a href="${contextPath}/user/event"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">📣</span> Event
 							</a></li>
-							<li><a href="#" class="nav-link nav-hover"> <span
+							<li><a href="${contextPath }/user/loginForm.do" class="nav-link nav-hover"> <span
 									class="bi pe-none me-2" width="16" height="16">📅</span> 예약조회
 							</a></li>
 						</c:if>
-						<c:if test="${k_name !=null }">
+						<!-- 카카오 로그인시 -->
+						<!-- 사용자 마이페이지와 어떻게 연동시키지?? -->
+						<c:if test="${member !=null && kakaoLogin == true}">
 							<li><a href="${contextPath }/mypage.do"
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
@@ -391,48 +400,58 @@ img {
 								class="nav-link nav-hover"> <span class="bi pe-none me-2"
 									width="16" height="16">📷</span> Category
 							</a></li>
-							<li><a href="${contextPath}/user/u_board" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">💬</span>
-									Community
+							<li><a href="${contextPath}/user/u_board"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">💬</span> Community
 							</a></li>
-							<li><a href="${contextPath}/user/notice" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">📣</span> 공지사항
+							<li><a href="${contextPath}/user/notice"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">📣</span> 공지사항
 							</a></li>
-							<li><a href="${contextPath}/user/event" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">📣</span> Event
+							<li><a href="${contextPath}/user/event"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">📣</span> Event
 							</a></li>
-							<li><a href="#" class="nav-link nav-hover"> <span
-									class="bi pe-none me-2" width="16" height="16">❤</span> 찜
+							<li><a href="${contextPath}/mypage/uLike.do"
+								class="nav-link nav-hover"> <span class="bi pe-none me-2"
+									width="16" height="16">❤</span> 찜
 							</a></li>
-							<li><a href="#" class="nav-link nav-hover"> <span
+							<li><a href="${contextPath}/mypage/uBook.do" class="nav-link nav-hover"> <span
 									class="bi pe-none me-2" width="16" height="16">📅</span> 예약조회
 							</a></li>
+
 						</c:if>
+
 					</ul>
+
 				</div>
 			</div>
 		</nav>
-		<a href="#" id="eat"><img src="image/icon_1.png" alt="먹거리"
-			width="155px" height="66px"></a> <a
-			href="${contextPath}/user/u_board/eatpl" id="eatlist"><img
-			src="image/icon_11.png" alt="먹플리" width="155px" height="66px"></a>
+		<a href="${contextPath }/searchcategory.do?area=null&kind=10&search="
+			id="eat"><img src="image/icon_1.png" alt="먹거리" width="155px"
+			height="66px"></a> <a href="${contextPath}/user/u_board/eatpl"
+			id="eatlist"> <img src="image/icon_11.png" alt="먹플리"
+			width="155px" height="66px"></a>
 
 	</div>
 	<div class="section">
-		<img alt="배경" src="image/main_see.png"> <a href="#" id="see"><img
-			src="image/icon_2.png" alt="볼거리" width="155px" height="66px"></a> <a
-			href="${contextPath}/user/u_board/seepl" id="seelist"><img
-			src="image/icon_12.png" alt="볼플리" width="155px" height="66px"></a>
+		<img alt="배경" src="image/main_see.png"> <a
+			href="${contextPath }/searchcategory.do?area=null&kind=20&search="
+			id="see"> <img src="image/icon_2.png" alt="볼거리" width="155px"
+			height="66px">
+		</a> <a href="${contextPath}/user/u_board/seepl" id="seelist"> <img
+			src="image/icon_12.png" alt="볼플리" width="155px" height="66px">
+		</a>
 	</div>
 	<div class="section">
 		<img alt="배경" src="image/main_footer.png"> <a
-			href="${contextPath }/main.do" id="footer1"><img
-			src="image/footer1.png" alt="먹고보자" width="150px" height="50px"></a>
-		<a href="#" id="footer2"><img src="image/footer2.png"
-			alt="먹보사장님광장" width="205px" height="50px"></a> <a href="#"
-			id="footer3"><img src="image/footer3.png" alt="먹보 상담소"
-			width="180px" height="50px"></a> <a href="#" id="footer4"><img
-			src="image/footer4.png" alt="먹보소식" width="150px" height="50px"></a>
+			href="${contextPath }/main.do" id="footer1"><img src="image/footer1.png" alt="먹고보자" width="150px" height="50px"></a>
+			
+		<a href="${contextPath }/seller/member/loginForm.do" target="_blank"  id="footer2"><img src="image/footer2.png" alt="먹보사장님광장" width="205px" height="50px"></a>
+			 
+			<a href="#" id="footer3"><img src="image/footer3.png" alt="먹보 상담소" width="180px" height="50px"></a>
+			
+			<a href="#" id="footer4"><img src="image/footer4.png" alt="먹보소식" width="150px" height="50px"></a>
 	</div>
 </body>
 </html>

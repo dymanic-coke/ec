@@ -19,6 +19,8 @@
 		<result property="birth_mm" column="birth_mm" />
 		<result property="birth_dd" column="birth_dd" />
 		<result property="gender" column="gender" />
+		<result property="reg_date" column="reg_date" />
+		<result property="mod_date" column="mod_date" />
 		</resultMap>
 	
 	
@@ -27,8 +29,8 @@
 	
  	<insert id="insertMember" parameterType="memberVO">
 		<![CDATA[
-		insert into user_tbl(user_no,user_id,user_nick, user_pwd,tel,user_name, user_email, birth_yy, birth_mm, birth_dd, gender,user_id_yn)
-			values((SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl b), #{user_id}, #{user_nick},#{user_pwd}, #{tel}, #{user_name}, #{user_email}, #{birth_yy},#{birth_mm},#{birth_dd}, #{gender}, #{user_id_yn)
+		insert into user_tbl(user_no,user_id,user_nick, user_pwd,tel,user_name, user_email, birth_yy, birth_mm, birth_dd, gender,reg_date,mod_date)
+			values((SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl b), #{user_id}, #{user_nick},#{user_pwd}, #{tel}, #{user_name}, #{user_email}, #{birth_yy},#{birth_mm},#{birth_dd}, #{gender},now(),now())
 	 		
 		]]>
 	</insert> 
@@ -52,8 +54,13 @@
 		select count(*) from user_tbl where tel = #{mobile}
 		]]>
 	</select>
+	   <!-- 이메일 개수 세기 -->
+   <select id="emailCheck" parameterType="String" resultType="Int" >
+      <![CDATA[
+      select count(*) from user_tbl where user_email = #{user_email}
+      ]]>
+   </select>
 	
-
 	<select id="loginById" resultType="memberVO" parameterType="memberVO">
 		<![CDATA[
 			select * from user_tbl where user_id = #{user_id} and user_pwd = #{user_pwd}
@@ -67,19 +74,15 @@
 		<![CDATA[ select user_pwd from user_tbl where user_id = #{user_id} and user_name = #{user_name} and user_email = #{user_email}]]>
 	</select>
 
-	<select id="findKakao" resultType="kakaoVO" parameterType="java.util.HashMap">
-		select * from kakao_tbl where k_name=#{nickname} and k_email=#{email}
+	<select id="findKakao" resultType="memberVO" parameterType="java.util.HashMap">
+		<![CDATA[
+		 select * from user_tbl where user_id=#{user_id} and user_name=#{user_name} and user_email=#{user_email} ]]>
 	</select>
 
-	<select id="kakaoInsert" parameterType="java.util.HashMap">
-		insert into kakao_tbl(k_number,k_name, k_email) VALUES((SELECT
-		IFNULL(MAX(k_number)+1,1) FROM kakao_tbl k),#{nickname},#{email})
-	</select>
-	
-	   <!-- 이메일 개수 세기 -->
-   <select id="emailCheck" parameterType="String" resultType="Int" >
-      <![CDATA[
-      select count(*) from user_tbl where user_email = #{user_email}
-      ]]>
-   </select>
+	<insert id="kakaoInsert" parameterType="java.util.HashMap">
+		<![CDATA[
+		insert into user_tbl(user_no,user_id,user_pwd, tel, user_nick,user_name, user_email, birth_yy, birth_mm,birth_dd,gender,reg_date) 
+		VALUES((SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl k), #{user_id},  CONCAT("카카오사용자",(SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl k)),  CONCAT("카카오사용자",(SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl k)),  CONCAT("카카오사용자",(SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl k)), #{user_name}, #{user_email},  CONCAT("카카오사용자",(SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl k)), CONCAT("카카오사용자",(SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl k)), CONCAT("카카오사용자",(SELECT IFNULL(MAX(user_no)+1,1) FROM user_tbl k)), "K",now())
+	]]>
+	</insert>
 </mapper>

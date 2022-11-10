@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.spring.ec.kakao.dao.KakaoDAO;
 import com.spring.ec.kakao.vo.KakaoVO;
+import com.spring.ec.user.vo.MemberVO;
 
 @Service("kakaoService")
 public class KakaoServiceImpl implements KakaoService {
@@ -85,7 +86,7 @@ public class KakaoServiceImpl implements KakaoService {
 	}
 
 	@Override
-	public KakaoVO getUserInfo(String access_Token) {
+	public MemberVO getUserInfo(String access_Token) throws Exception {
 
 		// 요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
 		HashMap<String, Object> userInfo = new HashMap<String, Object>();
@@ -110,30 +111,47 @@ public class KakaoServiceImpl implements KakaoService {
 				result += line;
 			}
 			System.out.println("response body : " + result);
+			
 
 			JsonParser parser = new JsonParser();
 			JsonElement element = parser.parse(result);
-
+			
 			JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 			JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
-			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-//			String profile_image = properties.getAsJsonObject().get("profile_image").getAsString();
-			String email = kakao_account.getAsJsonObject().get("email").getAsString();
-
-			userInfo.put("nickname", nickname);
-			userInfo.put("email", email);
+			String user_id = element.getAsJsonObject().get("id").getAsString(); 
+			String user_name = properties.getAsJsonObject().get("nickname").getAsString();
+			String user_email = kakao_account.getAsJsonObject().get("email").getAsString();
+//			String birth_mm = kakao_account.getAsJsonObject().get("birthday").getAsString();
+//			String birth_mm = kakao_account.getAsJsonObject().get("birthday").getAsString();
+//			String birth_dd = kakao_account.getAsJsonObject().get("birthday").getAsString();
+//			String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
+//			
+			userInfo.put("user_id", user_id);
+			userInfo.put("user_name", user_name);
+			userInfo.put("user_email", user_email);
+//			userInfo.put("birth_mm", birth_mm);
+//			userInfo.put("birth_dd", birth_dd);
+//			userInfo.put("gender",gender);
 //			userInfo.put("profile_image", profile_image);
+			System.out.println(user_id);
+			System.out.println(user_name);
+			System.out.println(user_email);
+//			System.out.println(birth_mm);
+//			System.out.println(birth_dd);
+//			System.out.println(gender);
+			
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// 정보가 먼저 저장되있는지 확인하는 코드
-		KakaoVO result = kakaoDAO.findkakao(userInfo);
+		MemberVO result = kakaoDAO.findkakao(userInfo);
 		System.out.println("S: " + result);
 		if (result == null) {
 			// result가 null이면 정보가 저장이 안되어있는것임으로 정보를 저장.
+			
 			kakaoDAO.kakaoinsert(userInfo);
 			// 위 코드가 정보를 저장하기 위해 Repository로 보내는 코드임.
 			return kakaoDAO.findkakao(userInfo);

@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
-import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.seller.vo.ProductVO;
 import com.spring.ec.seller.vo.SellerVO;
 import com.spring.ec.seller.vo.StoreVO;
@@ -34,7 +33,5 @@ public interface MemberService {
 	public String find_pwd_Result(MemberVO member) throws DataAccessException;
 	//���̵� ã��
 	public String find_id_Result(MemberVO member) throws DataAccessException;
-	
-	public void visitor(VisitVO vo)throws Exception;
 
 }

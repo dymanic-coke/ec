@@ -28,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.ec.common.visit.VisitVO;
 import com.spring.ec.user.service.BoardService;
 import com.spring.ec.user.vo.BoardVO;
 import com.spring.ec.user.vo.CommentVO;
@@ -87,12 +86,6 @@ public class BoardControllerImpl implements BoardController {
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("paging", paging);
 		mav.addObject("boardsList", boardsList);
-		
-		VisitVO vo = new VisitVO();
-		vo.setVisit_ip(request.getRemoteAddr());
-		vo.setVisit_kind("user");
-		boardService.visitor(vo);
-		
 		return mav;
 	}
 	// EatplayList page move

@@ -55,5 +55,5 @@ public interface CateDAO {
 	public int insertNoUserBooking(Map reserv) throws DataAccessException;
 	
 	//방문자로 추가(같은 아이피에 같은 날 다시 insert 안됨
-	public int insertVisitor(VisitVO vo) throws DataAccessException;
+		public int insertVisitor(VisitVO vo) throws DataAccessException;
 }
