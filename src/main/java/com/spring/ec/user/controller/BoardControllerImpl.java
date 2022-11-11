@@ -295,14 +295,13 @@ public class BoardControllerImpl implements BoardController {
 		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		try {
 			int list_num = boardService.addNewBoard(boardMap);
-			System.out.println(list_num);
 			if (image_fileName != null && image_fileName.length() != 0) {
 				File srcFile = new File(U_IMAGE_REPO + "\\" + "temp" + "\\" + image_fileName);
 				File destDir = new File(U_IMAGE_REPO + "\\" + list_num);
 				FileUtils.moveFileToDirectory(srcFile, destDir, true);
 			}
 			message = "<script>";
-			message += " alert('������ �߰��߽��ϴ�.');";
+			message += " alert('글작성에 성공했습니다.');";
 			message += " location.href='" + multipartRequest.getContextPath() + "/user/u_board'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
@@ -359,7 +358,7 @@ public class BoardControllerImpl implements BoardController {
 		}
 		return image_fileName;
 	}
-	//�Խñ� ����
+	//게시물 삭제
 	@Override
 	@RequestMapping(value = "/user/removeBoard", method = RequestMethod.POST )
 	public ModelAndView removeBoard(@RequestParam("list_num") int list_num, HttpServletRequest request,
@@ -369,7 +368,7 @@ public class BoardControllerImpl implements BoardController {
 		mav.setViewName("redirect:/user/u_board");
 		return mav;
 	}
-	//�Խñ� ���������� �̵�
+	//게시물 수정 페이지로 이동
 	@Override
 	@RequestMapping(value = "/user/modBoard", method = {RequestMethod.POST,RequestMethod.GET })
 	public ModelAndView modBoardForm(@RequestParam("list_num") int list_num, HttpServletRequest request,
@@ -381,7 +380,7 @@ public class BoardControllerImpl implements BoardController {
 		mav.addObject("board", board);
 		return mav;
 	}
-	//�Խñ� ���� �Ϸ�
+	//게시물 수정완료
 	@Override
 	@RequestMapping(value = "/board/modBoardCompl", method = RequestMethod.POST)
 	@ResponseBody

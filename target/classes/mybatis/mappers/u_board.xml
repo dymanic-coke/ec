@@ -75,14 +75,33 @@
 			SELECT * FROM u_comments_tbl WHERE list_num = #{list_num} ORDER BY comment_num			
 		 ]]>
 	</select>
-  
+  	<!-- 게시물 등록 -->
 	<insert id="insertNewBoard" parameterType="java.util.Map">
 		<![CDATA[
 			insert into u_board_tbl(list_num, parent_num, category_code, user_id, u_title,u_content,reg_date, mod_date, image_fileName)
 			values(#{list_num}, #{parent_num}, #{category_code}, #{user_id}, #{u_title},#{u_content},now(),now(),#{image_fileName} )			
 		 ]]>
 	</insert>  
-  
+	<!-- 게시물이미지 등록 -->
+  	<insert id="insertNewImage" parameterType="ImageVO">
+	<![CDATA[
+			insert into u_image_tbl (image_num, list_num, origin_fileName,image_fileName)
+			values(#{image_num}, #{list_num}, #{origin_fileName}, #{image_fileName})
+		]]>
+	</insert>
+	<!-- 게시물이미지 신규번호 select -->
+	<select id="selectNewImage_num" resultType="int">
+		<![CDATA[
+			select IFNULL(MAX(image_num)+1,1) from u_image_tbl 			
+		 ]]>
+	</select>
+	<!-- 게시물 신규번호 select -->
+	<select id="selectNewList_num" resultType="int">
+		<![CDATA[
+			select IFNULL(MAX(list_num)+1,1) from u_board_tbl 			
+		 ]]>
+	</select>
+	
 	<insert id="insertNewComment" parameterType="java.util.Map">
 		<![CDATA[
 			insert into u_comments_tbl(comment_num, parent_num, list_num, comments, comment_id)
@@ -90,11 +109,7 @@
 		 ]]>
 	</insert>
 	
-	<select id="selectNewList_num" resultType="int">
-		<![CDATA[
-			select IFNULL(MAX(list_num)+1,1) from u_board_tbl 			
-		 ]]>
-	</select>
+	
 	
 	<select id="selectNewComment_num" resultType="int">
 		<![CDATA[
@@ -140,17 +155,7 @@
 			select count(*) from u_board_tbl 
 		]]>
 	</select>
-	<insert id="insertNewImage" parameterType="ImageVO">
-	<![CDATA[
-			insert into u_image_tbl (image_num, list_num, origin_fileName,image_fileName)
-			values(#{image_num}, #{list_num}, #{origin_fileName}, #{image_fileName})
-		]]>
-	</insert>
-	<select id="selectNewImage_num" resultType="int">
-		<![CDATA[
-			select IFNULL(MAX(image_num)+1,1) from u_image_tbl 			
-		 ]]>
-	</select>
+	
 	<update id="likeUp" parameterType="int">
 		<![CDATA[
 			update u_board_tbl liked SET liked= liked+1 WHERE list_num = #{list_num} 			
