@@ -88,6 +88,7 @@
 		<put-attribute name="title" value="먹고보자 :: 리뷰관리"/>
 		<put-attribute name="body" value="/WEB-INF/views/seller/ansManage/reviewAnswer.jsp"/>
 	</definition>
+			
 			<!-- 로그인/회원가입 -->
 	<definition name="sellerLogin" template ="/WEB-INF/views/seller/member/login_main_layout.jsp">
 		<put-attribute name="title" />

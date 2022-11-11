@@ -42,7 +42,7 @@ public class MypageControllerImpl implements MypageController {
         HttpSession session = request.getSession();
         MemberVO mm = (MemberVO) session.getAttribute("member");
         String user_id = mm.getUser_id();
-
+        System.out.println(user_id);
         // 찜목록
         List wishList = mypageService.selectwish(user_id);
         // 리뷰 리스트

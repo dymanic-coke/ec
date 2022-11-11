@@ -262,7 +262,7 @@ ul {
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
 					<!-- 비로그인시 -->
-					<c:if test="${member == null && k_name == null }">
+					<c:if test="${member == null }">
 						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
 							로그인이 필요합니다<br>
 						</h4>
@@ -270,9 +270,10 @@ ul {
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
 					<!-- 카카오 로그인시 -->
-					<c:if test="${k_name !=null }">
+					
+					<c:if test="${member !=null && kakaoLogin == true}">
 						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
-							환영합니다<br>${k_name }님!</h4>
+							환영합니다<br>${member.user_name }님!</h4>
 						<button type="button" class="btn-close"
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
@@ -318,7 +319,7 @@ ul {
 							</a></li>
 						</c:if>
 						<!-- 비로그인시 -->
-						<c:if test="${member == null && k_name == null }">
+						<c:if test="${member == null }">
 							<li><a href="${contextPath}/user/loginForm.do "
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
@@ -351,13 +352,13 @@ ul {
 						</c:if>
 						<!-- 카카오 로그인시 -->
 						<!-- 사용자 마이페이지와 어떻게 연동시키지?? -->
-						<c:if test="${k_name !=null }">
+						<c:if test="${member !=null && kakaoLogin == true}">
 							<li><a href="${contextPath }/mypage.do"
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
 										<use xlink:href="#people-circle" /></svg> 내 정보
 							</a></li>
-							<li><a href="${contextPath }/user/logout.do"
+							<li><a href="${contextPath }/kakao/logout.do"
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
 										<use xlink:href="#people-circle" /></svg> 로그아웃
@@ -431,16 +432,16 @@ ul {
 						
 					</c:if>
 					<!-- 비로그인시 -->
-					<c:if test="${member == null && k_name == null }">
+					<c:if test="${member == null}">
 						<h4 style="font-size:11px;" class="offcanvas-title" id="offcanvasNavbarLabel">
 							로그인을 해주세요<br>
 						</h4>
 						
 					</c:if>
 					<!-- 카카오 로그인시 -->
-					<c:if test="${k_name !=null }">
+					<c:if test="${member !=null && kakaoLogin == true}">
 						<h4 style="font-size:11px;" class="offcanvas-title" id="offcanvasNavbarLabel">
-							환영합니다<br>${k_name }님!</h4>
+							환영합니다<br>${member.user_name }님!</h4>
 						
 					</c:if>
 				</p>

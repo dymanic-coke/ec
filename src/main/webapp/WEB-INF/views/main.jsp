@@ -291,12 +291,12 @@ img {
 					<!-- 사용자 로그인시 -->
 					<c:if test="${isLogOn == true && member !=null }">
 						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
-						환영합니다<br>${member.user_nick }님!</h4>
+							  환영합니다<br>${member.user_nick }님!</h4>
 						<button type="button" class="btn-close"
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
 					<!-- 비로그인시 -->
-					<c:if test="${member == null && k_name == null }">
+					<c:if test="${member == null }">
 						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
 							로그인이 필요합니다<br>
 						</h4>
@@ -304,9 +304,9 @@ img {
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
 					<!-- 카카오 로그인시 -->
-					<c:if test="${k_name !=null }">
+					<c:if test="${member !=null && kakaoLogin == true}">
 						<h4 class="offcanvas-title" id="offcanvasNavbarLabel">
-							환영합니다<br>${k_name }님!</h4>
+							환영합니다<br>${member.user_name }님!</h4>
 						<button type="button" class="btn-close"
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
 					</c:if>
@@ -347,12 +347,12 @@ img {
 								class="nav-link nav-hover"> <span class="bi pe-none me-2"
 									width="16" height="16">❤</span> 찜
 							</a></li>
-							<li><a href="#" class="nav-link nav-hover"> <span
+							<li><a href="${contextPath}/mypage/uBook.do" class="nav-link nav-hover"> <span
 									class="bi pe-none me-2" width="16" height="16">📅</span> 예약조회
 							</a></li>
 						</c:if>
 						<!-- 비로그인시 -->
-						<c:if test="${member == null && k_name == null }">
+						<c:if test="${member == null }">
 							<li><a href="${contextPath}/user/loginForm.do "
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
@@ -379,19 +379,19 @@ img {
 								class="nav-link nav-hover"> <span class="bi pe-none me-2"
 									width="16" height="16">📣</span> Event
 							</a></li>
-							<li><a href="#" class="nav-link nav-hover"> <span
+							<li><a href="${contextPath }/user/loginForm.do" class="nav-link nav-hover"> <span
 									class="bi pe-none me-2" width="16" height="16">📅</span> 예약조회
 							</a></li>
 						</c:if>
 						<!-- 카카오 로그인시 -->
 						<!-- 사용자 마이페이지와 어떻게 연동시키지?? -->
-						<c:if test="${k_name !=null }">
+						<c:if test="${member !=null && kakaoLogin == true}">
 							<li><a href="${contextPath }/mypage.do"
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
 										<use xlink:href="#people-circle" /></svg> 내 정보
 							</a></li>
-							<li><a href="${contextPath }/user/logout.do"
+							<li><a href="${contextPath }/kakao/logout.do"
 								class="nav-link nav-hover"> <svg class="bi pe-none me-2"
 										width="16" height="16">
 										<use xlink:href="#people-circle" /></svg> 로그아웃
@@ -416,7 +416,7 @@ img {
 								class="nav-link nav-hover"> <span class="bi pe-none me-2"
 									width="16" height="16">❤</span> 찜
 							</a></li>
-							<li><a href="#" class="nav-link nav-hover"> <span
+							<li><a href="${contextPath}/mypage/uBook.do" class="nav-link nav-hover"> <span
 									class="bi pe-none me-2" width="16" height="16">📅</span> 예약조회
 							</a></li>
 

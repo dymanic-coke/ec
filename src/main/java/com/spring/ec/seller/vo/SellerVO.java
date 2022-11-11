@@ -40,8 +40,7 @@ public class SellerVO {
 
 	}
 
-	public SellerVO(int seller_num, String category_code, String seller_id, String seller_pw, String seller_tel, String seller_bizReg, String s_name, String addr_num,
- String seller_name,String seller_email,String seller_addr,String bizReg_image_name,String area,String keyword,int storeInfo_num, String image_fileName, String store_introduce, String openTime, String closeDay, String store_nic,String store_benefit,	int pro_num, String pro_name, String pro_price, Date reg_date, Date mod_date) {
+	public SellerVO(int seller_num, String category_code, String seller_id, String seller_pw, String seller_tel, String seller_bizReg, String seller_name, String s_name,String seller_email,String seller_addr,String bizReg_image_name,String area,String keyword,int storeInfo_num, String image_fileName, String store_introduce, String openTime, String closeDay, String store_nic,String store_benefit,	int pro_num, String pro_name, String pro_price, Date reg_date, Date mod_date, String birth_yy, String birth_mm, String birth_dd,String gender) {
 		this.seller_num = seller_num;
 		this.category_code = category_code;
 		this.seller_id= seller_id;
@@ -66,7 +65,6 @@ public class SellerVO {
 		this.pro_price = pro_price;
 		this.reg_date = reg_date;
 		this.mod_date = mod_date;
-		this.addr_num = addr_num;
 	}
 
 	public int getSeller_num() {
@@ -284,7 +282,6 @@ public class SellerVO {
 	public void setS_name(String s_name) {
 		this.s_name = s_name;
 	}
-	
 
 
 

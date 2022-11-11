@@ -34,6 +34,7 @@
 		<result property = "pro_price" column="pro_price" />
 		<result property = "reg_date" column="reg_date" />
 		<result property = "mod_date" column="mod_date" />
+		
 		</resultMap>
  	<insert id="insertSellerMember" parameterType="java.util.HashMap">
 		<![CDATA[

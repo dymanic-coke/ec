@@ -9,7 +9,6 @@ public class ReservVO {
 	private String seller_tel;
 	private String seller_name;
 	private String seller_addr;
-	private String seller_detailaddr;
 	private String seller_bizReg;
 	private String open_time;
 	private String close_time;
@@ -25,18 +24,8 @@ public class ReservVO {
 	public ReservVO(String seller_id,String store_nic,String seller_tel,
 			String seller_name,String seller_addr,String seller_bizReg,
 			String open_time,String close_time,int min_People,int max_People,
-			String store_introduce,int reserv_pay, String seller_detailaddr) {
+			String store_introduce,int reserv_pay) {
 		
-	}
-	
-	
-
-	public String getSeller_detailaddr() {
-		return seller_detailaddr;
-	}
-
-	public void setSeller_detailaddr(String seller_detailaddr) {
-		this.seller_detailaddr = seller_detailaddr;
 	}
 
 	public int getReserv_pay() {

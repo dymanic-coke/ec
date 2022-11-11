@@ -32,6 +32,7 @@ public class KakaoControllerImpl implements KakaoController {
     public String kakaoLogin(@RequestParam(value = "code", required = false) String code, Model model, RedirectAttributes rAttr) throws Exception{
 		 System.out.println("#########" + code);
 		 String access_Token = kakaoService.getAccessToken(code);
+		 
 		 //userInfo�쓽 ���엯�쓣 kakaoVO濡� 蹂�寃� 諛� import
 		 MemberVO userInfo = kakaoService.getUserInfo(access_Token);
 //		 KakaoVO number = kakaoService.kakaoNumber(userInfo);

@@ -100,6 +100,9 @@ request.setCharacterEncoding("utf-8");
 	width: 330px;
 	margin: 20px auto;
 }
+.modBoard_btn{
+	float: left;
+}
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script
@@ -131,6 +134,127 @@ request.setCharacterEncoding("utf-8");
 		form.submit();
 	}
 	
+	function fn_mod_article(url,list_num){
+		var form = document.createElement("form");
+		form.setAttribute("method", "GET");
+		form.setAttribute("action", url);
+		var list_numInput = document.createElement("input");
+		list_numInput.setAttribute("type", "hidden");
+		list_numInput.setAttribute("name", "list_num");
+		list_numInput.setAttribute("value", list_num);
+		
+		form.appendChild(list_numInput);
+		document.body.appendChild(form);
+		form.submit();
+	}
+/* 	function likeValidation(list_num,user_id){
+		var list_num = list_num;
+		var user_id = user_id;
+		console.log(user_id);
+		var liked = ${liked};
+			if(liked == 1){
+			likeDown(list_num,user_id);
+			}else{
+			likeUp(list_num,user_id);
+			}
+		}
+
+	function likeUp(list_num,user_id) {
+		var user_id = user_id;
+		$.ajax({
+			url:"${contextPath}/user/u_board/likeUp",
+			type : 'POST',
+			dataType:"text",
+			data : {
+				list_num : list_num,
+				user_id : user_id
+			},
+		    success: function (data) {
+		    	console.log("성공");
+	        },
+	        error: function(request, status, error, data) {
+	        	console.log("error: " + error);
+	        	console.log("message: " + request.responseText);
+	        	console.log("Data::::: " + data);
+	        	
+	        }
+		});
+	}
+	function likeDown(list_num,user_id) {
+		var user_id = user_id;
+		$.ajax({
+			url:"${contextPath}/user/u_board/likeDown",
+			type : 'POST',
+			dataType:"text",
+			data : {
+				list_num : list_num,
+				user_id : user_id
+			},
+		    success: function (data) {
+		    	console.log("성공");
+	        },
+	        error: function(request, status, error, data) {
+	        	console.log("error: " + error);
+	        	console.log("message: " + request.responseText);
+	        	console.log("Data::::: " + data);
+	        	
+	        }
+		});
+	}
+	
+	function badValidation(list_num,user_id){
+		var list_num = list_num;
+		var user_id = user_id;
+		var bad = ${bad};
+			if(bad == 1){
+			badDown(list_num,user_id);
+			}else{
+			badUp(list_num,user_id);
+			}
+		}
+
+	function badUp(list_num,user_id) {
+		var user_id = user_id;
+		$.ajax({
+			url:"${contextPath}/user/u_board/badUp",
+			type : 'POST',
+			dataType:"text",
+			data : {
+				list_num : list_num,
+				user_id : user_id
+			},
+		    success: function (data) {
+		    	console.log("성공");
+	        },
+	        error: function(request, status, error, data) {
+	        	console.log("error: " + error);
+	        	console.log("message: " + request.responseText);
+	        	console.log("Data::::: " + data);
+	        	
+	        }
+		});
+	}
+	function badDown(list_num,user_id) {
+		var user_id = user_id;
+		$.ajax({
+			url:"${contextPath}/user/u_board/badDown",
+			type : 'POST',
+			dataType:"text",
+			data : {
+				list_num : list_num,
+				user_id : user_id
+			},
+		    success: function (data) {
+		    	console.log("성공");
+	        },
+	        error: function(request, status, error, data) {
+	        	console.log("error: " + error);
+	        	console.log("message: " + request.responseText);
+	        	console.log("Data::::: " + data);
+	        	
+	        }
+		});
+	} */
 </script>
 </head>
 <body>
@@ -180,7 +304,7 @@ request.setCharacterEncoding("utf-8");
 				</td>
 			</tr>	
 		</table>
-		<div class="likeNbad">
+		<%-- <div class="likeNbad">
 			<div class = "lNb">
 				<button type="button" class="likebtn" onclick="likeValidation(${board.list_num},'${member.user_id}')" >
 					<img src="${contextPath}/image/liked.png">
@@ -193,11 +317,16 @@ request.setCharacterEncoding("utf-8");
 					싫어요 : ${board.bad}
 				</button>
 			</div>
-		</div>
-		<c:if test="${member.user_id==board.user_id}">			
-			<input class="writebtn" type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/user/removeBoard', ${board.list_num})" />
+		</div> --%>
+		<div>
+		<c:if test="${member.user_id==board.user_id}">
+			<div class="modBoard_btn">
+			<input class="writebtn btn btn-primary btn-sm" type="button" value="수정하기" onClick="fn_mod_article('${contextPath}/user/modBoard', ${board.list_num})" />			
+			<input class="writebtn btn btn-primary btn-sm" type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/user/removeBoard', ${board.list_num})" />
+			</div>
 		</c:if>
-		<input class="writebtn" type="button" value="리스트로 돌아가기" onClick="backToList(this.form)" />
+		<input class="writebtn btn btn-primary btn-sm" type="button" value="리스트로 돌아가기" onClick="backToList(this.form)" />
+		</div>
 	</form>
 	<form action="${contextPath}/u_board/addcomment" method="post">
 		<div class="col-lg-12" id="comments-div">
@@ -214,16 +343,33 @@ request.setCharacterEncoding("utf-8");
 	            <input type="hidden" name="list_num" value="${board.list_num}">
 				</div>
 	            <div class="form-group col-sm-8">
-	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력...">
+	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력..."  >
 	            </div>
 				<div class="form-group col-sm-2">
-				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn">
+				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn" >
 				<i class="fa fa-save"></i> 댓글쓰기
 				</button>
 				</div>
 				</div>
 			</c:if>
-			<c:if test="${isLogOn == false or isLogOn == null }">
+			 	<c:if test="${kakaLogin == true or kakaoLogin != null }">
+	            <div class="row">
+	            <div class="form-group col-sm-2">
+	           	<span style="font-size: 20px;"> ${member.user_id}</span>           
+	            <input type="hidden" name="comment_id" value="${member.user_id}">
+	            <input type="hidden" name="list_num" value="${board.list_num}">
+				</div>
+	            <div class="form-group col-sm-8">
+	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력..."  >
+	            </div>
+				<div class="form-group col-sm-2">
+				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn" >
+				<i class="fa fa-save"></i> 댓글쓰기
+				</button>
+				</div>
+				</div>
+			</c:if>
+			<c:if test="${isLogOn == false or kakaoLogin == false }">
 	            <div class="row">
 	            <div class="form-group col-sm-2">
 	           	<span style="font-size: 20px;"> ${member.user_id}</span>           
@@ -231,10 +377,10 @@ request.setCharacterEncoding("utf-8");
 	            <input type="hidden" name="list_num" value="${board.list_num}">
 				</div>
 	            <div class="form-group col-sm-8">
-	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력...">
+	            <input class="form-control input-sm" id="newReplyText" name="comments" type="text" placeholder="댓글 입력..." disabled>
 	            </div>
 				<div class="form-group col-sm-2">
-				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn">
+				<button type="submit" class="btn btn-primary btn-sm btn-block replyAddBtn" disabled>
 				<i class="fa fa-save"></i> 댓글쓰기
 				</button>
 				</div>

@@ -186,9 +186,9 @@ request.setCharacterEncoding("utf-8");
               </p>
             </a>
           </li>
-          <c:if test="${sellisLogOn == true && sellMember !=null }">
+          <c:if test="${isLogOn == true && sellerMember !=null }">
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="${contextPath}/seller/member/loginForm.do " class="nav-link">
               <i class="nav-icon fas fa-door-open"></i>
               <p>
                 로그아웃

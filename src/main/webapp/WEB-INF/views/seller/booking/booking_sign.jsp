@@ -235,9 +235,9 @@ function bookSignOff(order_id){
                   <c:choose>
 				<c:when test="${empty bookList}">
 					<tr height="10" class="table-primary">
-						<td colspan="8">
+						<td colspan="6">
 							<p align="center">
-								<b><span style="font-size: 9pt;">예약이 없습니다.</span></b>
+								<b><span style="font-size: 9pt;">등록된 글이 없습니다.</span></b>
 							</p>
 						</td>
 					</tr>

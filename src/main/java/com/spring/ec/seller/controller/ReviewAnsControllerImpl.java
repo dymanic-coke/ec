@@ -105,7 +105,7 @@ public class ReviewAnsControllerImpl implements ReviewAnsController {
 		try {
 			int list_num = reAnsService.addNewAnswer(answer);
 			message = "<script>";
-			message += " alert('답글을 추가했습니다.');";
+			message += " alert('댓글이 추가되었습니다.');";
 			message += " location.href='" + request.getContextPath() + "/seller/reviewManage'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
@@ -140,13 +140,13 @@ public class ReviewAnsControllerImpl implements ReviewAnsController {
 		try {
 			int list_num = reAnsService.removeAnswer(answer);
 			message = "<script>";
-			message += " alert('답글을 삭제했습니다.');";
+			message += " alert('댓글이 삭제되었습니다.');";
 			message += " location.href='" + request.getContextPath() + "/seller/reviewManage'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
 		} catch (Exception e) {
 			message = "<script>";
-			message += " alert('오류가 발생했습니다.');";
+			message += " alert('오류가 발생하였습니다.');";
 			message += " location.href='" + request.getContextPath() + "/seller/reviewManage'; ";
 			message += " </script>";
 			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);

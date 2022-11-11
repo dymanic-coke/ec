@@ -11,16 +11,13 @@ request.setCharacterEncoding("utf-8");
 <html>
 <head>
 <style type="text/css">
-
 .nav-sidebar>.nav-item {
 	margin-bottom: 10px;
 }
-
 .user-panel>.info {
 	margin: 0 auto;
 	padding: 5px;
 }
-
 .brand-text {
 	font-size: 24px;
 	font-weight: bold !important;
@@ -84,7 +81,7 @@ request.setCharacterEncoding("utf-8");
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="${contextPath}/admin/sellerManage" class="nav-link"> 
+								<a href="${contextPath}/admin/adminlist" class="nav-link"> 
 									<i class="far fa-calendar-check nav-icon"></i>
 									<p>관리자 리스트</p>
 								</a>
@@ -216,7 +213,7 @@ request.setCharacterEncoding("utf-8");
 					</li>
 					<c:if test="${isLogOn == true && adminMember !=null }">
 						<li class="nav-item">
-							<a href="#" class="nav-link"> 
+							<a href="${contextPath}/admin/logout" class="nav-link"> 
 								<i class="nav-icon fas fa-door-open"></i>
 								<p>로그아웃</p>
 							</a>
